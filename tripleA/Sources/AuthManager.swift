@@ -8,16 +8,9 @@
 
 import Foundation
 
-
-enum AuthError: Error {
-    case missingToken
-    case missingExpiresIn
-    case badRequest
-    case tokenNotFound
-}
-
 actor AuthManager {
-    private var client_id, client_secret = ""
+    private var client_id = ""
+    private var client_secret = ""
     private var refreshTask: Task<String, Error>?
 
     init(client_id: String, client_secret: String){
@@ -75,7 +68,7 @@ actor AuthManager {
     // MARK: - authenticate - call to login service
     func authenticate(with parameters: [String: Any]) async throws -> String {
         do {
-            let token = try await Network.shared.load(endpoint: AuthEndpoint.login(parameters).endpoint, of: TokenDTO.self)
+            let token = try await Network.load(endpoint: AuthEndpoint.login(parameters).endpoint, of: TokenDTO.self)
             save(this: token)
             return token.accessToken
         } catch let error {
@@ -100,7 +93,7 @@ actor AuthManager {
                 "client_secret": self.client_secret,
                 "refresh_token": refreshToken
             ]
-            let token = try await Network.shared.load(endpoint: AuthEndpoint.refreshToken(parameters).endpoint, of: TokenDTO.self)
+            let token = try await Network.load(endpoint: AuthEndpoint.refreshToken(parameters).endpoint, of: TokenDTO.self)
             save(this: token)
             return token.accessToken
         } catch let error {

@@ -1,3 +1,5 @@
+import Foundation
+
 enum NetworkError: Error {
     case missingToken
     case invalidToken

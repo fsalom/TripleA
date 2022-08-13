@@ -1,11 +1,3 @@
-//
-//  Endpoint.swift
-//  Template
-//
-//  Created by Fernando Salom Carratala on 23/12/21.
-//  Copyright © 2021 Rudo. All rights reserved.
-//
-
 import Foundation
 import UIKit
 

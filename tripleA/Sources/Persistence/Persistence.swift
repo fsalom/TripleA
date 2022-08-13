@@ -77,9 +77,4 @@ struct Persistence {
             defaults.removeObject(forKey: key)
         }
     }
-
-    static func logOut() {
-        Persistence.set(.logged, false)
-        Persistence.set(.userID, nil)
-    }
 }

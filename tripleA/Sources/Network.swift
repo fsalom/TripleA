@@ -1,17 +1,6 @@
-//
-//  Network.swift
-//  Template
-//
-//  Created by Fernando Salom on 21/12/21.
-//  Copyright © 2021 Rudo. All rights reserved.
-//
-
 import Foundation
-import UIKit
 
 class Network {
-  static var shared = Network(authManager: AuthManager())
-
   let authManager: AuthManager
 
   init(authManager: AuthManager) {
@@ -50,7 +39,7 @@ class Network {
   }
 
   // MARK: - load - Call unprotected API
-  func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
+  public static func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
     Log.thisCall(endpoint.request)
     let (data, urlResponse) = try await URLSession.shared.data(for: endpoint.request)
     guard let response = urlResponse as? HTTPURLResponse else{
@@ -71,9 +60,7 @@ class Network {
     }catch let error{
       Log.thisError(error)
       DispatchQueue.main.async {
-        let login = Container.shared.loginBuilder().build()
-        let navigation = UINavigationController(rootViewController: login)
-        Container.shared.changeRoot(with: navigation)
+        // TODO: ask for login Controller when authentication fail
       }
     }
     return requestWithHeader
