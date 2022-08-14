@@ -4,7 +4,8 @@ struct Persistence {
     enum Key: String {
         case refresh_token,
         access_token,
-        expires_in
+        expires_in,
+        baseURL
     }
 
     static func set(_ key: Key, _ value: Any?) {

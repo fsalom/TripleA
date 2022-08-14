@@ -78,8 +78,11 @@ struct Endpoint{
 
   // MARK: - get URL with BASE_URL
   func getURL(path: String) -> URL{
-    guard let url = URL(string: config.BASE_URL
-    )?.appendingPathComponent(path) else {
+      guard let baseURL = Persistence.get(stringFor: .baseURL) else {
+          Log.this("No se ha configurado el BASEURL de AuthManager", type: .error)
+          fatalError()
+      }
+      guard let url = URL(string: baseURL)?.appendingPathComponent(path) else {
       Log.this(path, type: .error)
       fatalError()
     }

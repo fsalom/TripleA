@@ -9,13 +9,14 @@
 import Foundation
 
 actor AuthManager {
-    private var client_id = ""
-    private var client_secret = ""
+    private var clientId = ""
+    private var clientSecret = ""
     private var refreshTask: Task<String, Error>?
 
-    init(client_id: String, client_secret: String){
-        self.client_id = client_id
-        self.client_secret = client_secret
+    init(baseURL: String, clientId: String, clientSecret: String){
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        Persistence.set(.baseURL, baseURL)
     }
 
     // MARK: - getAccesToken - return accessToken or error
@@ -89,8 +90,8 @@ actor AuthManager {
         do {
             let parameters: [String: Any] = [
                 "grant_type": "refresh_token",
-                "client_id": self.client_id,
-                "client_secret": self.client_secret,
+                "client_id": self.clientId,
+                "client_secret": self.clientSecret,
                 "refresh_token": refreshToken
             ]
             let token = try await Network.load(endpoint: AuthEndpoint.refreshToken(parameters).endpoint, of: TokenDTO.self)
