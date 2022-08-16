@@ -24,6 +24,7 @@
 		C11DEB6628AAC4DF00CA1168 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C11DEB6928AAC4DF00CA1168 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C11DEB6B28AAC4DF00CA1168 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1CBD78528AB9A6D003F3155 /* tripleA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = tripleA; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +41,7 @@
 		C11DEB5128AAC4DC00CA1168 = {
 			isa = PBXGroup;
 			children = (
+				C1CBD78428AB9A6D003F3155 /* Packages */,
 				C11DEB5C28AAC4DC00CA1168 /* Example */,
 				C11DEB5B28AAC4DC00CA1168 /* Products */,
 			);
@@ -65,6 +67,14 @@
 				C11DEB6B28AAC4DF00CA1168 /* Info.plist */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		C1CBD78428AB9A6D003F3155 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				C1CBD78528AB9A6D003F3155 /* tripleA */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

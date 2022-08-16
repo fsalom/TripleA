@@ -1,3 +1,4 @@
+#if !os(macOS)
 import Foundation
 import UIKit
 
@@ -133,3 +134,4 @@ struct Endpoint{
     return request
   }
 }
+#endif

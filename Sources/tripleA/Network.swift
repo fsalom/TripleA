@@ -1,6 +1,6 @@
 import Foundation
 
-class Network {
+public final class Network {
   let authManager: AuthManager
 
   init(authManager: AuthManager) {

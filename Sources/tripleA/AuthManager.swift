@@ -8,7 +8,7 @@
 
 import Foundation
 
-actor AuthManager {
+public final actor AuthManager {
     private var clientId = ""
     private var clientSecret = ""
     private var refreshTask: Task<String, Error>?
