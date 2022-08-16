@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let x = AuthManager()
+        let x = AuthManager(baseURL: "", clientId: "", clientSecret: "")
         let y = Network(authManager: x)
         // Do any additional setup after loading the view.        
     }

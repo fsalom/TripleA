@@ -13,7 +13,7 @@
 		C11DEB6528AAC4DC00CA1168 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6328AAC4DC00CA1168 /* Main.storyboard */; };
 		C11DEB6728AAC4DF00CA1168 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6628AAC4DF00CA1168 /* Assets.xcassets */; };
 		C11DEB6A28AAC4DF00CA1168 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6828AAC4DF00CA1168 /* LaunchScreen.storyboard */; };
-		C18B719B28ABA64600560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719A28ABA64600560703 /* TripleA */; };
+		C18B719E28ABA98F00560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719D28ABA98F00560703 /* TripleA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C18B719B28ABA64600560703 /* TripleA in Frameworks */,
+				C18B719E28ABA98F00560703 /* TripleA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +86,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				C18B719A28ABA64600560703 /* TripleA */,
+				C18B719D28ABA98F00560703 /* TripleA */,
 			);
 			productName = Example;
 			productReference = C11DEB5A28AAC4DC00CA1168 /* Example.app */;
@@ -117,7 +117,7 @@
 			);
 			mainGroup = C11DEB5128AAC4DC00CA1168;
 			packageReferences = (
-				C18B719928ABA64600560703 /* XCRemoteSwiftPackageReference "tripleA" */,
+				C18B719C28ABA98F00560703 /* XCRemoteSwiftPackageReference "TripleA" */,
 			);
 			productRefGroup = C11DEB5B28AAC4DC00CA1168 /* Products */;
 			projectDirPath = "";
@@ -366,9 +366,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C18B719928ABA64600560703 /* XCRemoteSwiftPackageReference "tripleA" */ = {
+		C18B719C28ABA98F00560703 /* XCRemoteSwiftPackageReference "TripleA" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fsalom/tripleA";
+			repositoryURL = "https://github.com/fsalom/TripleA";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -377,9 +377,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C18B719A28ABA64600560703 /* TripleA */ = {
+		C18B719D28ABA98F00560703 /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C18B719928ABA64600560703 /* XCRemoteSwiftPackageReference "tripleA" */;
+			package = C18B719C28ABA98F00560703 /* XCRemoteSwiftPackageReference "TripleA" */;
 			productName = TripleA;
 		};
 /* End XCSwiftPackageProductDependency section */

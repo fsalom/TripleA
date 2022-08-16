@@ -3,10 +3,10 @@
     {
       "identity" : "triplea",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fsalom/tripleA",
+      "location" : "https://github.com/fsalom/TripleA",
       "state" : {
         "branch" : "main",
-        "revision" : "1da98484cf219a63e88a7e655c83b4d3ef8f179e"
+        "revision" : "b0c77382cf46714de17e91ac79a86600489ec173"
       }
     }
   ],
