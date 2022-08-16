@@ -13,6 +13,7 @@
 		C11DEB6528AAC4DC00CA1168 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6328AAC4DC00CA1168 /* Main.storyboard */; };
 		C11DEB6728AAC4DF00CA1168 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6628AAC4DF00CA1168 /* Assets.xcassets */; };
 		C11DEB6A28AAC4DF00CA1168 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6828AAC4DF00CA1168 /* LaunchScreen.storyboard */; };
+		C18B719828AB9C1E00560703 /* tripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719728AB9C1E00560703 /* tripleA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +25,6 @@
 		C11DEB6628AAC4DF00CA1168 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C11DEB6928AAC4DF00CA1168 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C11DEB6B28AAC4DF00CA1168 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C1CBD78528AB9A6D003F3155 /* tripleA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = tripleA; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C18B719828AB9C1E00560703 /* tripleA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,7 +42,6 @@
 		C11DEB5128AAC4DC00CA1168 = {
 			isa = PBXGroup;
 			children = (
-				C1CBD78428AB9A6D003F3155 /* Packages */,
 				C11DEB5C28AAC4DC00CA1168 /* Example */,
 				C11DEB5B28AAC4DC00CA1168 /* Products */,
 			);
@@ -69,14 +69,6 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		C1CBD78428AB9A6D003F3155 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				C1CBD78528AB9A6D003F3155 /* tripleA */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -93,6 +85,9 @@
 			dependencies = (
 			);
 			name = Example;
+			packageProductDependencies = (
+				C18B719728AB9C1E00560703 /* tripleA */,
+			);
 			productName = Example;
 			productReference = C11DEB5A28AAC4DC00CA1168 /* Example.app */;
 			productType = "com.apple.product-type.application";
@@ -121,6 +116,9 @@
 				Base,
 			);
 			mainGroup = C11DEB5128AAC4DC00CA1168;
+			packageReferences = (
+				C18B719628AB9C1E00560703 /* XCRemoteSwiftPackageReference "tripleA" */,
+			);
 			productRefGroup = C11DEB5B28AAC4DC00CA1168 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -366,6 +364,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C18B719628AB9C1E00560703 /* XCRemoteSwiftPackageReference "tripleA" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fsalom/tripleA";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C18B719728AB9C1E00560703 /* tripleA */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C18B719628AB9C1E00560703 /* XCRemoteSwiftPackageReference "tripleA" */;
+			productName = tripleA;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C11DEB5228AAC4DC00CA1168 /* Project object */;
 }
