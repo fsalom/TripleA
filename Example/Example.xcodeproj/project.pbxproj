@@ -13,7 +13,7 @@
 		C11DEB6528AAC4DC00CA1168 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6328AAC4DC00CA1168 /* Main.storyboard */; };
 		C11DEB6728AAC4DF00CA1168 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6628AAC4DF00CA1168 /* Assets.xcassets */; };
 		C11DEB6A28AAC4DF00CA1168 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C11DEB6828AAC4DF00CA1168 /* LaunchScreen.storyboard */; };
-		C18B719828AB9C1E00560703 /* tripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719728AB9C1E00560703 /* tripleA */; };
+		C18B719B28ABA64600560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719A28ABA64600560703 /* TripleA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C18B719828AB9C1E00560703 /* tripleA in Frameworks */,
+				C18B719B28ABA64600560703 /* TripleA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +86,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				C18B719728AB9C1E00560703 /* tripleA */,
+				C18B719A28ABA64600560703 /* TripleA */,
 			);
 			productName = Example;
 			productReference = C11DEB5A28AAC4DC00CA1168 /* Example.app */;
@@ -117,7 +117,7 @@
 			);
 			mainGroup = C11DEB5128AAC4DC00CA1168;
 			packageReferences = (
-				C18B719628AB9C1E00560703 /* XCRemoteSwiftPackageReference "tripleA" */,
+				C18B719928ABA64600560703 /* XCRemoteSwiftPackageReference "tripleA" */,
 			);
 			productRefGroup = C11DEB5B28AAC4DC00CA1168 /* Products */;
 			projectDirPath = "";
@@ -366,7 +366,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C18B719628AB9C1E00560703 /* XCRemoteSwiftPackageReference "tripleA" */ = {
+		C18B719928ABA64600560703 /* XCRemoteSwiftPackageReference "tripleA" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fsalom/tripleA";
 			requirement = {
@@ -377,10 +377,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C18B719728AB9C1E00560703 /* tripleA */ = {
+		C18B719A28ABA64600560703 /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C18B719628AB9C1E00560703 /* XCRemoteSwiftPackageReference "tripleA" */;
-			productName = tripleA;
+			package = C18B719928ABA64600560703 /* XCRemoteSwiftPackageReference "tripleA" */;
+			productName = TripleA;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

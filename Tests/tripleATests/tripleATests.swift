@@ -1,5 +1,5 @@
 import XCTest
-@testable import tripleA
+@testable import TripleA
 
 final class tripleATests: XCTestCase {
     func testExample() throws {

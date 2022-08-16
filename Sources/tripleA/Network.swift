@@ -3,7 +3,7 @@ import Foundation
 public final class Network {
   let authManager: AuthManager
 
-  init(authManager: AuthManager) {
+  public init(authManager: AuthManager) {
     self.authManager = authManager
   }
 

@@ -6,12 +6,14 @@
 //
 
 import UIKit
-import tripleA
+import TripleA
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        let x = AuthManager()
+        let y = Network(authManager: x)
         // Do any additional setup after loading the view.        
     }
 

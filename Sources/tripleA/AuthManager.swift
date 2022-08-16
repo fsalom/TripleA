@@ -13,7 +13,7 @@ public final actor AuthManager {
     private var clientSecret = ""
     private var refreshTask: Task<String, Error>?
 
-    init(baseURL: String, clientId: String, clientSecret: String){
+    public init(baseURL: String, clientId: String, clientSecret: String){
         self.clientId = clientId
         self.clientSecret = clientSecret
         Persistence.set(.baseURL, baseURL)
