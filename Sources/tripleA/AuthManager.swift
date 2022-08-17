@@ -12,13 +12,13 @@ public final actor AuthManager {
     private var clientId = ""
     private var clientSecret = ""
     private var refreshTask: Task<String, Error>?
-
+    
     public init(baseURL: String, clientId: String, clientSecret: String){
         self.clientId = clientId
         self.clientSecret = clientSecret
         Persistence.set(.baseURL, baseURL)
     }
-
+    
     // MARK: - getAccesToken - return accessToken or error
     func getAccesToken() async throws -> String? {
         guard let accessToken = Persistence.get(stringFor: .access_token) else {
@@ -26,7 +26,7 @@ public final actor AuthManager {
         }
         return accessToken
     }
-
+    
     // MARK: - isValid - return if access token is still valid or thrwo an error
     func isValid() async throws -> Bool {
         guard let expires = Calendar.current.date(byAdding: .second, value: Persistence.get(intFor: .expires_in), to: Date()) else {
@@ -34,7 +34,7 @@ public final actor AuthManager {
         }
         return expires > Date() ? true : false
     }
-
+    
     // MARK: - validToken - check if token is valid or refresh token otherwise
     func validToken() async throws -> String {
         if let handle = refreshTask {
@@ -49,7 +49,7 @@ public final actor AuthManager {
         }
         return try await refreshToken()
     }
-
+    
     // MARK: - refreshToken - create a task and call refreshToken if needed
     func refreshToken() async throws -> String {
         if let refreshTask = refreshTask {
@@ -65,7 +65,7 @@ public final actor AuthManager {
         self.refreshTask = task
         return try await task.value
     }
-
+    
     // MARK: - authenticate - call to login service
     func authenticate(with parameters: [String: Any]) async throws -> String {
         do {
@@ -77,14 +77,14 @@ public final actor AuthManager {
             throw AuthError.badRequest
         }
     }
-
+    
     // MARK: - save - save token data
     func save(this token: TokenDTO) {
         Persistence.set(Persistence.Key.access_token, token.accessToken)
         Persistence.set(Persistence.Key.refresh_token, token.refreshToken)
         Persistence.set(Persistence.Key.expires_in, token.expiresIn)
     }
-
+    
     // MARK: - refresh - call API for refreshToken
     func refresh(with refreshToken: String) async throws -> String {
         do {
