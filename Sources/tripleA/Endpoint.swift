@@ -36,12 +36,16 @@ struct Endpoint{
     var httpMethod: HTTPMethod
     var encoding: Encoding
     var parameters: [String: Any]
+    var headers: [String: String]
     var images: [String: UIImage]
     var videos: [String: String]
     var request: URLRequest {
         get {
             let url = getURL(path: self.path)
             var request = URLRequest(url: url)
+            headers.forEach { key, value in
+                request.addValue(value, forHTTPHeaderField: key)
+            }
             request.httpMethod = self.httpMethod.rawValue
             
             switch self.httpMethod{
@@ -66,6 +70,7 @@ struct Endpoint{
     init(path: String,
          httpMethod: HTTPMethod,
          parameters: [String: Any] = [:],
+         headers: [String: String] = [:],
          encoding: Encoding = .json,
          images: [String: UIImage] = [:],
          videos: [String: String] = [:]){
@@ -75,6 +80,7 @@ struct Endpoint{
         self.videos = videos
         self.images = images
         self.encoding = encoding
+        self.headers = headers
     }
     
     // MARK: - get URL with BASE_URL
