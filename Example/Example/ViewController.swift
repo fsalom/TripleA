@@ -25,7 +25,7 @@ enum CryptoAPI {
         get {
             switch self {
             case .assets:
-                return Endpoint(path: "/assets", httpMethod: .get)
+                return Endpoint(path: "assets", httpMethod: .get)
             }
         }
     }
@@ -35,13 +35,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let authManager = AuthManager(baseURL: "http://api.coincap.io/v2/", clientId: "", clientSecret: "")
+        let authManager = AuthManager(baseURL: "https://api.coincap.io/v2/", clientId: "", clientSecret: "")
         let network = Network(authManager: authManager)
 
         Task{
             do {
-                let assets = try await network.load(endpoint: CryptoAPI.assets.endpoint, of: ListDTO)
-                print(assets)
+                _ = try await network.load(endpoint: CryptoAPI.assets.endpoint, of: ListDTO.self)
             } catch {
 
             }

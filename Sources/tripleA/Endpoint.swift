@@ -1,9 +1,9 @@
 import Foundation
 import UIKit
 
-struct Endpoint{
+public struct Endpoint{
     
-    enum HTTPMethod{
+    public enum HTTPMethod{
         case get
         case post
         case patch
@@ -19,7 +19,7 @@ struct Endpoint{
         }
     }
     
-    enum Encoding{
+    public enum Encoding{
         case json
         case multipart
         
@@ -66,7 +66,7 @@ struct Endpoint{
         }
     }
     
-    init(path: String,
+    public init(path: String,
          httpMethod: HTTPMethod,
          parameters: [String: Any] = [:],
          headers: [String: String] = [:],
