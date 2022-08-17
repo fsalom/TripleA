@@ -42,6 +42,7 @@
 		C11DEB5128AAC4DC00CA1168 = {
 			isa = PBXGroup;
 			children = (
+				C1DED18D28AD0380005C68F3 /* Packages */,
 				C11DEB5C28AAC4DC00CA1168 /* Example */,
 				C11DEB5B28AAC4DC00CA1168 /* Products */,
 			);
@@ -67,6 +68,13 @@
 				C11DEB6B28AAC4DF00CA1168 /* Info.plist */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		C1DED18D28AD0380005C68F3 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -69,7 +69,7 @@ public final actor AuthManager {
     // MARK: - authenticate - call to login service
     func authenticate(with parameters: [String: Any]) async throws -> String {
         do {
-            let token = try await Network.load(endpoint: AuthEndpoint.login(parameters).endpoint, of: TokenDTO.self)
+            let token = try await load(endpoint: AuthEndpoint.login(parameters).endpoint, of: TokenDTO.self)
             save(this: token)
             return token.accessToken
         } catch let error {
@@ -94,7 +94,7 @@ public final actor AuthManager {
                 "client_secret": self.clientSecret,
                 "refresh_token": refreshToken
             ]
-            let token = try await Network.load(endpoint: AuthEndpoint.refreshToken(parameters).endpoint, of: TokenDTO.self)
+            let token = try await load(endpoint: AuthEndpoint.refreshToken(parameters).endpoint, of: TokenDTO.self)
             save(this: token)
             return token.accessToken
         } catch let error {
@@ -102,5 +102,17 @@ public final actor AuthManager {
             Persistence.clear()
             throw AuthError.badRequest
         }
+    }
+
+    private func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
+        Log.thisCall(endpoint.request)
+        let (data, urlResponse) = try await URLSession.shared.data(for: endpoint.request)
+        guard let response = urlResponse as? HTTPURLResponse else{
+            throw NetworkError.invalidResponse
+        }
+        Log.thisResponse(response, data: data)
+        let decoder = JSONDecoder()
+        let parseData = try decoder.decode(T.self, from: data)
+        return parseData
     }
 }

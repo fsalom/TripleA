@@ -39,7 +39,7 @@ public final class Network {
     }
     
     // MARK: - load - Call unprotected API
-    static func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
+    func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
         let (data, urlResponse) = try await URLSession.shared.data(for: endpoint.request)
         guard let response = urlResponse as? HTTPURLResponse else{
