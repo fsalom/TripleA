@@ -2,14 +2,17 @@ import Foundation
 
 public final class Network {
     let authManager: AuthManager
+    var headers: [String: String] = [:]
     
-    public init(authManager: AuthManager) {
+    public init(authManager: AuthManager, headers: [String: String] = [:]) {
         self.authManager = authManager
+        self.headers = headers
     }
     
     // MARK: - loadAuthorized - Call secured API
     public func loadAuthorized<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
-        let request = try await authorizedRequest(from: endpoint.request)
+        var request = try await authorizedRequest(from: endpoint.request)
+        request = setHeaders(for: request)
         Log.thisCall(request)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
@@ -41,7 +44,8 @@ public final class Network {
     // MARK: - load - Call unprotected API
     public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
-        let (data, urlResponse) = try await URLSession.shared.data(for: endpoint.request)
+        let request = setHeaders(for: endpoint.request)
+        let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
@@ -65,5 +69,13 @@ public final class Network {
         }
         return requestWithHeader
     }
-    
+
+    // MARK: - setHeaders - add all additional headers needed
+    private func setHeaders(for request: URLRequest) -> URLRequest {
+        var newRequest = request
+        headers.forEach { key, value in
+            newRequest.addValue(value, forHTTPHeaderField: key)
+        }
+        return request
+    }
 }
