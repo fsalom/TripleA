@@ -1,4 +1,4 @@
-enum AuthError: Error {
+public enum AuthError: Error {
     case missingToken
     case missingExpiresIn
     case badRequest
