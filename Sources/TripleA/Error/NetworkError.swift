@@ -17,7 +17,7 @@ public enum NetworkError: Error {
         }
     }
     
-    var data: Data {
+    public var data: Data {
         switch self {
         case .errorData(let data):
             return data

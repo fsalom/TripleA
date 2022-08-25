@@ -3,12 +3,12 @@ import Foundation
 public final class Network {
     let authManager: AuthManager
     var headers: [String: String] = [:]
-    
+
     public init(authManager: AuthManager, headers: [String: String] = [:]) {
         self.authManager = authManager
         self.headers = headers
     }
-    
+
     // MARK: - loadAuthorized - Call secured API
     public func loadAuthorized<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         var request = try await authorizedRequest(from: endpoint.request)
@@ -40,7 +40,7 @@ public final class Network {
         }
         return parseData
     }
-    
+
     // MARK: - load - Call unprotected API
     public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
@@ -54,7 +54,7 @@ public final class Network {
         let parseData = try decoder.decode(T.self, from: data)
         return parseData
     }
-    
+
     // MARK: - authorizedRequest - get accessToken or refresh token through AuthManager
     private func authorizedRequest(from request: URLRequest) async throws -> URLRequest {
         var requestWithHeader = request
@@ -77,5 +77,23 @@ public final class Network {
             newRequest.addValue(value, forHTTPHeaderField: key)
         }
         return request
+    }
+
+    // MARK: - authenticate - social
+    public func getToken(for endpoint: Endpoint) async throws -> String {
+        do {
+            let token = try await load(endpoint: endpoint, of: TokenDTO.self)          
+            await authManager.save(this: token)
+            return token.accessToken
+        } catch let error {
+            Log.thisError(error)
+            guard let errorWithData = error as? NetworkError else {  throw AuthError.badRequest }
+            switch errorWithData {
+            case .errorData(let data):
+                throw AuthError.errorData(data)
+            default:
+                throw AuthError.badRequest
+            }
+        }
     }
 }
