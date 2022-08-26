@@ -1,7 +1,7 @@
 import Foundation
 
 struct Persistence {
-    enum Key: String {
+    enum Key: String, CaseIterable {
         case refresh_token,
              access_token,
              expires_in,
@@ -75,7 +75,9 @@ struct Persistence {
         let defaults = UserDefaults.standard
         let dictionary = defaults.dictionaryRepresentation()
         dictionary.keys.forEach { key in
-            defaults.removeObject(forKey: key)
+            if Key.allCases.contains(where: { $0.rawValue == key }) && key != Key.baseURL.rawValue {
+                defaults.removeObject(forKey: key)
+            }
         }
     }
 }

@@ -7,16 +7,32 @@
 //
 
 import Foundation
+import UIKit
 
 public final actor AuthManager {
     private var clientId = ""
     private var clientSecret = ""
     private var refreshTask: Task<String, Error>?
-    
-    public init(baseURL: String, clientId: String, clientSecret: String) {
+    private var refreshTokenEndpoint: Endpoint?
+    private var loginViewController: UIViewController?
+
+    public init(baseURL: String,
+                clientId: String,
+                clientSecret: String,
+                refreshTokenEndpoint: Endpoint? = nil,
+                loginViewController: UIViewController? = nil) {
+        Persistence.set(.baseURL, baseURL)
         self.clientId = clientId
         self.clientSecret = clientSecret
-        Persistence.set(.baseURL, baseURL)
+
+        if let refreshTokenEndpoint = refreshTokenEndpoint {
+            self.refreshTokenEndpoint = refreshTokenEndpoint
+            if let loginViewController = loginViewController {
+                self.loginViewController = loginViewController
+            } else {
+                fatalError("ERROR: If refreshTokenEndpoint is set there must be a LoginViewController")
+            }
+        }
     }
     
     // MARK: - getAccesToken - return accessToken or error
@@ -66,27 +82,22 @@ public final actor AuthManager {
         return try await task.value
     }
     
-    // MARK: - authenticate - call to login service
-    func authenticate(with parameters: [String: Any]) async throws -> String {
-        do {
-            let token = try await load(endpoint: AuthEndpoint.login(parameters).endpoint, of: TokenDTO.self)
-            save(this: token)
-            return token.accessToken
-        } catch let error {
-            Log.thisError(error)
-            throw AuthError.badRequest
-        }
-    }
-    
     // MARK: - save - save token data
     func save(this token: TokenDTO) {
         Persistence.set(Persistence.Key.access_token, token.accessToken)
         Persistence.set(Persistence.Key.refresh_token, token.refreshToken)
         Persistence.set(Persistence.Key.expires_in, token.expiresIn)
     }
-    
+    // MARK: - save - save token data
+    func getLoginViewController() async -> UIViewController? {
+        return loginViewController
+    }
+
     // MARK: - refresh - call API for refreshToken
     func refresh(with refreshToken: String) async throws -> String {
+        guard var refreshTokenEndpoint = refreshTokenEndpoint else {
+            fatalError("ERROR: refresh token missing")
+        }
         do {
             let parameters: [String: Any] = [
                 "grant_type": "refresh_token",
@@ -94,7 +105,8 @@ public final actor AuthManager {
                 "client_secret": self.clientSecret,
                 "refresh_token": refreshToken
             ]
-            let token = try await load(endpoint: AuthEndpoint.refreshToken(parameters).endpoint, of: TokenDTO.self)
+            refreshTokenEndpoint.parameters = parameters
+            let token = try await load(endpoint: refreshTokenEndpoint, of: TokenDTO.self)
             save(this: token)
             return token.accessToken
         } catch let error {

@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 public final class Network {
     let authManager: AuthManager
@@ -63,8 +64,12 @@ public final class Network {
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }catch let error{
             Log.thisError(error)
+            Persistence.clear()
             DispatchQueue.main.async {
-                // TODO: ask for login Controller when authentication fail
+                Task{
+                    UIApplication.shared.windows.first?.rootViewController = await self.authManager.getLoginViewController()
+                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                }
             }
         }
         return requestWithHeader
@@ -95,5 +100,9 @@ public final class Network {
                 throw AuthError.badRequest
             }
         }
+    }
+
+    public func isLogged() -> Bool{
+        return Persistence.get(stringFor: .access_token) != "" ? true : false
     }
 }
