@@ -48,7 +48,7 @@ struct Log {
     static func thisResponse(_ response: HTTPURLResponse, data: Data) {
         let code = response.statusCode
         let url  = response.url?.absoluteString ?? ""
-        let icon  = [200, 201, 204].contains(code) ? "✅" : "❌"
+        let icon  = (200..<300).contains(code) ? "✅" : "❌"
         
         print("------------------------------------------")
         print("\(icon) 🔽 [\(code)] \(url)")

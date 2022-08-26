@@ -78,10 +78,10 @@ public final class Network {
     // MARK: - setHeaders - add all additional headers needed
     private func setHeaders(for request: URLRequest) -> URLRequest {
         var newRequest = request
-        headers.forEach { key, value in
+        self.headers.forEach { key, value in
             newRequest.addValue(value, forHTTPHeaderField: key)
         }
-        return request
+        return newRequest
     }
 
     // MARK: - authenticate - social
@@ -92,7 +92,7 @@ public final class Network {
             return token.accessToken
         } catch let error {
             Log.thisError(error)
-            guard let errorWithData = error as? NetworkError else {  throw AuthError.badRequest }
+            guard let errorWithData = error as? NetworkError else { throw AuthError.badRequest }
             switch errorWithData {
             case .errorData(let data):
                 throw AuthError.errorData(data)
@@ -103,6 +103,6 @@ public final class Network {
     }
 
     public func isLogged() -> Bool{
-        return Persistence.get(stringFor: .access_token) != "" ? true : false
+        return Persistence.get(stringFor: .access_token) != nil ? true : false
     }
 }
