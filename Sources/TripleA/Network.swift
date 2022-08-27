@@ -2,16 +2,23 @@ import Foundation
 import UIKit
 
 public final class Network {
-    let authManager: AuthManager
+    let baseURL: String
+    let authManager: AuthManager?
     var headers: [String: String] = [:]
 
-    public init(authManager: AuthManager, headers: [String: String] = [:]) {
+    public init(baseURL: String, authManager: AuthManager? = nil, headers: [String: String] = [:]) {
         self.authManager = authManager
         self.headers = headers
+        self.baseURL = baseURL
+        Persistence.set(.baseURL, baseURL)
     }
 
     // MARK: - loadAuthorized - Call secured API
     public func loadAuthorized<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
+        guard let authManager = authManager else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
+        }
+
         var request = try await authorizedRequest(from: endpoint.request)
         request = setHeaders(for: request)
         Log.thisCall(request)
@@ -58,16 +65,20 @@ public final class Network {
 
     // MARK: - authorizedRequest - get accessToken or refresh token through AuthManager
     private func authorizedRequest(from request: URLRequest) async throws -> URLRequest {
+        guard let authManager = authManager else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
+        }
         var requestWithHeader = request
         do{
             let token = try await authManager.validToken()
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }catch let error{
+
             Log.thisError(error)
             Persistence.clear()
             DispatchQueue.main.async {
                 Task{
-                    UIApplication.shared.windows.first?.rootViewController = await self.authManager.getLoginViewController()
+                    UIApplication.shared.windows.first?.rootViewController = await authManager.getLoginViewController()
                     UIApplication.shared.windows.first?.makeKeyAndVisible()
                 }
             }
@@ -86,8 +97,11 @@ public final class Network {
 
     // MARK: - authenticate - social
     public func getToken(for endpoint: Endpoint) async throws -> String {
+        guard let authManager = authManager else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
+        }
         do {
-            let token = try await load(endpoint: endpoint, of: TokenDTO.self)          
+            let token = try await load(endpoint: endpoint, of: TokenDTO.self)
             await authManager.save(this: token)
             return token.accessToken
         } catch let error {

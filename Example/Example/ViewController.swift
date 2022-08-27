@@ -35,8 +35,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let authManager = AuthManager(baseURL: "https://api.coincap.io/v2/", clientId: "", clientSecret: "")
-        let network = Network(authManager: authManager)
+        let network = Network(baseURL: "https://api.coincap.io/v2/")
 
         Task{
             do {

@@ -16,12 +16,10 @@ public final actor AuthManager {
     private var refreshTokenEndpoint: Endpoint?
     private var loginViewController: UIViewController?
 
-    public init(baseURL: String,
-                clientId: String,
+    public init(clientId: String,
                 clientSecret: String,
                 refreshTokenEndpoint: Endpoint? = nil,
                 loginViewController: UIViewController? = nil) {
-        Persistence.set(.baseURL, baseURL)
         self.clientId = clientId
         self.clientSecret = clientSecret
 
