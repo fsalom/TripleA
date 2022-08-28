@@ -59,6 +59,7 @@ struct Log {
     
     static func thisError(_ error : Error) {
         print("🤬 ERROR: \(error.localizedDescription)")
+        print("🤖 RAW VALUE: \(error)")
         print("------------------------------------------")
     }
     

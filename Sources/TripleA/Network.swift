@@ -38,13 +38,8 @@ public final class Network {
         do{
             parseData = try decoder.decode(T.self, from: data)
         }catch{
-            if (200..<300).contains(response.statusCode) {
-                Log.thisError(NetworkError.errorDecodable)
-                throw NetworkError.errorDecodable
-            }else{
-                Log.thisError(NetworkError.errorData(data))
-                throw NetworkError.errorData(data)
-            }
+            Log.thisError(NetworkError.errorDecodable)
+            throw CustomError(type: .errorDecodable, data: data, code: response.statusCode)
         }
         return parseData
     }
@@ -55,12 +50,17 @@ public final class Network {
         let request = setHeaders(for: endpoint.request)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
-            throw NetworkError.invalidResponse
+            throw CustomError(type: NetworkError.invalidResponse, data: data)
         }
         Log.thisResponse(response, data: data)
         let decoder = JSONDecoder()
-        let parseData = try decoder.decode(T.self, from: data)
-        return parseData
+        do {
+            let parseData = try decoder.decode(T.self, from: data)
+            return parseData
+        } catch let error {            
+            Log.thisError(error)
+            throw CustomError(type: NetworkError.errorDecodable, data: data, error: error, code: response.statusCode)
+        }
     }
 
     // MARK: - authorizedRequest - get accessToken or refresh token through AuthManager
