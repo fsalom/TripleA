@@ -1,6 +1,6 @@
 import UIKit
 
-final class MainRouter {
+final class CryptoListRouter {
     weak var viewController: UIViewController?
 
     init(viewController: UIViewController?) {

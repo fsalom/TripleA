@@ -1,12 +1,12 @@
 import Foundation
 import TripleA
 
-final class MainViewModel {
-    let router: MainRouter
+final class CryptoListViewModel {
+    let router: CryptoListRouter
     let network: Network
     var cryptos: [CryptoDTO] = []
     
-    init(router: MainRouter) {
+    init(router: CryptoListRouter) {
         self.router = router
         self.network = Network(baseURL: "https://api.coincap.io/v2/")
     }
