@@ -44,7 +44,17 @@ public final class Network {
         return parseData
     }
 
-    // MARK: - load - Call unprotected API
+    // MARK: - load
+    /**
+    Call to an unprotected API
+
+     - Parameters:
+        - endpoint: Endpoint with request information
+        - type: T of a decodable object
+        - allowRetry: Bool in case retry calls is not an option
+     - Returns: object of type  `T` already parsed.
+     - Throws: An error of type `CustomError`  with extra info
+    **/
     public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
         let request = setHeaders(for: endpoint.request)
@@ -63,7 +73,6 @@ public final class Network {
         }
     }
 
-    // MARK: - authorizedRequest - get accessToken or refresh token through AuthManager
     private func authorizedRequest(from request: URLRequest) async throws -> URLRequest {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
