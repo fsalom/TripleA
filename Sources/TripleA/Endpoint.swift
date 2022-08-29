@@ -113,7 +113,7 @@ public struct Endpoint{
     func setJSONEncoding(for request: URLRequest) -> URLRequest{
         var request = request
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
-            fatalError()
+            fatalError("Error coding json to data")
         }
         request.httpBody = httpBody
         return request
@@ -123,7 +123,11 @@ public struct Endpoint{
     func setURLEncoding(for url: URL) -> URLRequest{
         var components = URLComponents(string: url.absoluteString)!
         components.queryItems = self.parameters.map { (key, value) in
-            URLQueryItem(name: key, value: value as? String)
+            if value is Int{
+                return URLQueryItem(name: key, value: "\(value)")
+            }else{
+                return URLQueryItem(name: key, value: value as? String)
+            }
         }
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
         return URLRequest(url: components.url!)

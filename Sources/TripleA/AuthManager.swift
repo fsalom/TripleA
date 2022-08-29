@@ -91,6 +91,16 @@ public final actor AuthManager {
         return loginViewController
     }
 
+    // MARK: - return client ID
+    func getClientId() async -> String {
+        return self.clientId
+    }
+
+    // MARK: - return client Secret
+    func getClientSecret() async -> String {
+        return self.clientSecret
+    }
+
     // MARK: - refresh - call API for refreshToken
     func refresh(with refreshToken: String) async throws -> String {
         guard var refreshTokenEndpoint = refreshTokenEndpoint else {

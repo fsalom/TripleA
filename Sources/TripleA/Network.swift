@@ -139,11 +139,12 @@ public final class Network {
      - Throws: An error of type `AuthError`
     */
     public func getToken(for endpoint: Endpoint) async throws -> String {
+        var rawEndpoint = endpoint
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
         do {
-            let token = try await load(endpoint: endpoint, of: TokenDTO.self)
+            let token = try await load(endpoint: rawEndpoint, of: TokenDTO.self)
             await authManager.save(this: token)
             return token.accessToken
         } catch let error {

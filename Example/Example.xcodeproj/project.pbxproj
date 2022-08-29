@@ -22,6 +22,19 @@
 		C15CBCC028BB7CBA0043FAC3 /* CryptoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15CBCBE28BB7CBA0043FAC3 /* CryptoCell.xib */; };
 		C15CBCC528BB843F0043FAC3 /* CryptoListView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C15CBCC428BB843F0043FAC3 /* CryptoListView.storyboard */; };
 		C15CBCC728BB84F40043FAC3 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBCC628BB84F40043FAC3 /* MainController.swift */; };
+		C15CBCF828BCD4340043FAC3 /* OAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBCF128BCD4340043FAC3 /* OAuthViewModel.swift */; };
+		C15CBCF928BCD4340043FAC3 /* OAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBCF228BCD4340043FAC3 /* OAuthController.swift */; };
+		C15CBCFA28BCD4340043FAC3 /* OAuthView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C15CBCF328BCD4340043FAC3 /* OAuthView.storyboard */; };
+		C15CBCFB28BCD4340043FAC3 /* OAuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBCF428BCD4340043FAC3 /* OAuthRouter.swift */; };
+		C15CBCFF28BCD6030043FAC3 /* OAuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBCFE28BCD6030043FAC3 /* OAuthAPI.swift */; };
+		C15CBD0228BCF5C50043FAC3 /* ApiKeyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBD0128BCF5C50043FAC3 /* ApiKeyController.swift */; };
+		C15CBD0428BCF6060043FAC3 /* ApiKeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBD0328BCF6060043FAC3 /* ApiKeyViewModel.swift */; };
+		C15CBD0628BCF62A0043FAC3 /* ApiKeyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBD0528BCF62A0043FAC3 /* ApiKeyRouter.swift */; };
+		C15CBD0828BCFB940043FAC3 /* MarvelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBD0728BCFB940043FAC3 /* MarvelAPI.swift */; };
+		C15CBD0A28BCFCD50043FAC3 /* ApiKeyView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C15CBD0928BCFCD50043FAC3 /* ApiKeyView.storyboard */; };
+		C15CBD0E28BCFD390043FAC3 /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBD0C28BCFD390043FAC3 /* CharacterCell.swift */; };
+		C15CBD0F28BCFD390043FAC3 /* CharacterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15CBD0D28BCFD390043FAC3 /* CharacterCell.xib */; };
+		C15CBD1128BCFD810043FAC3 /* CharacterDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBD1028BCFD800043FAC3 /* CharacterDTO.swift */; };
 		C18B719E28ABA98F00560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719D28ABA98F00560703 /* TripleA */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +56,19 @@
 		C15CBCBE28BB7CBA0043FAC3 /* CryptoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CryptoCell.xib; sourceTree = "<group>"; };
 		C15CBCC428BB843F0043FAC3 /* CryptoListView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CryptoListView.storyboard; sourceTree = "<group>"; };
 		C15CBCC628BB84F40043FAC3 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		C15CBCF128BCD4340043FAC3 /* OAuthViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthViewModel.swift; sourceTree = "<group>"; };
+		C15CBCF228BCD4340043FAC3 /* OAuthController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthController.swift; sourceTree = "<group>"; };
+		C15CBCF328BCD4340043FAC3 /* OAuthView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OAuthView.storyboard; sourceTree = "<group>"; };
+		C15CBCF428BCD4340043FAC3 /* OAuthRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthRouter.swift; sourceTree = "<group>"; };
+		C15CBCFE28BCD6030043FAC3 /* OAuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAPI.swift; sourceTree = "<group>"; };
+		C15CBD0128BCF5C50043FAC3 /* ApiKeyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyController.swift; sourceTree = "<group>"; };
+		C15CBD0328BCF6060043FAC3 /* ApiKeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyViewModel.swift; sourceTree = "<group>"; };
+		C15CBD0528BCF62A0043FAC3 /* ApiKeyRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyRouter.swift; sourceTree = "<group>"; };
+		C15CBD0728BCFB940043FAC3 /* MarvelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelAPI.swift; sourceTree = "<group>"; };
+		C15CBD0928BCFCD50043FAC3 /* ApiKeyView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ApiKeyView.storyboard; sourceTree = "<group>"; };
+		C15CBD0C28BCFD390043FAC3 /* CharacterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
+		C15CBD0D28BCFD390043FAC3 /* CharacterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CharacterCell.xib; sourceTree = "<group>"; };
+		C15CBD1028BCFD800043FAC3 /* CharacterDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDTO.swift; sourceTree = "<group>"; };
 		C1DED19028AD04D6005C68F3 /* TripleA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = TripleA; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +127,7 @@
 			children = (
 				C15CBCAB28BB54F70043FAC3 /* ListDTO.swift */,
 				C15CBCAD28BB550A0043FAC3 /* CryptoDTO.swift */,
+				C15CBD1028BCFD800043FAC3 /* CharacterDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -109,6 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				C15CBCB028BB555B0043FAC3 /* CryptoAPI.swift */,
+				C15CBCFE28BCD6030043FAC3 /* OAuthAPI.swift */,
+				C15CBD0728BCFB940043FAC3 /* MarvelAPI.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -134,6 +163,8 @@
 		C15CBCB428BB75880043FAC3 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				C15CBD0028BCF5B00043FAC3 /* ApiKey */,
+				C15CBCF028BCD4120043FAC3 /* OAuth */,
 				C15CBCC128BB83A60043FAC3 /* CryptoList */,
 				C15CBCB528BB75930043FAC3 /* Main */,
 			);
@@ -168,6 +199,38 @@
 				C15CBCC428BB843F0043FAC3 /* CryptoListView.storyboard */,
 			);
 			path = CryptoList;
+			sourceTree = "<group>";
+		};
+		C15CBCF028BCD4120043FAC3 /* OAuth */ = {
+			isa = PBXGroup;
+			children = (
+				C15CBCF428BCD4340043FAC3 /* OAuthRouter.swift */,
+				C15CBCF128BCD4340043FAC3 /* OAuthViewModel.swift */,
+				C15CBCF228BCD4340043FAC3 /* OAuthController.swift */,
+				C15CBCF328BCD4340043FAC3 /* OAuthView.storyboard */,
+			);
+			path = OAuth;
+			sourceTree = "<group>";
+		};
+		C15CBD0028BCF5B00043FAC3 /* ApiKey */ = {
+			isa = PBXGroup;
+			children = (
+				C15CBD0B28BCFD390043FAC3 /* TableViewCell */,
+				C15CBD0128BCF5C50043FAC3 /* ApiKeyController.swift */,
+				C15CBD0328BCF6060043FAC3 /* ApiKeyViewModel.swift */,
+				C15CBD0528BCF62A0043FAC3 /* ApiKeyRouter.swift */,
+				C15CBD0928BCFCD50043FAC3 /* ApiKeyView.storyboard */,
+			);
+			path = ApiKey;
+			sourceTree = "<group>";
+		};
+		C15CBD0B28BCFD390043FAC3 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				C15CBD0C28BCFD390043FAC3 /* CharacterCell.swift */,
+				C15CBD0D28BCFD390043FAC3 /* CharacterCell.xib */,
+			);
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		C1DED18D28AD0380005C68F3 /* Packages */ = {
@@ -242,10 +305,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C15CBD0F28BCFD390043FAC3 /* CharacterCell.xib in Resources */,
 				C15CBCC028BB7CBA0043FAC3 /* CryptoCell.xib in Resources */,
 				C11DEB6A28AAC4DF00CA1168 /* LaunchScreen.storyboard in Resources */,
+				C15CBD0A28BCFCD50043FAC3 /* ApiKeyView.storyboard in Resources */,
 				C15CBCC528BB843F0043FAC3 /* CryptoListView.storyboard in Resources */,
 				C11DEB6728AAC4DF00CA1168 /* Assets.xcassets in Resources */,
+				C15CBCFA28BCD4340043FAC3 /* OAuthView.storyboard in Resources */,
 				C11DEB6528AAC4DC00CA1168 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,13 +326,23 @@
 				C15CBCB728BB75CA0043FAC3 /* CryptoListViewModel.swift in Sources */,
 				C15CBCB928BB765E0043FAC3 /* CryptoListRouter.swift in Sources */,
 				C15CBCBF28BB7CBA0043FAC3 /* CryptoCell.swift in Sources */,
+				C15CBD0228BCF5C50043FAC3 /* ApiKeyController.swift in Sources */,
+				C15CBCFB28BCD4340043FAC3 /* OAuthRouter.swift in Sources */,
+				C15CBD1128BCFD810043FAC3 /* CharacterDTO.swift in Sources */,
 				C11DEB6228AAC4DC00CA1168 /* CryptoListController.swift in Sources */,
 				C15CBCC728BB84F40043FAC3 /* MainController.swift in Sources */,
 				C15CBCB128BB555B0043FAC3 /* CryptoAPI.swift in Sources */,
 				C11DEB5E28AAC4DC00CA1168 /* AppDelegate.swift in Sources */,
+				C15CBCFF28BCD6030043FAC3 /* OAuthAPI.swift in Sources */,
 				C11DEB6028AAC4DC00CA1168 /* SceneDelegate.swift in Sources */,
+				C15CBD0E28BCFD390043FAC3 /* CharacterCell.swift in Sources */,
+				C15CBCF828BCD4340043FAC3 /* OAuthViewModel.swift in Sources */,
 				C15CBCAC28BB54F70043FAC3 /* ListDTO.swift in Sources */,
+				C15CBCF928BCD4340043FAC3 /* OAuthController.swift in Sources */,
 				C15CBCAE28BB550A0043FAC3 /* CryptoDTO.swift in Sources */,
+				C15CBD0828BCFB940043FAC3 /* MarvelAPI.swift in Sources */,
+				C15CBD0428BCF6060043FAC3 /* ApiKeyViewModel.swift in Sources */,
+				C15CBD0628BCF62A0043FAC3 /* ApiKeyRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
