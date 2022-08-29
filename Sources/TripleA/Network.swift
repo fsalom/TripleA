@@ -13,7 +13,17 @@ public final class Network {
         Persistence.set(.baseURL, baseURL)
     }
 
-    // MARK: - loadAuthorized - Call secured API
+    // MARK: -  loadAuthorized
+    /**
+    Call to protected API adding authorization header and checking for refreshToken if needed
+
+     - Parameters:
+        - endpoint: Endpoint with request information
+        - type: T of a decodable object
+        - allowRetry: Bool in case retry calls is not an option
+     - Returns: object of type  `T` already parsed.
+     - Throws: An error of type `CustomError`  with extra info
+    */
     public func loadAuthorized<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
@@ -46,7 +56,7 @@ public final class Network {
 
     // MARK: - load
     /**
-    Call to an unprotected API
+    Call to unprotected API
 
      - Parameters:
         - endpoint: Endpoint with request information
@@ -54,7 +64,7 @@ public final class Network {
         - allowRetry: Bool in case retry calls is not an option
      - Returns: object of type  `T` already parsed.
      - Throws: An error of type `CustomError`  with extra info
-    **/
+    */
     public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
         let request = setHeaders(for: endpoint.request)
@@ -73,6 +83,15 @@ public final class Network {
         }
     }
 
+    // MARK: - authorizedRequest
+    /**
+    Check if authentication is valid and return request with header authorization. In case tokens have expired it will show starting flow controller
+
+     - Parameters:
+        - request: URLRequest with information
+     - Returns: object of type  `URLRequest` with new headers
+     - Throws: An error of type `CustomError`  with extra info
+    */
     private func authorizedRequest(from request: URLRequest) async throws -> URLRequest {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
@@ -82,7 +101,6 @@ public final class Network {
             let token = try await authManager.validToken()
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }catch let error{
-
             Log.thisError(error)
             Persistence.clear()
             DispatchQueue.main.async {
@@ -95,7 +113,14 @@ public final class Network {
         return requestWithHeader
     }
 
-    // MARK: - setHeaders - add all additional headers needed
+    // MARK: - setHeaders
+    /**
+    Add all additional headers needed
+
+     - Parameters:
+        - request: URLRequest with information
+     - Returns: object of type  `URLRequest` with additional headers
+    */
     private func setHeaders(for request: URLRequest) -> URLRequest {
         var newRequest = request
         self.headers.forEach { key, value in
@@ -104,7 +129,15 @@ public final class Network {
         return newRequest
     }
 
-    // MARK: - authenticate - social
+    // MARK: - getToken
+    /**
+    Define login endpoint that will provide access_token / refresh_token
+
+     - Parameters:
+        - endpoint: `Endpoint` with call information
+     - Returns: access_tolen of type  `String`
+     - Throws: An error of type `AuthError`
+    */
     public func getToken(for endpoint: Endpoint) async throws -> String {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
@@ -125,6 +158,12 @@ public final class Network {
         }
     }
 
+    // MARK: - isLogged
+    /**
+    Indicates if user is logged or not
+
+     - Returns: user logged of type  `Bool`
+    */
     public func isLogged() -> Bool{
         return Persistence.get(stringFor: .access_token) != nil ? true : false
     }
