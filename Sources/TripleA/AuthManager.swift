@@ -135,4 +135,40 @@ public final actor AuthManager {
         let parseData = try decoder.decode(T.self, from: data)
         return parseData
     }
+
+    // MARK: - getToken
+    /**
+    Define login endpoint that will provide access_token / refresh_token
+
+     - Parameters:
+        - endpoint: `Endpoint` with call information
+        - username: user name
+        - password: user password
+     - Returns: access_tolen of type  `String`
+     - Throws: An error of type `AuthError`
+    */
+    public func getToken(for endpoint: Endpoint, username: String, password: String) async throws {
+        var tokenEndpoint = endpoint
+        do {
+            let parameters: [String: Any] = [
+                "grant_type": "password",
+                "client_id": self.clientId,
+                "client_secret": self.clientSecret,
+                "username": username,
+                "password": password
+            ]
+            tokenEndpoint.parameters = parameters
+            let token = try await load(endpoint: tokenEndpoint, of: TokenDTO.self)
+            save(this: token)
+        } catch let error {
+            Log.thisError(error)
+            guard let errorWithData = error as? NetworkError else { throw AuthError.badRequest }
+            switch errorWithData {
+            case .errorData(let data):
+                throw AuthError.errorData(data)
+            default:
+                throw AuthError.badRequest
+            }
+        }
+    }
 }

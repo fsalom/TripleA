@@ -55,8 +55,8 @@ class OAuthController: UIViewController {
     @IBAction func loginPressed(_ sender: Any) {
         Task {
             do {
-                let accessToken: String = try await viewModel.login()
-                self.infoLabel.text = "User logged with access token: \(accessToken)"
+                try await viewModel.login()
+                self.infoLabel.text = "User logged correctly"
                 setLoginButton(with: .logged)
             } catch {
                 self.infoLabel.text = "Error executing login"
