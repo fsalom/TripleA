@@ -36,6 +36,7 @@
 		C15CBD0F28BCFD390043FAC3 /* CharacterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15CBD0D28BCFD390043FAC3 /* CharacterCell.xib */; };
 		C15CBD1128BCFD810043FAC3 /* CharacterDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15CBD1028BCFD800043FAC3 /* CharacterDTO.swift */; };
 		C18B719E28ABA98F00560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719D28ABA98F00560703 /* TripleA */; };
+		C1A2552B28BE334800922597 /* UserDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A2552A28BE334800922597 /* UserDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		C15CBD0C28BCFD390043FAC3 /* CharacterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
 		C15CBD0D28BCFD390043FAC3 /* CharacterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CharacterCell.xib; sourceTree = "<group>"; };
 		C15CBD1028BCFD800043FAC3 /* CharacterDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDTO.swift; sourceTree = "<group>"; };
+		C1A2552A28BE334800922597 /* UserDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDTO.swift; sourceTree = "<group>"; };
 		C1DED19028AD04D6005C68F3 /* TripleA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = TripleA; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 				C15CBCAB28BB54F70043FAC3 /* ListDTO.swift */,
 				C15CBCAD28BB550A0043FAC3 /* CryptoDTO.swift */,
 				C15CBD1028BCFD800043FAC3 /* CharacterDTO.swift */,
+				C1A2552A28BE334800922597 /* UserDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				C11DEB5E28AAC4DC00CA1168 /* AppDelegate.swift in Sources */,
 				C15CBCFF28BCD6030043FAC3 /* OAuthAPI.swift in Sources */,
 				C11DEB6028AAC4DC00CA1168 /* SceneDelegate.swift in Sources */,
+				C1A2552B28BE334800922597 /* UserDTO.swift in Sources */,
 				C15CBD0E28BCFD390043FAC3 /* CharacterCell.swift in Sources */,
 				C15CBCF828BCD4340043FAC3 /* OAuthViewModel.swift in Sources */,
 				C15CBCAC28BB54F70043FAC3 /* ListDTO.swift in Sources */,
