@@ -105,8 +105,10 @@ public final class Network {
             Persistence.clear()
             DispatchQueue.main.async {
                 Task{
-                    UIApplication.shared.windows.first?.rootViewController = await authManager.getLoginViewController()
-                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                    guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                    guard let window = scene.windows.first else { return }
+                    window.rootViewController = await authManager.getLoginViewController()
+                    window.makeKeyAndVisible()
                 }
             }
         }
