@@ -102,15 +102,7 @@ public final class Network {
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }catch let error{
             Log.thisError(error)
-            Persistence.clear()
-            DispatchQueue.main.async {
-                Task{
-                    guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-                    guard let window = scene.windows.first else { return }
-                    window.rootViewController = await authManager.getLoginViewController()
-                    window.makeKeyAndVisible()
-                }
-            }
+            await authManager.logout()
         }
         return requestWithHeader
     }

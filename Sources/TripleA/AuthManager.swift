@@ -65,6 +65,11 @@ public final actor AuthManager {
     }
     
     // MARK: - refreshToken - create a task and call refreshToken if needed
+    /**
+    Refresh token when is needed or logout
+    - Returns: new refresh_token  `String`
+    - Throws: An error of type `AuthError`
+    */
     func refreshToken() async throws -> String {
         if let refreshTask = refreshTask {
             return try await refreshTask.value
@@ -81,27 +86,23 @@ public final actor AuthManager {
     }
     
     // MARK: - save - save token data
+    /**
+    Save
+    - Returns: new refresh_token  `String`
+    - Throws: An error of type `AuthError`
+    */
     func save(this token: TokenDTO) {
         Persistence.set(Persistence.Key.access_token, token.accessToken)
         Persistence.set(Persistence.Key.refresh_token, token.refreshToken)
         Persistence.set(Persistence.Key.expires_in, token.expiresIn)
     }
-    // MARK: - save - save token data
-    func getLoginViewController() async -> UIViewController? {
-        return loginViewController
-    }
-
-    // MARK: - return client ID
-    func getClientId() async -> String {
-        return self.clientId
-    }
-
-    // MARK: - return client Secret
-    func getClientSecret() async -> String {
-        return self.clientSecret
-    }
 
     // MARK: - refresh - call API for refreshToken
+    /**
+    Refresh token when is needed or logout
+    - Returns: new refresh_token  `String`
+    - Throws: An error of type `AuthError`
+    */
     func refresh(with refreshToken: String) async throws -> String {
         guard var refreshTokenEndpoint = refreshTokenEndpoint else {
             fatalError("ERROR: refresh token missing")
@@ -168,6 +169,22 @@ public final actor AuthManager {
                 throw AuthError.errorData(data)
             default:
                 throw AuthError.badRequest
+            }
+        }
+    }
+
+    // MARK: - logout
+    /**
+    Remove data and go to start view controller
+    */
+    public func logout() async {
+        Persistence.clear()
+        DispatchQueue.main.async {
+            Task{
+                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                guard let window = scene.windows.first else { return }
+                window.rootViewController = await self.loginViewController
+                window.makeKeyAndVisible()
             }
         }
     }
