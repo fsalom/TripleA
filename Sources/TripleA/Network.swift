@@ -123,23 +123,6 @@ public final class Network {
         return newRequest
     }
 
-    // MARK: - getToken
-    /**
-    Define login endpoint that will provide access_token / refresh_token
-
-     - Parameters:
-        - endpoint: `Endpoint` with call information
-     - Returns: access_tolen of type  `String`
-     - Throws: An error of type `AuthError`
-    */
-    public func getToken(for endpoint: Endpoint, username: String, password: String) async throws {
-        do {
-            try await authManager?.getCurrentToken()
-        } catch {
-            throw AuthError.badRequest
-        }
-    }
-
     // MARK: - isLogged
     /**
     Indicates if user is logged or not

@@ -20,7 +20,7 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
             return accessToken.value
         }
         do {
-            let token = try await load(endpoint: tokensEndpoint, of: TokenDTO.self)
+            let token = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
             storage.save(this: token, for: .accessToken)
             return token.accessToken
         } catch {
@@ -31,12 +31,9 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
     public func getRefreshToken(with refreshToken: String) async throws -> String {
         do {
             refreshTokenEndpoint.parameters["refresh_token"] = refreshToken
-            let token = try await load(endpoint: refreshTokenEndpoint, of: TokenDTO.self)
-            let accessToken = Token(value: token.accessToken, expireDate: parseDate(from: token.expiresIn))
-            storage.save(this: accessToken, for: .accessToken)
-            let refreshToken = Token(value: token.refreshToken, expireDate: parseDate(from: token.refreshExpiresIn))
-            storage.save(this: refreshToken, for: .refreshToken)
-            return token.accessToken
+            let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)
+            storage.save(this: tokens, for: .refreshToken)
+            return tokens.accessToken
         } catch {
             throw AuthError.badRequest
         }
@@ -68,12 +65,5 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         let decoder = JSONDecoder()
         let parseData = try decoder.decode(T.self, from: data)
         return parseData
-    }
-
-    func parseDate(from value: Int?) -> Date? {
-        guard let value = value else {
-            return nil
-        }
-        return Date().addingTimeInterval(Double(value))
     }
 }
