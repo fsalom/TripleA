@@ -38,7 +38,7 @@ public final class Network {
         }
         if response.statusCode == 401{
             if allowRetry {
-                _ = try await authManager.refreshToken()
+                _ = try await authManager.getRefreshToken()
                 return try await loadAuthorized(endpoint: endpoint, of: type, allowRetry: false)
             }
         }
@@ -98,7 +98,7 @@ public final class Network {
         }
         var requestWithHeader = request
         do{
-            let token = try await authManager.validToken()
+            let token = try await authManager.getCurrentToken()
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }catch let error{
             Log.thisError(error)
@@ -121,23 +121,6 @@ public final class Network {
             newRequest.addValue(value, forHTTPHeaderField: key)
         }
         return newRequest
-    }
-
-    // MARK: - getToken
-    /**
-    Define login endpoint that will provide access_token / refresh_token
-
-     - Parameters:
-        - endpoint: `Endpoint` with call information
-     - Returns: access_tolen of type  `String`
-     - Throws: An error of type `AuthError`
-    */
-    public func getToken(for endpoint: Endpoint, username: String, password: String) async throws {
-        do {
-            try await authManager?.getToken(for: endpoint, username: username, password: password)
-        } catch {
-            throw AuthError.badRequest
-        }
     }
 
     // MARK: - isLogged

@@ -10,58 +10,26 @@ import Foundation
 import UIKit
 
 public final actor AuthManager {
-    private var clientId = ""
-    private var clientSecret = ""
+    private var storage: StorageProtocol
+    private var remoteDataSource: RemoteDataSourceProtocol
+    private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
-    private var refreshTokenEndpoint: Endpoint?
-    private var loginViewController: UIViewController?
 
-    public init(clientId: String,
-                clientSecret: String,
-                refreshTokenEndpoint: Endpoint? = nil,
-                loginViewController: UIViewController? = nil) {
-        self.clientId = clientId
-        self.clientSecret = clientSecret
-
-        if let refreshTokenEndpoint = refreshTokenEndpoint {
-            self.refreshTokenEndpoint = refreshTokenEndpoint
-            if let loginViewController = loginViewController {
-                self.loginViewController = loginViewController
-            } else {
-                fatalError("ERROR: If refreshTokenEndpoint is set there must be a LoginViewController")
-            }
-        }
+    public init(storage: StorageProtocol, remoteDataSource: RemoteDataSourceProtocol, parameters: [String: Any] = [:]) {
+        self.storage = storage
+        self.parameters = parameters
+        self.remoteDataSource = remoteDataSource
     }
-    
-    // MARK: - getAccesToken - return accessToken or error
-    func getAccesToken() async throws -> String? {
-        guard let accessToken = Persistence.get(stringFor: .access_token) else {
+
+    // MARK: - validToken - check if token is valid or refresh token otherwise
+    func getCurrentToken() async throws -> String {
+        guard let accessToken = storage.read(this: .accessToken) else {
             throw AuthError.missingToken
         }
-        return accessToken
-    }
-    
-    // MARK: - isValid - return if access token is still valid or thrwo an error
-    func isValid() async throws -> Bool {
-        guard let expires = Calendar.current.date(byAdding: .second, value: Persistence.get(intFor: .expires_in), to: Date()) else {
-            throw AuthError.missingExpiresIn
+        if accessToken.isValid {
+            return accessToken.value
         }
-        return expires > Date() ? true : false
-    }
-    
-    // MARK: - validToken - check if token is valid or refresh token otherwise
-    func validToken() async throws -> String {
-        if let handle = refreshTask {
-            return try await handle.value
-        }
-        let isValid = try await isValid()
-        if isValid {
-            guard let accessToken = try await getAccesToken() else {
-                throw AuthError.missingToken
-            }
-            return accessToken
-        }
-        return try await refreshToken()
+        return try await getRefreshToken()
     }
     
     // MARK: - refreshToken - create a task and call refreshToken if needed
@@ -70,107 +38,23 @@ public final actor AuthManager {
     - Returns: new refresh_token  `String`
     - Throws: An error of type `AuthError`
     */
-    func refreshToken() async throws -> String {
+    func getRefreshToken() async throws -> String {
         if let refreshTask = refreshTask {
             return try await refreshTask.value
         }
         let task = Task { () throws -> String in
             defer { refreshTask = nil }
-            guard let refreshToken = Persistence.get(stringFor: .refresh_token) else {
+            guard let refreshToken = storage.read(this: .refreshToken)?.value else {
                 throw AuthError.tokenNotFound
             }
-            return try await refresh(with: refreshToken)
-        }
-        self.refreshTask = task
-        return try await task.value
-    }
-    
-    // MARK: - save - save token data
-    /**
-    Save
-    - Returns: new refresh_token  `String`
-    - Throws: An error of type `AuthError`
-    */
-    func save(this token: TokenDTO) {
-        Persistence.set(Persistence.Key.access_token, token.accessToken)
-        Persistence.set(Persistence.Key.refresh_token, token.refreshToken)
-        Persistence.set(Persistence.Key.expires_in, token.expiresIn)
-    }
-
-    // MARK: - refresh - call API for refreshToken
-    /**
-    Refresh token when is needed or logout
-    - Returns: new refresh_token  `String`
-    - Throws: An error of type `AuthError`
-    */
-    func refresh(with refreshToken: String) async throws -> String {
-        guard var refreshTokenEndpoint = refreshTokenEndpoint else {
-            fatalError("ERROR: refresh token missing")
-        }
-        do {
-            let parameters: [String: Any] = [
-                "grant_type": "refresh_token",
-                "client_id": self.clientId,
-                "client_secret": self.clientSecret,
-                "refresh_token": refreshToken
-            ]
-            refreshTokenEndpoint.parameters = parameters
-            let token = try await load(endpoint: refreshTokenEndpoint, of: TokenDTO.self)
-            save(this: token)
-            return token.accessToken
-        } catch let error {
-            Log.thisError(error)
-            Persistence.clear()
-            throw AuthError.badRequest
-        }
-    }
-
-    private func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
-        Log.thisCall(endpoint.request)
-        let (data, urlResponse) = try await URLSession.shared.data(for: endpoint.request)
-        guard let response = urlResponse as? HTTPURLResponse else{
-            throw NetworkError.invalidResponse
-        }
-        Log.thisResponse(response, data: data)
-        let decoder = JSONDecoder()
-        let parseData = try decoder.decode(T.self, from: data)
-        return parseData
-    }
-
-    // MARK: - getToken
-    /**
-    Define login endpoint that will provide access_token / refresh_token
-
-     - Parameters:
-        - endpoint: `Endpoint` with call information
-        - username: user name
-        - password: user password
-     - Returns: access_tolen of type  `String`
-     - Throws: An error of type `AuthError`
-    */
-    public func getToken(for endpoint: Endpoint, username: String, password: String) async throws {
-        var tokenEndpoint = endpoint
-        do {
-            let parameters: [String: Any] = [
-                "grant_type": "password",
-                "client_id": self.clientId,
-                "client_secret": self.clientSecret,
-                "username": username,
-                "password": password
-            ]
-            tokenEndpoint.parameters = parameters
-            let token = try await load(endpoint: tokenEndpoint, of: TokenDTO.self)
-            save(this: token)
-        } catch let error {
-            Log.thisError(error)
-            guard let errorWithData = error as? NetworkError else { throw AuthError.badRequest }
-            switch errorWithData {
-            case .errorData(let data):
-                throw AuthError.errorData(data)
-            default:
+            do {
+                return try await remoteDataSource.getRefreshToken(with: refreshToken)
+            } catch {
                 throw AuthError.badRequest
             }
         }
+        self.refreshTask = task
+        return try await task.value
     }
 
     // MARK: - logout
@@ -178,14 +62,21 @@ public final actor AuthManager {
     Remove data and go to start view controller
     */
     public func logout() async {
-        Persistence.clear()
-        DispatchQueue.main.async {
-            Task{
-                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-                guard let window = scene.windows.first else { return }
-                window.rootViewController = await self.loginViewController
-                window.makeKeyAndVisible()
-            }
+        await remoteDataSource.logout()
+    }
+
+    // MARK: - authorize request
+    /**
+    go to  login
+    */
+    public func authorizeRequest(_ request: URLRequest) async throws -> URLRequest {
+        do {
+            let token = try await getCurrentToken()
+            var resultRequest = request
+            resultRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            return resultRequest
+        } catch {
+            throw AuthError.missingToken
         }
     }
 }
