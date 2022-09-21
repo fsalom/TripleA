@@ -5,6 +5,8 @@ public final class OAuthGrantTypePasswordManager {
     private var startController: UIViewController?
     private var refreshTokenEndpoint: Endpoint
     private var tokensEndpoint: Endpoint
+    public var username: String = ""
+    public var password: String = ""
 
     public init(storage: StorageProtocol, startController: UIViewController, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
         self.storage = storage
@@ -14,6 +16,7 @@ public final class OAuthGrantTypePasswordManager {
     }
 }
 
+//MARK: - PROTOCOL
 extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
     public func getAccessToken() async throws -> String {
         if let accessToken = storage.read(this: .accessToken) {
@@ -43,11 +46,15 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         storage.removeAll()
         startLogin()
     }
+}
 
-    // MARK: - startLogin
-    /**
-    go to  login
-    */
+//MARK: - ADDITIONAL INFORMATION
+extension OAuthGrantTypePasswordManager{
+    public func login(username: String, password: String){
+        tokensEndpoint.parameters["username"] = username
+        tokensEndpoint.parameters["password"] = password
+    }
+
     public func startLogin() {
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
         guard let window = scene.windows.first else { return }
