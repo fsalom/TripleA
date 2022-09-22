@@ -8,18 +8,11 @@ enum LoginState {
 }
 
 final class OAuthViewModel {
-    let router: OAuthRouter    
-    let network: Network
+    let router: OAuthRouter
     var currentState: LoginState = .none
     
     init(router: OAuthRouter) {
-        self.router = router
-        let parametersLogin = ["": ""]
-        let parametersRefresh = ["": ""]
-        let storage = AuthTokenStoreDefault()
-        let remoteDataSource = OAuthGrantTypePasswordManager(storage: storage, startController: OAuthController(), refreshTokenEndpoint: OAuthAPI.login(parametersLogin).endpoint, tokensEndPoint: OAuthAPI.refresh(parametersRefresh).endpoint)
-        let authManager = AuthManager(storage: storage, remoteDataSource: remoteDataSource, parameters: [:])
-        self.network = Network(baseURL: "https://dashboard.rudo.es/", authManager: authManager)
+        self.router = router        
     }
 
     func login() async throws {
@@ -32,7 +25,7 @@ final class OAuthViewModel {
 
     func getInfo() async throws -> UserDTO {
         do {
-            return try await network.loadAuthorized(endpoint: OAuthAPI.me.endpoint, of: UserDTO.self)
+            return try await Container.network.loadAuthorized(endpoint: OAuthAPI.me.endpoint, of: UserDTO.self)
         } catch let error {
             throw error
         }

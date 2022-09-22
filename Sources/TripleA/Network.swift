@@ -3,7 +3,7 @@ import UIKit
 
 public final class Network {
     let baseURL: String
-    let authManager: AuthManager?
+    public let authManager: AuthManager?
     var headers: [String: String] = [:]
 
     public init(baseURL: String, authManager: AuthManager? = nil, headers: [String: String] = [:]) {

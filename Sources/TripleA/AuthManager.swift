@@ -11,7 +11,7 @@ import UIKit
 
 public final actor AuthManager {
     private var storage: StorageProtocol
-    private var remoteDataSource: RemoteDataSourceProtocol
+    public var remoteDataSource: RemoteDataSourceProtocol
     private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
 
@@ -23,13 +23,15 @@ public final actor AuthManager {
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
     func getCurrentToken() async throws -> String {
-        guard let accessToken = storage.read(this: .accessToken) else {
-            throw AuthError.missingToken
+        if let accessToken = storage.read(this: .accessToken) {
+            if accessToken.isValid {
+                return accessToken.value
+            } else if let refreshToken = storage.read(this: .refreshToken), refreshToken.isValid {
+                return try await getRefreshToken()
+            }
         }
-        if accessToken.isValid {
-            return accessToken.value
-        }
-        return try await getRefreshToken()
+        remoteDataSource.showLogin()
+        throw AuthError.missingToken
     }
     
     // MARK: - refreshToken - create a task and call refreshToken if needed
@@ -63,6 +65,7 @@ public final actor AuthManager {
     */
     public func logout() async {
         await remoteDataSource.logout()
+        
     }
 
     // MARK: - authorize request

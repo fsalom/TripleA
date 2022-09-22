@@ -4,7 +4,7 @@ public struct TokensDTO: Codable {
     let accessToken: String
     let refreshToken: String
     let expiresIn: Int
-    let refreshExpiresIn: Int
+    let refreshExpiresIn: Int?
     
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"

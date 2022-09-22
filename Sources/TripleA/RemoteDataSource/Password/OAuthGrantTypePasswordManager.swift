@@ -3,8 +3,8 @@ import UIKit
 public final class OAuthGrantTypePasswordManager {
     private let storage: StorageProtocol!
     private var startController: UIViewController?
-    private var refreshTokenEndpoint: Endpoint
-    private var tokensEndpoint: Endpoint
+    public var refreshTokenEndpoint: Endpoint
+    public var tokensEndpoint: Endpoint
 
     public init(storage: StorageProtocol, startController: UIViewController, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
         self.storage = storage
@@ -15,11 +15,15 @@ public final class OAuthGrantTypePasswordManager {
 }
 
 extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
-    public func getAccessToken() async throws -> String {
+    public func getAccessToken(with parameters: [String : Any]) async throws -> String {
         if let accessToken = storage.read(this: .accessToken) {
             return accessToken.value
         }
         do {
+            parameters.forEach { (key: String, value: Any) in
+                tokensEndpoint.parameters[key] = value
+            }
+
             let token = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
             storage.save(this: token, for: .accessToken)
             return token.accessToken
@@ -40,19 +44,14 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
     }
 
     public func logout() async {
-        storage.removeAll()
-        startLogin()
+        storage.removeAll()        
     }
 
-    // MARK: - startLogin
-    /**
-    go to  login
-    */
-    public func startLogin() {
+    public func showLogin() {
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
         guard let window = scene.windows.first else { return }
-        window.rootViewController = self.startController
-        window.makeKeyAndVisible()
+        window.rootViewController = startController
+        window.makeKeyAndVisible()        
     }
 
     func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {

@@ -26,7 +26,7 @@ class OAuthController: UIViewController {
         viewModel.currentState = state
         switch state {
         case .none:
-            loginButton.setTitle("Login", for: .normal)
+            loginButton.setTitle("Logout", for: .normal)
             loginButton.backgroundColor = UIColor.lightGray
         case .logged:
             loginButton.setTitle("Logged In", for: .normal)
@@ -55,7 +55,7 @@ class OAuthController: UIViewController {
     @IBAction func loginPressed(_ sender: Any) {
         Task {
             do {
-                try await viewModel.login()
+                try await Container.authManager.logout()
                 self.infoLabel.text = "User logged correctly"
                 setLoginButton(with: .logged)
             } catch {
