@@ -36,7 +36,7 @@ public final actor AuthManager {
             if accessToken.isValid {
                 return accessToken.value
             } else if let refreshToken = storage.read(this: .refreshToken), refreshToken.isValid {
-                return try await getRefreshToken()
+                return try await renewToken()
             }
         }
         DispatchQueue.main.async {
@@ -62,7 +62,7 @@ public final actor AuthManager {
      - Returns: new refresh_token  `String`
      - Throws: An error of type `AuthError`
      */
-    func getRefreshToken() async throws -> String {
+    func renewToken() async throws -> String {
         if let refreshTask = refreshTask {
             return try await refreshTask.value
         }

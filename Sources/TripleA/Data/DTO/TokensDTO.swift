@@ -14,10 +14,12 @@ public struct TokensDTO: Codable {
     }
 
     func toBOAccessToken() -> Token {
+        print("✅ access token: \(self.accessToken)")
         return Token(value: self.accessToken, expireInt: self.expiresIn)
     }
 
     func toBORefreshToken() -> Token {
+        print("✅ access token: \(self.refreshToken)")
         return Token(value: self.refreshToken, expireInt: self.refreshExpiresIn)
     }
 }

@@ -37,7 +37,7 @@ public class Network {
         }
         if response.statusCode == 401{
             if allowRetry {
-                _ = try await authManager.getRefreshToken()
+                _ = try await authManager.renewToken()
                 return try await loadAuthorized(endpoint: endpoint, of: type, allowRetry: false)
             }
         }
@@ -144,6 +144,17 @@ public class Network {
             throw error
         }
 
+    }
+
+    public func renewToken() async throws {
+        guard let authManager = authManager else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
+        }
+        do {
+            _ = try await authManager.renewToken()
+        } catch {
+            throw error
+        }
     }
 
     public func logout() async throws {

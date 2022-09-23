@@ -4,6 +4,7 @@ class OAuthController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var refreshButton: UIButton!
 
     var viewModel: OAuthViewModel!
 
@@ -18,8 +19,10 @@ class OAuthController: UIViewController {
     func setupUI() {
         loginButton.setTitleColor(.black, for: .normal)
         infoButton.setTitleColor(.black, for: .normal)
+        refreshButton.setTitleColor(.black, for: .normal)
         setLoginButton(with: .none)
         setInfoButton(with: .none)
+        setRefreshButton(with: .none)
     }
 
     func setLoginButton(with state: LoginState) {
@@ -52,6 +55,21 @@ class OAuthController: UIViewController {
         }
     }
 
+    func setRefreshButton(with state: LoginState) {
+        viewModel.currentState = state
+        switch state {
+        case .none:
+            refreshButton.setTitle("Refresh Token", for: .normal)
+            refreshButton.backgroundColor = UIColor.lightGray
+        case .logged:
+            refreshButton.setTitle("OK Refresh", for: .normal)
+            refreshButton.backgroundColor = UIColor.green
+        case .error:
+            refreshButton.setTitle("Error", for: .normal)
+            refreshButton.backgroundColor = UIColor.red
+        }
+    }
+
     @IBAction func loginPressed(_ sender: Any) {
         Task {
             do {
@@ -60,6 +78,19 @@ class OAuthController: UIViewController {
                 setLoginButton(with: .logged)
             } catch {
                 self.infoLabel.text = "Error executing logout"
+                setLoginButton(with: .error)
+            }
+        }
+    }
+
+    @IBAction func refreshPressed(_ sender: Any) {
+        Task {
+            do {
+                try await Container.network.renewToken()
+                self.infoLabel.text = "Token renewed"
+                setLoginButton(with: .logged)
+            } catch {
+                self.infoLabel.text = "Error executing refresh token"
                 setLoginButton(with: .error)
             }
         }

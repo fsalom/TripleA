@@ -24,9 +24,10 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
                 tokensEndpoint.parameters[key] = value
             }
 
-            let token = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
-            storage.save(this: token, for: .accessToken)
-            return token.accessToken
+            let tokens = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
+            storage.save(this: tokens, for: .accessToken)
+            storage.save(this: tokens, for: .refreshToken)
+            return tokens.accessToken
         } catch {
             throw AuthError.badRequest
         }
@@ -36,6 +37,7 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         do {
             refreshTokenEndpoint.parameters["refresh_token"] = refreshToken
             let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)
+            storage.save(this: tokens, for: .accessToken)
             storage.save(this: tokens, for: .refreshToken)
             return tokens.accessToken
         } catch {
