@@ -10,12 +10,12 @@ class Container {
     static let parametersRefresh = ["": ""]
     static let remoteDataSource = OAuthGrantTypePasswordManager(storage: Container.storage,
                                                                 startController: getLoginController(),
-                                                                refreshTokenEndpoint: OAuthAPI.login(parametersLogin).endpoint,
-                                                                tokensEndPoint: OAuthAPI.refresh(parametersRefresh).endpoint)
-    static let authManager = AuthManager(storage: Container.storage,
+                                                                refreshTokenEndpoint: OAuthAPI.refresh(parametersRefresh).endpoint,
+                                                                tokensEndPoint: OAuthAPI.login(parametersLogin).endpoint)
+    let authManager = AuthManager(storage: Container.storage,
                                   remoteDataSource: Container.remoteDataSource,
                                   parameters: [:])
-    static let network = Network(baseURL: "https://dashboard.rudo.es/", authManager: Container.authManager)
+    static let network = Network(baseURL: "https://dashboard.rudo.es/", authManager: Container.shared.authManager)
     
     init() { }
 }

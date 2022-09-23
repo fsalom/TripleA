@@ -31,7 +31,7 @@ class LoginController: UIViewController {
                                   "password": "12345678A",
                                   "client_id": "1gzyJeSOyjUOmbSHREbsothngkBMato1VypQz35D",
                                   "client_secret": "ynM8CpvlDHivO1jma1Q3Jv1RIJraBbJ9EtK5XI3dw4RpkxDgi9cZnmJlQs0XzuVCGWCNwQd8qJKAHFrLdHlRRDIzx8B08HJ0Htu6XFzP4kTRTWYIPHuCpldjouJhKvoA"]
-                try await Container.authManager.getNewToken(with: parameters)
+                try await Container.network.getNewToken(with: parameters)
                 Container.shared.window?.rootViewController = Container.getTabbar()
                 Container.shared.window?.makeKeyAndVisible()
             } catch let error {

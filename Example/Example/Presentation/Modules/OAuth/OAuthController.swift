@@ -55,7 +55,7 @@ class OAuthController: UIViewController {
     @IBAction func loginPressed(_ sender: Any) {
         Task {
             do {
-                try await Container.authManager.logout()
+                try await Container.network.logout()
                 self.infoLabel.text = "User logged correctly"
                 setLoginButton(with: .logged)
             } catch {

@@ -29,7 +29,7 @@ public class Network {
         }
         var request = try await authorizedRequest(from: endpoint.request)
         request = completeInformation(for: request)
-        request = addBaseURL(this: request)
+        request = addBaseURL(this: endpoint)
         Log.thisCall(request)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
@@ -65,9 +65,9 @@ public class Network {
      - Throws: An error of type `CustomError`  with extra info
     */
     public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
-        Log.thisCall(endpoint.request)
         var request = completeInformation(for: endpoint.request)
-        request = addBaseURL(this: request)
+        request = addBaseURL(this: endpoint)
+        Log.thisCall(endpoint.request)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw CustomError(type: NetworkError.invalidResponse, data: data)
@@ -125,16 +125,32 @@ public class Network {
     }
 
     // MARK: - get URL with BASE_URL
-    func addBaseURL(this request: URLRequest) -> URLRequest{
-        var newRequest = request
-        guard let urlEndpoint = request.url else {
-            fatalError("Not a balid url for this endpoint")
+    func addBaseURL(this endpoint: Endpoint) -> URLRequest{
+        if endpoint.baseURL.isEmpty {
+            var newEndpoint = endpoint
+            newEndpoint.baseURL = baseURL
+            return newEndpoint.request
         }
-        guard let url = URL(string: baseURL)?.appendingPathComponent(urlEndpoint.absoluteString) else {
-            Log.this(urlEndpoint.absoluteString, type: .error)
-            fatalError()
+        return endpoint.request
+    }
+
+    public func getNewToken(with parameters: [String: Any]) async throws {
+        guard let authManager = authManager else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
         }
-        newRequest.url = url
-        return newRequest
+        do {
+            try await authManager.getNewToken(with: parameters)
+        } catch let error {
+            throw error
+        }
+
+    }
+
+    public func logout() async throws {
+        guard let authManager = authManager else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
+        }
+        await authManager.logout()
+
     }
 }
