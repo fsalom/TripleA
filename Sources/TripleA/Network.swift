@@ -1,16 +1,15 @@
 import Foundation
 import UIKit
 
-public final class Network {
-    let baseURL: String
+public class Network {
+    var baseURL: String = ""
     public let authManager: AuthManager?
-    var headers: [String: String] = [:]
+    var additionalHeaders: [String: String] = [:]
 
     public init(baseURL: String, authManager: AuthManager? = nil, headers: [String: String] = [:]) {
         self.authManager = authManager
-        self.headers = headers
+        self.additionalHeaders = headers
         self.baseURL = baseURL
-        Persistence.set(.baseURL, baseURL)
     }
 
     // MARK: -  loadAuthorized
@@ -28,9 +27,9 @@ public final class Network {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
-
         var request = try await authorizedRequest(from: endpoint.request)
-        request = setHeaders(for: request)
+        request = completeInformation(for: request)
+        request = addBaseURL(this: request)
         Log.thisCall(request)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
@@ -67,7 +66,8 @@ public final class Network {
     */
     public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
-        let request = setHeaders(for: endpoint.request)
+        var request = completeInformation(for: endpoint.request)
+        request = addBaseURL(this: request)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw CustomError(type: NetworkError.invalidResponse, data: data)
@@ -115,21 +115,26 @@ public final class Network {
         - request: URLRequest with information
      - Returns: object of type  `URLRequest` with additional headers
     */
-    private func setHeaders(for request: URLRequest) -> URLRequest {
+    private func completeInformation(for request: URLRequest) -> URLRequest {
+        
         var newRequest = request
-        self.headers.forEach { key, value in
+        self.additionalHeaders.forEach { key, value in
             newRequest.addValue(value, forHTTPHeaderField: key)
         }
         return newRequest
     }
 
-    // MARK: - isLogged
-    /**
-    Indicates if user is logged or not
-
-     - Returns: user logged of type  `Bool`
-    */
-    public func isLogged() -> Bool{
-        return Persistence.get(stringFor: .access_token) != nil ? true : false
+    // MARK: - get URL with BASE_URL
+    func addBaseURL(this request: URLRequest) -> URLRequest{
+        var newRequest = request
+        guard let urlEndpoint = request.url else {
+            fatalError("Not a balid url for this endpoint")
+        }
+        guard let url = URL(string: baseURL)?.appendingPathComponent(urlEndpoint.absoluteString) else {
+            Log.this(urlEndpoint.absoluteString, type: .error)
+            fatalError()
+        }
+        newRequest.url = url
+        return newRequest
     }
 }

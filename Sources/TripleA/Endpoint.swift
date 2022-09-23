@@ -2,7 +2,6 @@ import Foundation
 import UIKit
 
 public struct Endpoint{
-    
     public enum HTTPMethod{
         case get
         case post
@@ -40,8 +39,8 @@ public struct Endpoint{
     var videos: [String: String]
     var request: URLRequest {
         get {
-            let url = getURL(path: self.path)
-            var request = URLRequest(url: url)
+            guard let url = URL(string: path) else { fatalError("Not a valid URL") }
+            var request = URLRequest(url:  url)
             headers.forEach { key, value in
                 request.addValue(value, forHTTPHeaderField: key)
             }
@@ -67,12 +66,12 @@ public struct Endpoint{
     }
     
     public init(path: String,
-         httpMethod: HTTPMethod,
-         parameters: [String: Any] = [:],
-         headers: [String: String] = [:],
-         encoding: Encoding = .json,
-         images: [String: UIImage] = [:],
-         videos: [String: String] = [:]){
+                httpMethod: HTTPMethod,
+                parameters: [String: Any] = [:],
+                headers: [String: String] = [:],
+                encoding: Encoding = .json,
+                images: [String: UIImage] = [:],
+                videos: [String: String] = [:]){
         self.path = path
         self.httpMethod = httpMethod
         self.parameters = parameters
@@ -80,19 +79,6 @@ public struct Endpoint{
         self.images = images
         self.encoding = encoding
         self.headers = headers
-    }
-    
-    // MARK: - get URL with BASE_URL
-    func getURL(path: String) -> URL{
-        guard let baseURL = Persistence.get(stringFor: .baseURL) else {
-            Log.this("No se ha configurado el BASEURL de AuthManager", type: .error)
-            fatalError()
-        }
-        guard let url = URL(string: baseURL)?.appendingPathComponent(path) else {
-            Log.this(path, type: .error)
-            fatalError()
-        }
-        return url
     }
     
     // MARK: - set Encoding depending on all variables

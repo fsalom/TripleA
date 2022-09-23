@@ -18,14 +18,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         Container.shared.window = window
-        if Container.network.isLogged() {
-            Container.shared.window?.rootViewController = Container.getTabbar()
-            Container.shared.window?.makeKeyAndVisible()
-        }else{
-            Container.shared.window?.rootViewController = Container.getLoginController()
-            Container.shared.window?.makeKeyAndVisible()
+        Task {
+            if await Container.network.authManager?.isLogged ?? false {
+                Container.shared.window?.rootViewController = Container.getTabbar()
+                Container.shared.window?.makeKeyAndVisible()
+            }else{
+                Container.shared.window?.rootViewController = Container.getLoginController()
+                Container.shared.window?.makeKeyAndVisible()
+            }
         }
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
