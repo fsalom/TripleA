@@ -56,10 +56,10 @@ class OAuthController: UIViewController {
         Task {
             do {
                 try await Container.network.logout()
-                self.infoLabel.text = "User logged correctly"
+                self.infoLabel.text = "User logged out correctly"
                 setLoginButton(with: .logged)
             } catch {
-                self.infoLabel.text = "Error executing login"
+                self.infoLabel.text = "Error executing logout"
                 setLoginButton(with: .error)
             }
         }
