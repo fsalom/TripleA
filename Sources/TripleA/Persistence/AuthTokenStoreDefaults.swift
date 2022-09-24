@@ -19,8 +19,10 @@ extension AuthTokenStoreDefault: StorageProtocol {
         guard let object = try? JSONDecoder().decode(TokensDTO.self, from: savedData) else { return nil }
         switch key {
         case .accessToken:
+            print("READ: this key: \(key.rawValue). > \(object.toBOAccessToken())")
             return object.toBOAccessToken()
         case .refreshToken:
+            print("READ: this key: \(key.rawValue). > \(object.toBORefreshToken())")
             return object.toBORefreshToken()
         }
     }
