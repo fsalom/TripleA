@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Token {
+public struct Token: Codable {
     public let value: String
     public var expireDate: Date?
     public let expireInt: Int?

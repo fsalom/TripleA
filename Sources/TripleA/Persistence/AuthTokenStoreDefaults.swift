@@ -1,42 +1,110 @@
 import UIKit
 
-public protocol AuthTokenStoreProtocol {
-    var accessToken: Token? { get set }
-    var refreshToken: Token? { get set }
-    var idToken: Token? { get set }
-    var uniqueName: String? { get set }
-    func clear()
-}
-
 public class AuthTokenStoreDefault {
     private let userDefaults = UserDefaults.standard
     public init() { }
 }
 
 extension AuthTokenStoreDefault: StorageProtocol {
-    public func read(this key: StorageKey) -> Token? {
-        guard let savedData = userDefaults.object(forKey: key.rawValue) as? Data  else { return nil }
-        guard let object = try? JSONDecoder().decode(TokensDTO.self, from: savedData) else { return nil }
-        switch key {
-        case .accessToken:
-            print("READ: this key: \(key.rawValue). > \(object.toBOAccessToken())")
-            return object.toBOAccessToken()
-        case .refreshToken:
-            print("READ: this key: \(key.rawValue). > \(object.toBORefreshToken())")
-            return object.toBORefreshToken()
+    public var accessToken: Token? {
+        get {
+            let accessTokenKey = StorageKey.accessToken.rawValue
+            guard let savedData = UserDefaults.standard.object(forKey: accessTokenKey) as? Data  else {
+                Log.this("Fetching - \(accessTokenKey)) > NOT FOUND")
+                return nil
+            }
+            guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
+            Log.this("Fetching - \(accessTokenKey): \(String(describing: object.value))")
+            return object
+        }
+        set {
+            let accessTokenKey = StorageKey.accessToken.rawValue
+            guard let newValue = newValue else {
+                Log.this("Removing - \(accessTokenKey): \(String(describing: newValue))")
+                userDefaults.removeObject(forKey: StorageKey.accessToken.rawValue)
+                return
+            }
+            Log.this("Saving - \(accessTokenKey): \(newValue)")
+            guard let encodedData = try? JSONEncoder().encode(newValue) else {
+                Log.this("🤬 Error saving - \(accessTokenKey)) > JSON ENCODER ERROR")
+                return
+            }
+            userDefaults.set(encodedData, forKey: accessTokenKey)
         }
     }
 
-    public func save(this token: TokensDTO, for key: StorageKey) {
-        guard let encodedData = try? JSONEncoder().encode(token) else {
-            print("🤬 ERROR: Persistence.save(objectFor: \(key.rawValue)) > JSON ENCODER ERROR")
-            return
+    public var refreshToken: Token? {
+        get {
+            let refreshTokenKey = StorageKey.refreshToken.rawValue
+            guard let savedData = UserDefaults.standard.object(forKey: refreshTokenKey) as? Data  else {
+                Log.this("Fetching - \(refreshTokenKey)) > NOT FOUND")
+                return nil
+            }
+            guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
+            Log.this("Fetching - \(refreshTokenKey): \(String(describing: object.value))")
+            return object
         }
-        UserDefaults.standard.set(encodedData, forKey: key.rawValue)
+        set {
+            let refreshTokenKey = StorageKey.refreshToken.rawValue
+            guard let newValue = newValue else {
+                Log.this("Removing - \(refreshTokenKey): \(String(describing: newValue))")
+                userDefaults.removeObject(forKey: StorageKey.refreshToken.rawValue)
+                return
+            }
+            Log.this("Saving - \(refreshTokenKey): \(newValue)")
+            guard let encodedData = try? JSONEncoder().encode(newValue) else {
+                Log.this("🤬 Error saving - \(refreshTokenKey)) > JSON ENCODER ERROR")
+                return
+            }
+            userDefaults.set(encodedData, forKey: refreshTokenKey)
+        }
     }
 
-    public func remove(this key: StorageKey) {
-        userDefaults.removeObject(forKey: key.rawValue)
+    public var idToken: Token? {
+        get {
+            let idTokenKey = StorageKey.idToken.rawValue
+            let value = userDefaults.object(forKey: StorageKey.idToken.rawValue) as? Token
+            guard let savedData = UserDefaults.standard.object(forKey: idTokenKey) as? Data  else {
+                Log.this("Fetching - \(idTokenKey)) > NOT FOUND")
+                return nil
+            }
+            guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
+            Log.this("Fetching - \(idTokenKey): \(String(describing: object.value))")
+            return object
+        }
+        set {
+            let idTokenKey = StorageKey.idToken.rawValue
+            guard let newValue = newValue else {
+                Log.this("Removing - \(idTokenKey): \(String(describing: newValue))")
+                userDefaults.removeObject(forKey: StorageKey.idToken.rawValue)
+                return
+            }
+            Log.this("Saving - \(idTokenKey): \(newValue)")
+            guard let encodedData = try? JSONEncoder().encode(newValue) else {
+                Log.this("🤬 Error saving - \(idTokenKey)) > JSON ENCODER ERROR")
+                return
+            }
+            userDefaults.set(encodedData, forKey: idTokenKey)
+        }
+    }
+
+    public var uniqueName: String? {
+        get {
+            let uniqueNameKey = StorageKey.idToken.rawValue
+            let value = userDefaults.object(forKey: StorageKey.uniqueName.rawValue) as? String
+            Log.this("Fetching - \(uniqueNameKey): \(String(describing: value))")
+            return value
+        }
+        set {
+            let uniqueNameKey = StorageKey.idToken.rawValue
+            guard let newValue = newValue else {
+                Log.this("Removing - \(uniqueNameKey): \(String(describing: newValue))")
+                userDefaults.removeObject(forKey: StorageKey.uniqueName.rawValue)
+                return
+            }
+            Log.this("Saving - \(uniqueNameKey): \(newValue)")
+            userDefaults.set(newValue, forKey: StorageKey.uniqueName.rawValue)
+        }
     }
 
     public func removeAll() {

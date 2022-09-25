@@ -1,7 +1,7 @@
 import UIKit
 
 public final class OAuthGrantTypePasswordManager {
-    private let storage: StorageProtocol!
+    private var storage: StorageProtocol!
     private var startController: UIViewController?
     public var refreshTokenEndpoint: Endpoint
     public var tokensEndpoint: Endpoint
@@ -16,7 +16,7 @@ public final class OAuthGrantTypePasswordManager {
 
 extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
     public func getAccessToken(with parameters: [String : Any]) async throws -> String {
-        if let accessToken = storage.read(this: .accessToken) {
+        if let accessToken = storage.accessToken {
             return accessToken.value
         }
         do {
@@ -25,8 +25,8 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
             }
 
             let tokens = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
-            storage.save(this: tokens, for: .accessToken)
-            storage.save(this: tokens, for: .refreshToken)
+            storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
+            storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
             return tokens.accessToken
         } catch {
             throw AuthError.badRequest
@@ -37,8 +37,8 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         do {
             refreshTokenEndpoint.parameters["refresh_token"] = refreshToken
             let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)
-            storage.save(this: tokens, for: .accessToken)
-            storage.save(this: tokens, for: .refreshToken)
+            storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
+            storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
             return tokens.accessToken
         } catch {
             throw AuthError.badRequest

@@ -67,6 +67,11 @@ struct Log {
         print("🤬 ERROR: \(error.localizedDescription)")
         print("------------------------------------------")
     }
+
+    static func this(_ value : String) {
+        print("💾 \(value)")
+        print("------------------------------------------")
+    }
 }
 
 extension Data {

@@ -97,18 +97,14 @@ class OAuthController: UIViewController {
     }
 
     @IBAction func infoPressed(_ sender: Any) {
-        if (viewModel.currentState == .none || viewModel.currentState == .error) {
-            self.infoLabel.text = "Login required"
-        } else {
-            Task {
-                do {
-                    let user: UserDTO = try await viewModel.getInfo()
-                    self.infoLabel.text = "User logged with email: \(user.email)"
-                    setInfoButton(with: .logged)
-                } catch {
-                    self.infoLabel.text = "Error executing endpoint"
-                    setInfoButton(with: .error)
-                }
+        Task {
+            do {
+                let user: UserDTO = try await viewModel.getInfo()
+                self.infoLabel.text = "User logged with email: \(user.email)"
+                setInfoButton(with: .logged)
+            } catch {
+                self.infoLabel.text = "Error executing endpoint"
+                setInfoButton(with: .error)
             }
         }
     }

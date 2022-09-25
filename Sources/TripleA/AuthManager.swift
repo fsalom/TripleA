@@ -17,7 +17,7 @@ public final actor AuthManager {
     private var refreshTask: Task<String, Error>?
     
     public var isLogged: Bool {
-        if let accessToken = storage.read(this: .accessToken) {
+        if let accessToken = storage.accessToken {
             return accessToken.isValid
         }else{
             return false
@@ -32,10 +32,10 @@ public final actor AuthManager {
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
     func getCurrentToken() async throws -> String {
-        if let accessToken = storage.read(this: .accessToken) {
+        if let accessToken = storage.accessToken {
             if accessToken.isValid {
                 return accessToken.value
-            } else if let refreshToken = storage.read(this: .refreshToken), refreshToken.isValid {
+            } else if let refreshToken = storage.refreshToken, refreshToken.isValid {
                 return try await renewToken()
             }
         }
@@ -68,7 +68,7 @@ public final actor AuthManager {
         }
         let task = Task { () throws -> String in
             defer { refreshTask = nil }
-            guard let refreshToken = storage.read(this: .refreshToken)?.value else {
+            guard let refreshToken = storage.refreshToken?.value else {
                 throw AuthError.tokenNotFound
             }
             do {

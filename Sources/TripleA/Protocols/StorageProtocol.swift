@@ -1,6 +1,8 @@
 public enum StorageKey: String, CaseIterable {
     case accessToken
     case refreshToken
+    case uniqueName
+    case idToken
 }
 
 public enum StorageError: Error {
@@ -9,8 +11,9 @@ public enum StorageError: Error {
 }
 
 public protocol StorageProtocol {
-    func read(this key: StorageKey) -> Token?
-    func save(this object: TokensDTO, for key: StorageKey)
-    func remove(this key: StorageKey)
+    var accessToken: Token? { get set }
+    var refreshToken: Token? { get set }
+    var idToken: Token? { get set }
+    var uniqueName: String? { get set }    
     func removeAll()
 }
