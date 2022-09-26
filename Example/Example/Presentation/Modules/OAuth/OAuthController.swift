@@ -88,10 +88,10 @@ class OAuthController: UIViewController {
             do {
                 try await Container.network.renewToken()
                 self.infoLabel.text = "Token renewed"
-                setLoginButton(with: .logged)
+                setRefreshButton(with: .logged)
             } catch {
                 self.infoLabel.text = "Error executing refresh token"
-                setLoginButton(with: .error)
+                setRefreshButton(with: .error)
             }
         }
     }

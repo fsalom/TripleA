@@ -27,9 +27,10 @@ public class Network {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
-        var request = try await authorizedRequest(from: endpoint.request)
-        request = completeInformation(for: request)
-        request = addBaseURL(this: endpoint)
+        var modifiedEndpoint: Endpoint = endpoint
+        modifiedEndpoint.addExtra(headers: additionalHeaders)
+        modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
+        let request = try await authorizedRequest(from: modifiedEndpoint.request)
         Log.thisCall(request)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
@@ -65,9 +66,11 @@ public class Network {
      - Throws: An error of type `CustomError`  with extra info
     */
     public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
-        var request = completeInformation(for: endpoint.request)
-        request = addBaseURL(this: endpoint)
-        Log.thisCall(endpoint.request)
+        var modifiedEndpoint: Endpoint = endpoint
+        modifiedEndpoint.addExtra(headers: additionalHeaders)
+        modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
+        Log.thisCall(modifiedEndpoint.request)
+        let request = modifiedEndpoint.request
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw CustomError(type: NetworkError.invalidResponse, data: data)
@@ -105,33 +108,6 @@ public class Network {
             await authManager.logout()
         }
         return requestWithHeader
-    }
-
-    // MARK: - setHeaders
-    /**
-    Add all additional headers needed
-
-     - Parameters:
-        - request: URLRequest with information
-     - Returns: object of type  `URLRequest` with additional headers
-    */
-    private func completeInformation(for request: URLRequest) -> URLRequest {
-        
-        var newRequest = request
-        self.additionalHeaders.forEach { key, value in
-            newRequest.addValue(value, forHTTPHeaderField: key)
-        }
-        return newRequest
-    }
-
-    // MARK: - get URL with BASE_URL
-    func addBaseURL(this endpoint: Endpoint) -> URLRequest{
-        if endpoint.baseURL.isEmpty {
-            var newEndpoint = endpoint
-            newEndpoint.baseURL = baseURL
-            return newEndpoint.request
-        }
-        return endpoint.request
     }
 
     public func getNewToken(with parameters: [String: Any]) async throws {

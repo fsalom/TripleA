@@ -131,5 +131,18 @@ public struct Endpoint{
         request.httpBody = httpBody
         return request
     }
+
+    mutating func addExtra(headers: [String: String]) {
+        headers.forEach { key, value in
+            self.headers[key] = value
+        }
+    }
+
+    // MARK: - get URL with BASE_URL
+    mutating func addBaseURLIfNeeded(url: String) {
+        if self.baseURL.isEmpty {
+            self.baseURL = url
+        }
+    }
 }
 
