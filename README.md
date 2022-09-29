@@ -83,12 +83,12 @@ An example for OAUTH2 grant_type = password
 ### Defining dependency injection
 **Container.swift**
 ```swift
-    let storage = AuthTokenStoreDefault()
-    let remoteDataSource = OAuthGrantTypePasswordManager(storage: storage, startController: getLoginController(), refreshTokenEndpoint: OAuthAPI.refresh(parametersRefresh).endpoint, tokensEndPoint: OAuthAPI.login(parametersLogin).endpoint)
-    let authManager = AuthManager(storage: storage,
-                                  remoteDataSource: remoteDataSource,
-                                  parameters: [:])
-    static let network = Network(baseURL: "https://dashboard.rudo.es/", authManager: authManager)
+let storage = AuthTokenStoreDefault()
+let remoteDataSource = OAuthGrantTypePasswordManager(storage: storage, startController: getLoginController(), refreshTokenEndpoint: OAuthAPI.refresh(parametersRefresh).endpoint, tokensEndPoint: OAuthAPI.login(parametersLogin).endpoint)
+let authManager = AuthManager(storage: storage,
+                              remoteDataSource: remoteDataSource,
+                              parameters: [:])
+let network = Network(baseURL: "https://dashboard.rudo.es/", authManager: authManager)
 ```
 
 ### DTO declaration
@@ -130,17 +130,17 @@ enum OAuthAPI {
 ### Usage
 **Login**
 ```swift
-                let parameters = ["grant_type": "password",
-                                  "username": "XXXX",
-                                  "password": "XXXX",
-                                  "client_id": "XXXX",
-                                  "client_secret": "XXXX"]
-                try await Container.network.getNewToken(with: parameters)
+let parameters = ["grant_type": "password",
+                  "username": "XXXX",
+                  "password": "XXXX",
+                  "client_id": "XXXX",
+                  "client_secret": "XXXX"]
+try await Container.network.getNewToken(with: parameters)
 ```
 
 **Calls**
 ```swift
-            return try await Container.network.loadAuthorized(endpoint: OAuthAPI.me.endpoint, of: UserDTO.self)
+try await Container.network.loadAuthorized(endpoint: OAuthAPI.me.endpoint, of: UserDTO.self)
 ```
 
 ## 📚 Examples
