@@ -24,16 +24,15 @@ There are 4 main pieces in this system. Each one of them is responsable of their
 - **Endpoint**: Its the way endpoint request are built for TripleA.
 - **AuthManager**: responsable of managing tokens and refresh them.
 - **Network**: responsable of making calls and parse objects.
-- **Persistence**: responsable of storing token information (by default UserDefaults)
+- **TokenStore**: responsable of storing token information (by default UserDefaults)
 
-## 🚀 Usage
-As an example we will use https://coincap.io and their crypto list.
+## 🚀 Usage non authorized API
+As an example we will use https://coincap.io and their crypto list. This API is free to use and do not have any kind of authentication system
 
 ### Defining dependency injection
 **Container.swift**
 ```swift
-let authManager = AuthManager(baseURL: "https://api.coincap.io/v2/", clientId: "", clientSecret: "")
-let network = Network(authManager: authManager)
+Network(baseURL: "https://api.coincap.io/v2/")
 ```
 
 ### DTO declaration
@@ -76,6 +75,72 @@ Task{
 
     }
 }
+```
+
+## 🔒 Usage authorized API
+An example for OAUTH2 grant_type = password
+
+### Defining dependency injection
+**Container.swift**
+```swift
+    let storage = AuthTokenStoreDefault()
+    let remoteDataSource = OAuthGrantTypePasswordManager(storage: storage, startController: getLoginController(), refreshTokenEndpoint: OAuthAPI.refresh(parametersRefresh).endpoint, tokensEndPoint: OAuthAPI.login(parametersLogin).endpoint)
+    let authManager = AuthManager(storage: storage,
+                                  remoteDataSource: remoteDataSource,
+                                  parameters: [:])
+    static let network = Network(baseURL: "https://dashboard.rudo.es/", authManager: authManager)
+```
+
+### DTO declaration
+**UserDTO**
+```swift
+struct UserDTO: Codable {
+    let firstName,
+        email: String
+
+    private enum CodingKeys: String, CodingKey {
+        case firstName = "first_name"
+        case email = "email"
+    }
+}
+```
+
+### Endpoint
+**OauthAPI**
+```swift
+enum OAuthAPI {
+    case login([String: Any])
+    case refresh([String: Any])
+    case me
+    var endpoint: Endpoint {
+        get {
+            switch self {
+            case .login(let parameters):
+                return Endpoint(baseURL: "https://dashboard.rudo.es/", path: "auth/token/", httpMethod: .post, parameters: parameters)
+            case .refresh(let parameters):
+                return Endpoint(baseURL: "https://dashboard.rudo.es/", path: "auth/token/", httpMethod: .post, parameters: parameters)
+            case .me:
+                return Endpoint(path: "users/me/", httpMethod: .get)
+            }
+        }
+    }
+}
+```
+
+### Usage
+**Login**
+```swift
+                let parameters = ["grant_type": "password",
+                                  "username": "desarrollo@rudo.es",
+                                  "password": "12345678A",
+                                  "client_id": "1gzyJeSOyjUOmbSHREbsothngkBMato1VypQz35D",
+                                  "client_secret": "ynM8CpvlDHivO1jma1Q3Jv1RIJraBbJ9EtK5XI3dw4RpkxDgi9cZnmJlQs0XzuVCGWCNwQd8qJKAHFrLdHlRRDIzx8B08HJ0Htu6XFzP4kTRTWYIPHuCpldjouJhKvoA"]
+                try await Container.network.getNewToken(with: parameters)
+```
+
+**Calls**
+```swift
+            return try await Container.network.loadAuthorized(endpoint: OAuthAPI.me.endpoint, of: UserDTO.self)
 ```
 
 ## 📚 Examples
