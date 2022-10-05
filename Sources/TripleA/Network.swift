@@ -110,6 +110,14 @@ public class Network {
         return requestWithHeader
     }
 
+    // MARK: - getNewToken
+    /**
+     Make a call through authManager to get new accessToken
+
+     - Parameters:
+        - parameters: optional parameters that call needed [String: Any]
+     - Throws: An error of type `CustomError`  with extra info
+    */
     public func getNewToken(with parameters: [String: Any]) async throws {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
@@ -122,6 +130,12 @@ public class Network {
 
     }
 
+    // MARK: - renewToken
+    /**
+     renew refreshToken if needed through authManager
+
+     - Throws: An error of type `CustomError`  with extra info
+    */
     public func renewToken() async throws {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
@@ -133,6 +147,12 @@ public class Network {
         }
     }
 
+    // MARK: - logout
+    /**
+     Logout throug authManager
+
+     - Throws: An error of type `CustomError`  with extra info
+    */
     public func logout() async throws {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")

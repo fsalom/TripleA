@@ -23,6 +23,12 @@ public final actor AuthManager {
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
+    /**
+     Return a valid token or try to get it from storage or remote data source
+
+     - Returns: valid access token
+     - Throws: An error of type `CustomError`  with extra info and show login screen
+    */
     func getCurrentToken() async throws -> String {
         if let accessToken = storage.accessToken {
             if accessToken.isValid {
@@ -40,6 +46,11 @@ public final actor AuthManager {
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
+    /**
+    Call to login if needed and get token
+
+     - Throws: An error of type `CustomError`  with extra info
+    */
     public func getNewToken(with parameters: [String: Any] = [:]) async throws {
         do {
             _ = try await remoteDataSource.getAccessToken(with: parameters)
