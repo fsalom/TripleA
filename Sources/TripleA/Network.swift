@@ -20,7 +20,7 @@ public class Network {
         - endpoint: Endpoint with request information
         - type: T of a decodable object
         - allowRetry: Bool in case retry calls is not an option
-     - Returns: object of type  `T` already parsed.
+     - Returns: object of type  `T` already parsed.x
      - Throws: An error of type `CustomError`  with extra info
     */
     public func loadAuthorized<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
@@ -118,7 +118,7 @@ public class Network {
         - parameters: optional parameters that call needed [String: Any]
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func getNewToken(with parameters: [String: Any]) async throws {
+    public func getNewToken(with parameters: [String: Any]) async throws {        
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
@@ -158,6 +158,5 @@ public class Network {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
         await authManager.logout()
-
     }
 }
