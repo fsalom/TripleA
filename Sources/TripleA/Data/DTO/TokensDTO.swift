@@ -15,11 +15,11 @@ public struct TokensDTO: Codable {
 
     func toBOAccessToken() -> Token {
         print("✅ access token: \(self.accessToken)")
-        return Token(value: self.accessToken, expireInt: self.expiresIn)
+        return Token(value: self.accessToken, expireInt: self.expiresIn - 10)
     }
 
     func toBORefreshToken() -> Token {
-        print("✅ access token: \(self.refreshToken)")
+        print("✅ refresh token: \(self.refreshToken)")
         return Token(value: self.refreshToken, expireInt: self.refreshExpiresIn)
     }
 }

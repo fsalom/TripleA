@@ -29,7 +29,7 @@ public final actor AuthManager {
      - Returns: valid access token
      - Throws: An error of type `CustomError`  with extra info and show login screen
     */
-    func getCurrentToken() async throws -> String {
+    public func getCurrentToken() async throws -> String {
         if let accessToken = storage.accessToken {
             if accessToken.isValid {
                 return accessToken.value

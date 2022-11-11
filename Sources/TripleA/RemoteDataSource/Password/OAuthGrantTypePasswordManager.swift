@@ -17,7 +17,19 @@ public final class OAuthGrantTypePasswordManager {
 extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
     public func getAccessToken(with parameters: [String : Any]) async throws -> String {
         if let accessToken = storage.accessToken {
-            return accessToken.value
+            if accessToken.isValid {
+                return accessToken.value
+            } else {
+                if let refreshToken = storage.refreshToken {
+                    if refreshToken.isValid {
+                        do {
+                            return try await self.getRefreshToken(with: refreshToken.value)
+                        } catch {
+                            throw AuthError.badRequest
+                        }
+                    }
+                }
+            }
         }
         do {
             parameters.forEach { (key: String, value: Any) in
