@@ -3,7 +3,7 @@ import Foundation
 public struct CustomError: Error {
     public let type: NetworkError
     public let data: Data?
-    public let description: NSString?
+    public let description: String?
     public let code: Int
     public let raw: Error?
     public let rawDescription: String?
@@ -12,7 +12,7 @@ public struct CustomError: Error {
         self.type = type
         self.data = data
         self.code = code
-        self.description = data?.prettyPrintedJSONString ?? ""
+        self.description = data?.prettyPrintedJSONString as String? ?? ""
         self.rawDescription = error?.localizedDescription
         self.raw = error
     }
