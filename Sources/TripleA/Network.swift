@@ -48,7 +48,7 @@ public class Network {
         do{
             parseData = try decoder.decode(T.self, from: data)
         }catch{
-            Log.thisError(NetworkError.errorDecodable)
+            Log.thisError(NetworkError.errorDecodableWith(error))
             throw CustomError(type: .errorDecodable, data: data, code: response.statusCode)
         }
         return parseData
