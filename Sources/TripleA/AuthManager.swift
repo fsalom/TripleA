@@ -48,6 +48,7 @@ public final actor AuthManager {
     func showLogin() {
         DispatchQueue.main.async {
             Task{
+                await self.storage.removeAll()
                 await self.remoteDataSource.showLogin()
             }
         }
