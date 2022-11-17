@@ -34,15 +34,23 @@ public final actor AuthManager {
             if accessToken.isValid {
                 return accessToken.value
             } else if let refreshToken = storage.refreshToken, refreshToken.isValid {
-                return try await renewToken()
+                do {
+                    return try await renewToken()
+                } catch {
+                    showLogin()
+                }
             }
         }
+        showLogin()
+        throw AuthError.missingToken
+    }
+
+    func showLogin() {
         DispatchQueue.main.async {
             Task{
                 await self.remoteDataSource.showLogin()
             }
         }
-        throw AuthError.missingToken
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
