@@ -14,6 +14,7 @@ public class Network {
         self.authManager = authManager
         self.additionalHeaders = headers
         self.baseURL = baseURL
+        self.format = format
     }
 
     // MARK: -  loadAuthorized

@@ -10,6 +10,7 @@ enum LogType {
 
 public enum LogFormat {
     case full
+    case custom(Int)
     case short
     case requestOnly
     case none
@@ -46,7 +47,7 @@ struct Log {
         let params  = String(data: call.httpBody ?? Data(), encoding: .utf8)
 
         switch format {
-        case .full, .requestOnly:
+        case .full, .requestOnly, .custom(_):
             print("------------------------------------------")
             print("➡️ \(method) \(url) ")
             print("HEADERS: \(headers)")
@@ -59,25 +60,31 @@ struct Log {
         case .none:
             break
         }
-
     }
     
     static func thisResponse(_ response: HTTPURLResponse, data: Data, format: LogFormat = .full) {
         let code = response.statusCode
         let url  = response.url?.absoluteString ?? ""
         let icon  = (200..<300).contains(code) ? "✅" : "❌"
+        let json: String = (data.prettyPrintedJSONString ?? "") as String
         switch format {
         case .full:
             print("------------------------------------------")
             print("\(icon) 🔽 [\(code)] \(url)")
-            print("\(data.prettyPrintedJSONString ?? "")")
+            print("\(json)")
+            print("\(icon) 🔼 [\(code)] \(url)")
+            print("------------------------------------------")
+        case .custom(let characters):
+            print("------------------------------------------")
+            print("\(icon) 🔽 [\(code)] \(url)")
+            print("\(json.suffix(characters))")
             print("\(icon) 🔼 [\(code)] \(url)")
             print("------------------------------------------")
         case .short:
             print("------------------------------------------")
             print("\(icon) ⬅️ [\(code)] \(url)")
             print("------------------------------------------")
-        case .requestOnly, .none:
+        default:
             break
         }
     }
