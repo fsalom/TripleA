@@ -97,10 +97,8 @@ struct Log {
         print("------------------------------------------")
     }
 
-    static func this(_ value : String) {
-        print("******************************************")
-        print("💾 \(value)")
-        print("******************************************")
+    static func this(_ value : String, format: LogFormat = .full) {
+        print("🔒 💾 \(value)")
     }
 }
 
