@@ -75,7 +75,7 @@ struct Log {
         case .custom(let characters):
             print("------------------------------------------")
             print("\(icon) 🔽 [\(code)] \(url)")
-            print("\(json.suffix(characters))")
+            print("\(json.prefix(characters))")
             print("\(icon) 🔼 [\(code)] \(url)")
             print("------------------------------------------")
         case .short:
