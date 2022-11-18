@@ -63,7 +63,6 @@ extension AuthTokenStoreDefault: StorageProtocol {
     public var idToken: Token? {
         get {
             let idTokenKey = StorageKey.idToken.rawValue
-            let value = userDefaults.object(forKey: StorageKey.idToken.rawValue) as? Token
             guard let savedData = UserDefaults.standard.object(forKey: idTokenKey) as? Data  else {
                 Log.this("Fetching - \(idTokenKey)) > NOT FOUND")
                 return nil
