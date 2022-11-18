@@ -7,7 +7,8 @@ public enum NetworkError: Error {
     case errorDecodable
     case errorDecodableWith(Error)
     case errorData(Data)
-    
+    case failure(statusCode: Int, data: Data? = nil, response: URLResponse? = nil)
+
     var localizedDescription: String {
         switch self{
         case .missingToken: return "Access Token not found"
@@ -16,6 +17,7 @@ public enum NetworkError: Error {
         case .errorDecodable: return "Error while decoding object. Check your DTO."
         case .errorDecodableWith(let message): return "Error while decoding object. Check your DTO. Error message: \(message.localizedDescription)."
         case .errorData(let data): return "Error reponse with data: \(data.prettyPrintedJSONString ?? "")"
+        case .failure(let code, let data, _): return "Error code [\(code)] reponse with data: \(data?.prettyPrintedJSONString ?? "")"
         }
     }
     
