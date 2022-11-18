@@ -49,14 +49,12 @@ struct Log {
         switch format {
         case .full, .requestOnly, .custom(_):
             print("------------------------------------------")
-            print("➡️ \(method) \(url) ")
+            print("☎️ ➡️ \(method) \(url) ")
             print("HEADERS: \(headers)")
             print("PARAMETERS: \(params ?? "")")
             print("------------------------------------------")
         case .short:
-            print("------------------------------------------")
-            print("➡️ \(method) \(url) ")
-            print("------------------------------------------")
+            print("☎️ ➡️ \(method) \(url) ")
         case .none:
             break
         }
@@ -81,9 +79,7 @@ struct Log {
             print("\(icon) 🔼 [\(code)] \(url)")
             print("------------------------------------------")
         case .short:
-            print("------------------------------------------")
             print("\(icon) ⬅️ [\(code)] \(url)")
-            print("------------------------------------------")
         default:
             break
         }
