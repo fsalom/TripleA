@@ -5,8 +5,12 @@ public class Network {
     var baseURL: String = ""
     public let authManager: AuthManager?
     var additionalHeaders: [String: String] = [:]
+    var format: LogFormat!
 
-    public init(baseURL: String, authManager: AuthManager? = nil, headers: [String: String] = [:]) {
+    public init(baseURL: String,
+                authManager: AuthManager? = nil,
+                headers: [String: String] = [:],
+                format: LogFormat = .full) {
         self.authManager = authManager
         self.additionalHeaders = headers
         self.baseURL = baseURL
@@ -23,7 +27,9 @@ public class Network {
      - Returns: object of type  `T` already parsed.x
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func loadAuthorized<T: Decodable>(endpoint: Endpoint, of type: T.Type? = AuthNoReply, allowRetry: Bool = true) async throws -> T {
+    public func loadAuthorized<T: Decodable>(endpoint: Endpoint,
+                                             of type: T.Type? = AuthNoReply,
+                                             allowRetry: Bool = true) async throws -> T {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
@@ -31,7 +37,7 @@ public class Network {
         modifiedEndpoint.addExtra(headers: additionalHeaders)
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
         let request = try await authorizedRequest(from: modifiedEndpoint.request)
-        Log.thisCall(request)
+        Log.thisCall(request, format: format)
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
@@ -43,7 +49,7 @@ public class Network {
             }
         }
         do {
-            return try loadAndParse(with: data, and: response, for: type)
+            return try parse(with: data, and: response, for: type)
         } catch {
             throw error
         }
@@ -60,25 +66,39 @@ public class Network {
      - Returns: object of type  `T` already parsed.
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func load<T: Decodable>(endpoint: Endpoint, of type: T.Type? = AuthNoReply, allowRetry: Bool = true) async throws -> T {
+    public func load<T: Decodable>(endpoint: Endpoint,
+                                   of type: T.Type? = AuthNoReply,
+                                   allowRetry: Bool = true) async throws -> T {
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
-        Log.thisCall(modifiedEndpoint.request)
+        Log.thisCall(modifiedEndpoint.request, format: format)
         let request = modifiedEndpoint.request
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
         do {
-            return try loadAndParse(with: data, and: response, for: type)
+            return try parse(with: data, and: response, for: type)
         } catch {
             throw error
         }
     }
 
-    private func loadAndParse<T: Decodable>(with data: Data, and response: HTTPURLResponse, for type: T.Type? = AuthNoReply) throws -> T {
-        Log.thisResponse(response, data: data)
+    // MARK: - Parse
+    /**
+     Load and parse information with raw data and status code
+     - Parameters:
+        - data: `Data` provided from endpoint.
+        - response: `HTTPURLResponse`containing information related with the request
+        - type: Type of object that is going to be used to parse the information
+     - Returns: object parsed using type provided
+     - Throws: An error of type `NetworkError`  with extra info
+    */
+    private func parse<T: Decodable>(with data: Data,
+                                     and response: HTTPURLResponse,
+                                     for type: T.Type? = AuthNoReply) throws -> T {
+        Log.thisResponse(response, data: data, format: format)
         let decoder = JSONDecoder()
         if (200..<300).contains(response.statusCode) {
             do {
@@ -110,6 +130,14 @@ public class Network {
         }
     }
 
+    // MARK: - loadRaw
+    /**
+     Makes a call and return status code and raw data
+     - Parameters:
+        - endpoint: Endpoint that contains the information related with the request
+     - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
+     - Throws: An error of type `NetworkError`  with extra info
+    */
     public func loadRaw(this endpoint: Endpoint) async throws -> (Int, Data) {
         do {
             return try await loadAndResponse(this: endpoint)
@@ -119,16 +147,24 @@ public class Network {
         }
     }
 
+    // MARK: - loadAndResponse
+    /**
+     Load and response information with raw data and status code
+     - Parameters:
+        - endpoint: Endpoint that contains the information related with the request
+     - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
+     - Throws: An error of type `NetworkError`  with extra info
+    */
     private func loadAndResponse(this endpoint: Endpoint) async throws -> (Int, Data) {
         var endpoint = endpoint
         endpoint.addExtra(headers: additionalHeaders)
         endpoint.addBaseURLIfNeeded(url: baseURL)
-        Log.thisCall(endpoint.request)
+        Log.thisCall(endpoint.request, format: format)
         let (data, response) = try await URLSession.shared.data(for: endpoint.request)
         guard let response = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
-        Log.thisResponse(response, data: data)
+        Log.thisResponse(response, data: data, format: format)
         if (200..<300).contains(response.statusCode) {
             return (response.statusCode, data)
         } else {
@@ -139,7 +175,6 @@ public class Network {
     // MARK: - authorizedRequest
     /**
     Check if authentication is valid and return request with header authorization. In case tokens have expired it will show starting flow controller
-
      - Parameters:
         - request: URLRequest with information
      - Returns: object of type  `URLRequest` with new headers
@@ -163,7 +198,6 @@ public class Network {
     // MARK: - getNewToken
     /**
      Make a call through authManager to get new accessToken
-
      - Parameters:
         - parameters: optional parameters that call needed [String: Any]
      - Throws: An error of type `CustomError`  with extra info
@@ -182,8 +216,7 @@ public class Network {
 
     // MARK: - renewToken
     /**
-     renew refreshToken if needed through authManager
-
+     Renew refreshToken if needed through authManager
      - Throws: An error of type `CustomError`  with extra info
     */
     public func renewToken() async throws {
@@ -200,7 +233,6 @@ public class Network {
     // MARK: - logout
     /**
      Logout throug authManager
-
      - Throws: An error of type `CustomError`  with extra info
     */
     public func logout() async throws {
