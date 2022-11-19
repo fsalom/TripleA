@@ -45,7 +45,12 @@ public final actor AuthManager {
         throw AuthError.missingToken
     }
 
-    func showLogin() {
+    // MARK: - showLogin
+    /**
+     Shows login when authentication flow fails
+
+    */
+    private func showLogin() {
         DispatchQueue.main.async {
             Task{
                 await self.storage.removeAll()
