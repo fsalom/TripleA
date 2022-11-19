@@ -23,7 +23,9 @@ class Container {
                                   remoteDataSource: Container.remoteDataSource,
                                   parameters: [:])
     //NETWORK
-    static let network = Network(baseURL: "https://dashboard.rudo.es/", authManager: Container.shared.authManager)
+    static let network = Network(baseURL: "https://dashboard.rudo.es/",
+                                 authManager: Container.shared.authManager,
+                                 format: .full)
     
     init() { }
 }
