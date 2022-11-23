@@ -26,6 +26,24 @@ There are 4 main pieces in this system. Each one of them is responsable of their
 - **Network**: responsable of making calls and parse objects.
 - **TokenStore**: responsable of storing token information (by default UserDefaults)
 
+### Endpoint
+Each endpoint has its own Endpoint object. This object has different properties to create the request
+
+```
+    public init(baseURL: String = "",
+                path: String,
+                httpMethod: HTTPMethod,
+                parameters: [String: Any] = [:],
+                headers: [String: String] = [:],
+                encoding: Encoding = .json,
+                images: [String: UIImage] = [:],
+                videos: [String: String] = [:])
+```
+
+Required properties:
+- path: url to endpoint
+- httpMethod: .get, .post, .put, .delete ...
+
 ## 🚀 Usage non authorized API
 As an example we will use https://coincap.io and their crypto list. This API is free to use and do not have any kind of authentication system
 
