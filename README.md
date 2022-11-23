@@ -21,28 +21,59 @@ Enter https://github.com/fsalom/TripleA
 ## 🦾 Core elements
 There are 4 main pieces in this system. Each one of them is responsable of their own area.
 
+- **Network**: responsable of making calls and parse objects.
 - **Endpoint**: Its the way endpoint request are built for TripleA.
 - **AuthManager**: responsable of managing tokens and refresh them.
-- **Network**: responsable of making calls and parse objects.
 - **TokenStore**: responsable of storing token information (by default UserDefaults)
+
+
+### Network
+It is the core of this package. It provides different ways of calling an API.
+
+```
+public init(baseURL: String,
+            authManager: AuthManager? = nil,
+            headers: [String: String] = [:],
+            format: LogFormat = .full)
+            
+Network(baseURL: "https://api.coincap.io/v2/")
+```
+
+Required properties:
+- baseURL: url to endpoint
+
+Optional properties:
+- authManager: manager to handle authentication
+- headers: header for all the endpoints
+- format: log formatter for console (.full, .short, .custom(), .none)
 
 ### Endpoint
 Each endpoint has its own Endpoint object. This object has different properties to create the request
 
 ```
-    public init(baseURL: String = "",
-                path: String,
-                httpMethod: HTTPMethod,
-                parameters: [String: Any] = [:],
-                headers: [String: String] = [:],
-                encoding: Encoding = .json,
-                images: [String: UIImage] = [:],
-                videos: [String: String] = [:])
+public init(baseURL: String = "",
+            path: String,
+            httpMethod: HTTPMethod,
+            parameters: [String: Any] = [:],
+            headers: [String: String] = [:],
+            encoding: Encoding = .json,
+            images: [String: UIImage] = [:],
+            videos: [String: String] = [:])
+            
+Endpoint(path: "https://api.coincap.io/v2/assets", httpMethod: .get)
 ```
 
 Required properties:
 - path: url to endpoint
 - httpMethod: .get, .post, .put, .delete ...
+
+Optional properties:
+- baseURL: 
+- parameters: 
+- headers: 
+- encoding: 
+- images: 
+- videos: 
 
 ## 🚀 Usage non authorized API
 As an example we will use https://coincap.io and their crypto list. This API is free to use and do not have any kind of authentication system
