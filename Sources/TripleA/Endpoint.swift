@@ -29,7 +29,7 @@ public struct Endpoint{
             }
         }
     }
-    var baseURL: String
+    var baseURL: String = ""
     var path: String
     var httpMethod: HTTPMethod
     var encoding: Encoding
@@ -39,8 +39,7 @@ public struct Endpoint{
     var videos: [String: String]
     var request: URLRequest {
         get {
-            let urlAndPath = !baseURL.isEmpty ? baseURL + path : path
-            guard let url = URL(string: urlAndPath) else { fatalError("Not a valid URL") }
+            guard let url = URL(string: path) else { fatalError("Not a valid URL") }
             var request = URLRequest(url:  url)
             headers.forEach { key, value in
                 request.addValue(value, forHTTPHeaderField: key)
@@ -66,8 +65,7 @@ public struct Endpoint{
         }
     }
     
-    public init(baseURL: String = "",
-                path: String,
+    public init(path: String,
                 httpMethod: HTTPMethod,
                 parameters: [String: Any] = [:],
                 headers: [String: String] = [:],
@@ -81,7 +79,6 @@ public struct Endpoint{
         self.images = images
         self.encoding = encoding
         self.headers = headers
-        self.baseURL = baseURL
     }
     
     // MARK: - set Encoding depending on all variables

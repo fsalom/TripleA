@@ -8,9 +8,9 @@ enum OAuthAPI {
         get {
             switch self {
             case .login(let parameters):
-                return Endpoint(baseURL: "https://dashboard.rudo.es/", path: "auth/token/", httpMethod: .post, parameters: parameters)
+                return Endpoint(path: "https://dashboard.rudo.es/auth/token/", httpMethod: .post, parameters: parameters)
             case .refresh(let parameters):
-                return Endpoint(baseURL: "https://dashboard.rudo.es/", path: "auth/token/", httpMethod: .post, parameters: parameters)
+                return Endpoint(path: "https://dashboard.rudo.es/auth/token/", httpMethod: .post, parameters: parameters)
             case .me:
                 return Endpoint(path: "users/me/", httpMethod: .get)
             }

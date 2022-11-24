@@ -68,7 +68,6 @@ Required properties:
 - httpMethod: .get, .post, .put, .delete ...
 
 Optional properties:
-- baseURL: 
 - parameters: 
 - headers: 
 - encoding: 
