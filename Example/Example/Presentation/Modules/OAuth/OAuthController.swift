@@ -3,6 +3,7 @@ import UIKit
 class OAuthController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
+    @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var refreshButton: UIButton!
 
@@ -20,9 +21,12 @@ class OAuthController: UIViewController {
         loginButton.setTitleColor(.black, for: .normal)
         infoButton.setTitleColor(.black, for: .normal)
         refreshButton.setTitleColor(.black, for: .normal)
+        logoutButton.setTitleColor(.black, for: .normal)
         setLoginButton(with: .none)
         setInfoButton(with: .none)
         setRefreshButton(with: .none)
+
+        logoutButton.setTitle("Logout", for: .normal)
     }
 
     func setLoginButton(with state: LoginState) {
@@ -93,6 +97,12 @@ class OAuthController: UIViewController {
                 self.infoLabel.text = "Error executing refresh token"
                 setRefreshButton(with: .error)
             }
+        }
+    }
+
+    @IBAction func logoutPressed(_ sender: Any) {
+        Task {
+            await Container.shared.authManager.logout()
         }
     }
 

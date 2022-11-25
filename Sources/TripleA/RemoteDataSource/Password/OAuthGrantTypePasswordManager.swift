@@ -59,14 +59,17 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
     }
 
     public func logout() async {
-        storage.removeAll()        
+        storage.removeAll()
+        showLogin()
     }
 
     public func showLogin() {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-        guard let window = scene.windows.first else { return }
-        window.rootViewController = startController
-        window.makeKeyAndVisible()        
+        DispatchQueue.main.async {
+            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            guard let window = scene.windows.first else { return }
+            window.rootViewController = self.startController
+            window.makeKeyAndVisible()
+        }
     }
 
     func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
