@@ -39,7 +39,7 @@ public struct Endpoint{
     var videos: [String: String]
     var request: URLRequest {
         get {
-            guard let url = URL(string: path) else { fatalError("Not a valid URL") }
+            guard let url = URL(string: baseURL + path) else { fatalError("Not a valid URL") }
             var request = URLRequest(url:  url)
             headers.forEach { key, value in
                 request.addValue(value, forHTTPHeaderField: key)
