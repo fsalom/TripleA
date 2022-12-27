@@ -30,7 +30,7 @@ There are 4 main pieces in this system. Each one of them is responsable of their
 ### Network
 It is the core of this package. It provides different ways of calling an API.
 
-```
+```swift
 public init(baseURL: String,
             authManager: AuthManager? = nil,
             headers: [String: String] = [:],
@@ -50,7 +50,7 @@ Optional properties:
 ### Endpoint
 Each endpoint has its own Endpoint object. This object has different properties to create the request
 
-```
+```swift
 public init(baseURL: String = "",
             path: String,
             httpMethod: HTTPMethod,
