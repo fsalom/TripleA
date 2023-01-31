@@ -6,6 +6,7 @@ public struct Endpoint{
         case get
         case post
         case patch
+        case put
         case delete
         
         var rawValue: String{
@@ -13,6 +14,7 @@ public struct Endpoint{
             case .get: return "GET"
             case .post: return "POST"
             case .patch: return "PATCH"
+            case .put: return "PUT"
             case .delete: return "DELETE"
             }
         }
