@@ -20,88 +20,96 @@ public struct Endpoint{
         }
     }
     
-    public enum Encoding{
+    public enum ContentType {
         case json
-        case multipart
-        
-        var rawValue: String{
+        case xml
+        case image
+        case form
+        case custom(contentType: String)
+        case defaultInMethod(_ method: HTTPMethod)
+        case none
+
+        public var rawValue: String? {
             switch self {
-            case .json: return "application/json; charset=utf-8"
-            case .multipart: return "multipart/form-data; boundary=\(UUID().uuidString)"
+            case .json: return "application/json"
+            case .xml: return "text/xml; charset=utf-8"
+            case .image: return "image/jpeg"
+            case .form: return "application/x-www-form-urlencoded"
+            case .defaultInMethod(let method):
+                if method == .post || method == .put || method == .patch {
+                    return "application/json"
+                }
+                return nil
+            case .custom(let contentType):
+                return contentType
+            case .none:
+                return nil
             }
         }
     }
+
     var baseURL: String = ""
     var path: String
     var httpMethod: HTTPMethod
-    var encoding: Encoding
-    var parameters: [String: Any]
+    var contentType: ContentType?
+    var body: Data?
+    var parameters: [String: Any] = [:]
+    var query: [String: Any] = [:]
     var headers: [String: String]
-    var images: [String: UIImage]
-    var videos: [String: String]
+
     var request: URLRequest {
-        get {
-            guard let url = URL(string: baseURL + path) else { fatalError("Not a valid URL") }
-            var request = URLRequest(url:  url)
-            headers.forEach { key, value in
-                request.addValue(value, forHTTPHeaderField: key)
-            }
-            request.httpMethod = self.httpMethod.rawValue
-            
-            switch self.httpMethod{
-            case .get:
-                if !parameters.isEmpty { request = setURLEncoding(for: url) }
-            case .post, .patch:
-                request.setValue(encoding.rawValue, forHTTPHeaderField: "Content-Type")
-                switch getEncoding(){
-                case .json:
-                    request = setJSONEncoding(for: request)
-                case .multipart:
-                    request = setMultiPartEncoding(for: request)
-                    break
+        guard var url = URL(string: baseURL + path) else { fatalError("Not a valid URL") }
+        url = url.appending(parameters: query)
+        var request = URLRequest(url: url)
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        request.httpMethod = self.httpMethod.rawValue
+        if let contentType = contentType {
+            request.setValue(contentType.rawValue, forHTTPHeaderField: "Content-Type")
+        }
+        switch self.httpMethod {
+        case .post, .patch, .put:
+            switch self.contentType {
+            case .json:
+                request = setJSONEncoding(for: request, with: parameters)
+            case .defaultInMethod(let method):
+                if method == .post || method == .put || method == .patch {
+                    request = setJSONEncoding(for: request, with: parameters)
                 }
             default:
                 break
             }
-            return request
+        default:
+            break
         }
+        if let body = body {
+            request.httpBody = body
+        }
+        return request
     }
-    
+
     public init(path: String,
+                contentType: ContentType? = nil,
                 httpMethod: HTTPMethod,
+                body: Data? = nil,
                 parameters: [String: Any] = [:],
                 headers: [String: String] = [:],
-                encoding: Encoding = .json,
-                images: [String: UIImage] = [:],
-                videos: [String: String] = [:]){
+                query: [String: Any] = [:]) {
         self.path = path
         self.httpMethod = httpMethod
         self.parameters = parameters
-        self.videos = videos
-        self.images = images
-        self.encoding = encoding
+        self.contentType = contentType == nil ? .defaultInMethod(self.httpMethod) : contentType
         self.headers = headers
+        self.body = body
+        self.query = query
     }
-    
-    // MARK: - set Encoding depending on all variables
-    func getEncoding() -> Encoding{
-        switch httpMethod {
-        case .post, .patch:
-            var newEncoding = encoding == .none ? .json : encoding
-            if !videos.isEmpty || !images.isEmpty{
-                newEncoding = .multipart
-            }
-            return newEncoding
-        default:
-            return .json
-        }
-    }
-    
+
     // MARK: - set JSON encoding parameters
-    func setJSONEncoding(for request: URLRequest) -> URLRequest{
+    func setJSONEncoding(for request: URLRequest, with parameters: [String: Any]) -> URLRequest {
         var request = request
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
-            fatalError("Error coding json to data")
+            return request
         }
         request.httpBody = httpBody
         return request
@@ -110,7 +118,7 @@ public struct Endpoint{
     // MARK: - set URL encoding parameters
     func setURLEncoding(for url: URL) -> URLRequest{
         var components = URLComponents(string: url.absoluteString)!
-        components.queryItems = self.parameters.map { (key, value) in
+        components.queryItems = self.query.map { (key, value) in
             if value is Int{
                 return URLQueryItem(name: key, value: "\(value)")
             }else{
@@ -119,16 +127,6 @@ public struct Endpoint{
         }
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
         return URLRequest(url: components.url!)
-    }
-    
-    // MARK: - set JSON encoding parameters
-    func setMultiPartEncoding(for request: URLRequest) -> URLRequest{
-        var request = request
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
-            fatalError()
-        }
-        request.httpBody = httpBody
-        return request
     }
 
     mutating func addExtra(headers: [String: String]) {
@@ -145,3 +143,32 @@ public struct Endpoint{
     }
 }
 
+fileprivate extension URL {
+    func appending(_ queryItem: String, value: String?) -> URL? {
+        guard var urlComponents = URLComponents(string: absoluteString) else { return absoluteURL }
+        var queryItems: [URLQueryItem] = urlComponents.queryItems ?? []
+        let queryItem = URLQueryItem(name: queryItem, value: value)
+        queryItems.append(queryItem)
+        urlComponents.queryItems = queryItems
+        return urlComponents.url
+    }
+
+    func appending(parameters: [String: Any]?) -> URL {
+        guard let parameters = parameters else { return self }
+        var appendingUrl = self
+        let sortedParameters = parameters.sorted { $0.key < $1.key }
+        for (key, value) in sortedParameters {
+            if let value = value as? String, let url = appendingUrl.appending(key, value: value) {
+                appendingUrl = url
+            }
+            if let values = value as? [String] {
+                for value in values {
+                    if let url = appendingUrl.appending(key, value: value) {
+                        appendingUrl = url
+                    }
+                }
+            }
+        }
+        return appendingUrl
+    }
+}
