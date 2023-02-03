@@ -52,6 +52,7 @@ public class Network {
         do {
             return try parse(with: data, and: response, for: type)
         } catch {
+            Log.thisError(error)
             throw error
         }
     }
@@ -82,6 +83,7 @@ public class Network {
         do {
             return try parse(with: data, and: response, for: type)
         } catch {
+            Log.thisError(error)
             throw error
         }
     }
