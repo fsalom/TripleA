@@ -141,6 +141,39 @@ public struct Endpoint{
             self.baseURL = url
         }
     }
+
+    public func createBodyWithParameters(parameters: [String: String],
+                                         imageData: Data?,
+                                         boundary: String = UUID().uuidString) -> Data {
+        var body = Data()
+        for (key, value) in parameters {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            body.appendString("\(value)\r\n")
+        }
+
+        let filename = "\(boundary).jpg"
+        let mimetype = "image/jpg"
+
+        body.appendString("--\(boundary)\r\n")
+
+        if let imageData = imageData {
+            body.appendString("Content-Disposition: form-data; name=\"\(filename)\"; filename=\"\(filename)\"\r\n")
+            body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+            body.append(imageData)
+            body.appendString("\r\n")
+            body.appendString("--\(boundary)--\r\n")
+        }
+
+        return body
+    }
+}
+
+fileprivate extension Data {
+    mutating func appendString(_ string: String) {
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: true)
+        append(data!)
+    }
 }
 
 fileprivate extension URL {
