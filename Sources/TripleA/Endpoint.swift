@@ -142,9 +142,10 @@ public struct Endpoint{
         }
     }
 
-    public func createBodyWithParameters(parameters: [String: String],
-                                         imageData: Data?,
-                                         boundary: String = UUID().uuidString) -> Data {
+    public mutating func createBodyWithParameters(parameters: [String: String],
+                                                  imageData: Data?,
+                                                  imageKey: String,
+                                                  boundary: String = UUID().uuidString) {
         var body = Data()
         for (key, value) in parameters {
             body.appendString("--\(boundary)\r\n")
@@ -165,7 +166,7 @@ public struct Endpoint{
             body.appendString("--\(boundary)--\r\n")
         }
 
-        return body
+        self.body = body
     }
 }
 
