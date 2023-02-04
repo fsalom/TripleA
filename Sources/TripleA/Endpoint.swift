@@ -142,10 +142,10 @@ public struct Endpoint{
         }
     }
 
-    public mutating func createBodyWithParameters(parameters: [String: String],
-                                                  imageData: Data?,
-                                                  imageKey: String,
-                                                  boundary: String) {
+    public mutating func createBody(with parameters: [String: String],
+                                    for image: Data?,
+                                    imageKey: String,
+                                    boundary: String) {
         var body = Data()
         for (key, value) in parameters {
             body.appendString("--\(boundary)\r\n")
@@ -158,14 +158,13 @@ public struct Endpoint{
 
         body.appendString("--\(boundary)\r\n")
 
-        if let imageData = imageData {
+        if let imageData = image {
             body.appendString("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n")
             body.appendString("Content-Type: \(mimetype)\r\n\r\n")
             body.append(imageData)
             body.appendString("\r\n")
             body.appendString("--\(boundary)--\r\n")
         }
-
         self.body = body
     }
 }
