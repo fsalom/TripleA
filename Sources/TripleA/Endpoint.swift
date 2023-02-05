@@ -129,6 +129,7 @@ public struct Endpoint{
         return URLRequest(url: components.url!)
     }
 
+    // MARK: - add additional headers
     mutating func addExtra(headers: [String: String]) {
         headers.forEach { key, value in
             self.headers[key] = value
@@ -142,9 +143,10 @@ public struct Endpoint{
         }
     }
 
+    // MARK: - create a Data for body with params and image
     public mutating func createBody(with parameters: [String: String],
-                                    for image: Data?,
-                                    imageKey: String,
+                                    and image: Data?,
+                                    for imageKey: String,
                                     boundary: String) {
         var body = Data()
         for (key, value) in parameters {
@@ -155,9 +157,7 @@ public struct Endpoint{
 
         let filename = "\(boundary).jpg"
         let mimetype = "image/jpg"
-
         body.appendString("--\(boundary)\r\n")
-
         if let imageData = image {
             body.appendString("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n")
             body.appendString("Content-Type: \(mimetype)\r\n\r\n")

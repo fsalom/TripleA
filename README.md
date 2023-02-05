@@ -51,14 +51,13 @@ Optional properties:
 Each endpoint has its own Endpoint object. This object has different properties to create the request
 
 ```swift
-public init(baseURL: String = "",
-            path: String,
+public init(path: String,
+            contentType: ContentType? = nil,
             httpMethod: HTTPMethod,
+            body: Data? = nil,
             parameters: [String: Any] = [:],
             headers: [String: String] = [:],
-            encoding: Encoding = .json,
-            images: [String: UIImage] = [:],
-            videos: [String: String] = [:])
+            query: [String: Any] = [:])
             
 Endpoint(path: "https://api.coincap.io/v2/assets", httpMethod: .get)
 ```
@@ -70,9 +69,9 @@ Required properties:
 Optional properties:
 - parameters: 
 - headers: 
-- encoding: 
-- images: 
-- videos: 
+- query: 
+- contentType: 
+- body: 
 
 ## 🚀 Usage non authorized API
 As an example we will use https://coincap.io and their crypto list. This API is free to use and do not have any kind of authentication system
