@@ -10,7 +10,7 @@ enum LogType {
 
 public enum LogFormat {
     case full
-    case custom(Int)
+    case custom(characters: Int)
     case short
     case requestOnly
     case none
