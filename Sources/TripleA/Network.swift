@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-public class Network {
+open class Network {
     var baseURL: String = ""
     public let authManager: AuthManager?
     var additionalHeaders: [String: String] = [:]
