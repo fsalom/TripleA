@@ -18,9 +18,11 @@ class Container {
                                                                 startController: getLoginController(),
                                                                 refreshTokenEndpoint: OAuthAPI.refresh(parametersRefresh).endpoint,
                                                                 tokensEndPoint: OAuthAPI.login(parametersLogin).endpoint)
+
+    static let PKCEDataSource = PKCEManager(storage: Container.storage, presentationAnchor: nil )
     //AUTHMANAGER
     let authManager = AuthManager(storage: Container.storage,
-                                  remoteDataSource: Container.remoteDataSource,
+                                  remoteDataSource: Container.PKCEDataSource,
                                   parameters: [:])
     //NETWORK
     static let network = Network(baseURL: "https://dashboard.rudo.es/",
