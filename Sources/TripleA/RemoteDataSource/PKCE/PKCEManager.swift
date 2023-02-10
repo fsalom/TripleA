@@ -17,15 +17,11 @@ public final class PKCEManager: NSObject {
 
 extension PKCEManager: RemoteDataSourceProtocol {
     public func showLogin() {
-        let queryItems = [URLQueryItem(name: "next", value: "/auth/authorize"),
-                          URLQueryItem(name: "client_id", value: "sPdxLJGjaKg969wRD5gc1IXBP7TbdVm06lJjR3qs"),
-                          URLQueryItem(name: "code_challenge_method", value: "S256"),
-                          URLQueryItem(name: "scope", value: "Reading Writing")]
+        let queryItems = [URLQueryItem(name: "next", value: "/auth/authorize?client_id=sPdxLJGjaKg969wRD5gc1IXBP7TbdVm06lJjR3qs&code_challenge_method=S256&response_type=code&scope=read write")]
         guard var authURL = URLComponents(string: "https://dashboard-staging.rudo.es/accounts/login/") else { return }
         authURL.queryItems = queryItems
 
-        //next=/auth/authorize%3Fclient_id%3DsPdx[…]M%26code_challenge_method%3D&scope=Reading%20Writing
-        let scheme = "exampleauth"
+        let scheme = "app"
 
         // Initialize the session.
         guard let url = authURL.url else { return }
@@ -37,6 +33,7 @@ extension PKCEManager: RemoteDataSourceProtocol {
                 print(error)
                 // Handle the callback.
             }
+            session.prefersEphemeralWebBrowserSession = false
             session.presentationContextProvider = self
             session.start()
         }
