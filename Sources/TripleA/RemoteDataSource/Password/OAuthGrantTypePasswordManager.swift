@@ -32,6 +32,10 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
             }
         }
         do {
+            if parameters.isEmpty {
+                showLogin()
+                return ""
+            }
             parameters.forEach { (key: String, value: Any) in
                 tokensEndpoint.parameters[key] = value
             }
