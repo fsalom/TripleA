@@ -9,7 +9,7 @@ final class CryptoListViewModel {
     init(router: CryptoListRouter) {
         self.router = router
         //NETWORK
-        self.network = Network(baseURL: "https://api.coincap.io/v2/")
+        self.network = Network(baseURL: "https://api.coincap.io/v2/", format: .short)
     }
 
     func getCryptos() async throws {

@@ -35,7 +35,7 @@ class Container {
     //NETWORK
     static let network = Network(baseURL: "https://dashboard.rudo.es/",
                                  authManager: Container.shared.authManager,
-                                 format: .custom(characters: 50))
+                                 format: .short)
     
     init() { }
 }

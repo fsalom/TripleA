@@ -40,7 +40,7 @@ public final class PKCEManager: NSObject {
 extension PKCEManager: RemoteDataSourceProtocol {
     public func showLogin(completion: @escaping (String?) -> Void) {
         codeVerifier = getCodeVerifier()
-        let queryItems = [URLQueryItem(name: "next", value: "/auth/authorize?client_id=\(config.clientID)&code_challenge_method=\(config.codeChallengeMethod)&response_type=\(config.responseType)&scope=\(config.scope)&code_challenge=\(getCodeChallenge(for: codeVerifier))")]
+        let queryItems = [URLQueryItem(name: "next", value: "/auth/authorize?client_id=\(config.clientID)&code_challenge_method=\(config.codeChallengeMethod)&response_type=\(config.responseType)&scope=\(config.scope)&code_challenge=\(getCodeChallenge(for: codeVerifier) ?? "")")]
         guard var authURL = URLComponents(string: config.authorizeURL) else { return }
         authURL.queryItems = queryItems
 
@@ -52,11 +52,14 @@ extension PKCEManager: RemoteDataSourceProtocol {
         DispatchQueue.main.async {
             let session = ASWebAuthenticationSession(url: url, callbackURLScheme: scheme) { callbackURL, error in
                 guard error == nil, let callbackURL = callbackURL else {
-                    let msg = error?.localizedDescription.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+                    completion(nil)
                     return
                 }
                 guard let urlComponents = URLComponents(url: callbackURL, resolvingAgainstBaseURL: true),
-                      let queryItems = urlComponents.queryItems else { return }
+                      let queryItems = urlComponents.queryItems else {
+                    completion(nil)
+                    return
+                }
                 for queryItem in queryItems {
                     if(queryItem.name == "code"){
                         completion(queryItem.value)
@@ -127,7 +130,7 @@ extension PKCEManager: RemoteDataSourceProtocol {
 
     public func logout() async {
         storage.removeAll()
-        try? await self.getAccessToken(with: [:])
+        _ = try? await self.getAccessToken(with: [:])
     }
 
     func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
