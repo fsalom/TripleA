@@ -54,7 +54,7 @@ public final actor AuthManager {
         DispatchQueue.main.async {
             Task{
                 await self.storage.removeAll()
-                await self.remoteDataSource.showLogin()
+                // await self.remoteDataSource.showLogin()
             }
         }
     }
