@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - PKCEConfig - configuration needed for PKCEManager
 public struct PKCEConfig {
     var clientID: String
     var clientSecret: String

@@ -37,26 +37,14 @@ public final actor AuthManager {
                 do {
                     return try await renewToken()
                 } catch {
-                    showLogin()
+                    self.storage.removeAll()
+                    try await getNewToken()
                 }
             }
         }
-        showLogin()
+        self.storage.removeAll()
+        try await getNewToken()
         throw AuthError.missingToken
-    }
-
-    // MARK: - showLogin
-    /**
-     Shows login when authentication flow fails
-
-    */
-    private func showLogin() {
-        DispatchQueue.main.async {
-            Task{
-                await self.storage.removeAll()
-                // await self.remoteDataSource.showLogin()
-            }
-        }
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
