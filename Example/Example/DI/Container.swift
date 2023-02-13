@@ -19,14 +19,14 @@ class Container {
                                                                 refreshTokenEndpoint: OAuthAPI.refresh(parametersRefresh).endpoint,
                                                                 tokensEndPoint: OAuthAPI.login(parametersLogin).endpoint)
 
-    static let config = PKCEConfig(clientID: "sPdxLJGjaKg969wRD5gc1IXBP7TbdVm06lJjR3qs",
-                                   clientSecret: "3XfwaCKMOs5pwvy84qc87mKc5tNTkABKAvCfjsnqd1T2ezBNDAmUnsKeWuQ9xMAGZn8WzRMhPJ08spD47zz4GFm5Z0zy0rIlw4W6W0ynA5rc0fY8OdMAaz9lYVqGxhZi",
+    static let config = PKCEConfig(clientID: "vW6QyPMdId5NlGRNqbULm0YFWk0hq6VMWBDWSovp",
+                                   clientSecret: "9ElafIEJbecCbk83t0SNYobrSMdD6mKUvgIwOE1vkWOqHvqhcWtCBZV1tGB9wJNi81EYLUwV8kSfIbQb12AhZAgGCl8gfpYh5Tr8o45iuNC97Ucizac32qySLe9lhdJ3",
                                    authorizeURL: "https://dashboard-staging.rudo.es/accounts/login/",
                                    tokenURL: "https://dashboard-staging.rudo.es/auth/token/",
                                    scope: "write read",
                                    codeChallengeMethod: "S256",
                                    responseType: "code",
-                                   callbackURLScheme: "app")
+                                   callbackURLScheme: "app://auth")
     static let PKCEDataSource = PKCEManager(storage: Container.storage, presentationAnchor: nil, config: config )
     //AUTHMANAGER
     let authManager = AuthManager(storage: Container.storage,
@@ -35,7 +35,7 @@ class Container {
     //NETWORK
     static let network = Network(baseURL: "https://dashboard.rudo.es/",
                                  authManager: Container.shared.authManager,
-                                 format: .short)
+                                 format: .full)
     
     init() { }
 }
