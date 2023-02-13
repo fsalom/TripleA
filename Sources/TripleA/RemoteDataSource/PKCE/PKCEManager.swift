@@ -62,9 +62,10 @@ extension PKCEManager: RemoteDataSourceProtocol {
         let scheme = config.callbackURLScheme
 
         guard let url = authURL.url else { return }
+        guard let callback = URL(string: scheme) else { return }
         print(url.absoluteString)
         DispatchQueue.main.async {
-            let session = ASWebAuthenticationSession(url: url, callbackURLScheme: scheme) { callbackURL, error in
+            let session = ASWebAuthenticationSession(url: url, callbackURLScheme: callback.scheme) { callbackURL, error in
                 guard error == nil, let callbackURL = callbackURL else {
                     completion(nil)
                     return
