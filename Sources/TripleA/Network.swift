@@ -28,9 +28,9 @@ open class Network {
      - Returns: object of type  `T` already parsed.x
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func loadAuthorized<T: Decodable>(endpoint: Endpoint,
-                                             of type: T.Type? = AuthNoReply,
-                                             allowRetry: Bool = true) async throws -> T {
+    open func loadAuthorized<T: Decodable>(endpoint: Endpoint,
+                                           of type: T.Type? = AuthNoReply,
+                                           allowRetry: Bool = true) async throws -> T {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
@@ -68,9 +68,9 @@ open class Network {
      - Returns: object of type  `T` already parsed.
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func load<T: Decodable>(endpoint: Endpoint,
-                                   of type: T.Type? = AuthNoReply,
-                                   allowRetry: Bool = true) async throws -> T {
+    open func load<T: Decodable>(endpoint: Endpoint,
+                                 of type: T.Type? = AuthNoReply,
+                                 allowRetry: Bool = true) async throws -> T {
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
@@ -141,7 +141,7 @@ open class Network {
      - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
      - Throws: An error of type `NetworkError`  with extra info
     */
-    public func loadRaw(this endpoint: Endpoint) async throws -> (Int, Data) {
+    open func loadRaw(this endpoint: Endpoint) async throws -> (Int, Data) {
         do {
             return try await loadAndResponse(this: endpoint)
         } catch {
