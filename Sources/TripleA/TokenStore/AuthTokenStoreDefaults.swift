@@ -53,7 +53,7 @@ extension AuthTokenStoreDefault: StorageProtocol {
             }
             Log.this("Saving - \(refreshTokenKey): \(newValue)")
             guard let encodedData = try? JSONEncoder().encode(newValue) else {
-                Log.this("🤬 Error saving - \(refreshTokenKey)) > JSON ENCODER ERROR")
+                Log.this("🤬 Error saving - \(refreshTokenKey) > JSON ENCODER ERROR")
                 return
             }
             userDefaults.set(encodedData, forKey: refreshTokenKey)
@@ -64,7 +64,7 @@ extension AuthTokenStoreDefault: StorageProtocol {
         get {
             let idTokenKey = StorageKey.idToken.rawValue
             guard let savedData = UserDefaults.standard.object(forKey: idTokenKey) as? Data  else {
-                Log.this("Fetching - \(idTokenKey)) > NOT FOUND")
+                Log.this("Fetching - \(idTokenKey) > NOT FOUND")
                 return nil
             }
             guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
@@ -80,7 +80,7 @@ extension AuthTokenStoreDefault: StorageProtocol {
             }
             Log.this("Saving - \(idTokenKey): \(newValue)")
             guard let encodedData = try? JSONEncoder().encode(newValue) else {
-                Log.this("🤬 Error saving - \(idTokenKey)) > JSON ENCODER ERROR")
+                Log.this("🤬 Error saving - \(idTokenKey) > JSON ENCODER ERROR")
                 return
             }
             userDefaults.set(encodedData, forKey: idTokenKey)
