@@ -37,7 +37,7 @@ extension AuthTokenStoreDefault: StorageProtocol {
         get {
             let refreshTokenKey = StorageKey.refreshToken.rawValue
             guard let savedData = UserDefaults.standard.object(forKey: refreshTokenKey) as? Data  else {
-                Log.this("Fetching - \(refreshTokenKey)) > NOT FOUND")
+                Log.this("Fetching - \(refreshTokenKey) > NOT FOUND")
                 return nil
             }
             guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
