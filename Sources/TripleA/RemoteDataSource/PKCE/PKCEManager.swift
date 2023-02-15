@@ -63,7 +63,7 @@ extension PKCEManager: RemoteDataSourceProtocol {
 
         guard let url = authURL.url else { return }
         guard let callback = URL(string: scheme) else { return }
-        print(url.absoluteString)
+
         DispatchQueue.main.async {
             let session = ASWebAuthenticationSession(url: url, callbackURLScheme: callback.scheme) { callbackURL, error in
                 guard error == nil, let callbackURL = callbackURL else {
@@ -157,8 +157,35 @@ extension PKCEManager: RemoteDataSourceProtocol {
      Remove storage and initialize authenticatin flow
      */
     public func logout() async {
-        storage.removeAll()
-        _ = try? await self.getAccessToken(with: [:])
+        logoutHandler { success in
+            if success {
+
+            }
+        }
+    }
+
+    func logoutHandler(success: @escaping (Bool) -> Void) {
+        guard let callback = URL(string: config.callbackURLLogoutScheme) else {
+            success(false)
+            return
+        }
+        let queryItems = [URLQueryItem(name: "redirect_uri", value: config.callbackURLLogoutScheme)]
+        guard var logoutURL = URLComponents(string: config.logoutURL) else {
+            success(false)
+            return
+        }
+        logoutURL.queryItems = queryItems
+        DispatchQueue.main.async {
+            let session = ASWebAuthenticationSession(url: logoutURL.url!, callbackURLScheme: callback.scheme) { redirectURL, error in
+                guard error == nil, let redirectURL = redirectURL else {
+                    return
+                }
+                self.storage.removeAll()
+            }
+            session.prefersEphemeralWebBrowserSession = self.SSO
+            session.presentationContextProvider = self
+            session.start()
+        }
     }
 
     func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
