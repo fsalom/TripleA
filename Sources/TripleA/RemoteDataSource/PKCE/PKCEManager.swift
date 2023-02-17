@@ -164,6 +164,10 @@ extension PKCEManager: RemoteDataSourceProtocol {
         }
     }
 
+    // MARK: - logout with ASWebAuthenticationSession
+    /**
+     Remove storage and initialize authenticatin flow
+     */
     func logoutHandler(success: @escaping (Bool) -> Void) {
         guard let callback = URL(string: config.callbackURLLogoutScheme) else {
             success(false)
@@ -176,11 +180,13 @@ extension PKCEManager: RemoteDataSourceProtocol {
         }
         logoutURL.queryItems = queryItems
         DispatchQueue.main.async {
-            let session = ASWebAuthenticationSession(url: logoutURL.url!, callbackURLScheme: callback.scheme) { redirectURL, error in
-                guard error == nil, let redirectURL = redirectURL else {
+            let session = ASWebAuthenticationSession(url: logoutURL.url!, callbackURLScheme: callback.scheme) { _, error in
+                guard error == nil else {
+                    success(false)
                     return
                 }
                 self.storage.removeAll()
+                success(true)
             }
             session.prefersEphemeralWebBrowserSession = self.SSO
             session.presentationContextProvider = self
