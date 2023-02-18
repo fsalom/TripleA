@@ -141,7 +141,6 @@ extension PKCEManager: RemoteDataSourceProtocol {
                                 httpMethod: .post,
                                 parameters: parameters)
 
-
         let tokens = try await self.load(endpoint: endpoint, of: TokensDTO.self)
         storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
         storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
