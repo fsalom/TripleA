@@ -1,7 +1,7 @@
 import UIKit
 import Security
 
-class KeyChain {
+fileprivate class KeyChain {
     class func save(key: String, data: Data) -> OSStatus {
         let query = [
             kSecClass as String       : kSecClassGenericPassword as String,
@@ -56,7 +56,7 @@ class KeyChain {
     }
 }
 
-extension Data {
+fileprivate extension Data {
     init<T>(from value: T) {
         var value = value
         self.init(buffer: UnsafeBufferPointer(start: &value, count: 1))
