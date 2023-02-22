@@ -58,7 +58,9 @@ extension PKCEManager: RemoteDataSourceProtocol {
         let queryItems = [URLQueryItem(name: "next", value: "/auth/authorize?client_id=\(config.clientID)&code_challenge_method=\(config.codeChallengeMethod)&response_type=\(config.responseType)&scope=\(config.scope)&code_challenge=\(getCodeChallenge(for: codeVerifier) ?? "")")]
         guard var authURL = URLComponents(string: config.authorizeURL) else { return }
         authURL.queryItems = queryItems
-
+        if let finalURL = authURL.url {
+            Log.thisURL(finalURL)
+        }
         let scheme = config.callbackURLScheme
 
         guard let url = authURL.url else { return }
@@ -178,6 +180,9 @@ extension PKCEManager: RemoteDataSourceProtocol {
             return
         }
         logoutURL.queryItems = queryItems
+        if let finalURL = logoutURL .url {
+            Log.thisURL(finalURL)
+        }
         DispatchQueue.main.async {
             let session = ASWebAuthenticationSession(url: logoutURL.url!, callbackURLScheme: callback.scheme) { _, error in
                 guard error == nil else {

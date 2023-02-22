@@ -22,7 +22,7 @@ class Container {
     static let config = PKCEConfig(clientID: "vW6QyPMdId5NlGRNqbULm0YFWk0hq6VMWBDWSovp",
                                    clientSecret: "9ElafIEJbecCbk83t0SNYobrSMdD6mKUvgIwOE1vkWOqHvqhcWtCBZV1tGB9wJNi81EYLUwV8kSfIbQb12AhZAgGCl8gfpYh5Tr8o45iuNC97Ucizac32qySLe9lhdJ3",
                                    authorizeURL: "https://dashboard-staging.rudo.es/accounts/login/",
-                                   logoutURL: "https://dashboard-staging.rudo.es/accounts/logout",
+                                   logoutURL: "https://dashboard-staging.rudo.es/accounts/logout/",
                                    tokenURL: "https://dashboard-staging.rudo.es/auth/token/",
                                    scope: "write read",
                                    codeChallengeMethod: "S256",
@@ -35,7 +35,7 @@ class Container {
                                   remoteDataSource: Container.PKCEDataSource,
                                   parameters: [:])
     //NETWORK
-    static let network = Network(baseURL: "https://dashboard.rudo.es/",
+    static let network = Network(baseURL: "https://dashboard-staging.rudo.es/",
                                  authManager: Container.shared.authManager,
                                  format: .full)
     

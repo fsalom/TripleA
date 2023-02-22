@@ -84,6 +84,15 @@ struct Log {
             break
         }
     }
+
+    static func thisURL(_ url: URL, format: LogFormat = .full) {
+        let url = url.absoluteString
+
+        switch format {
+        default:
+            print("📡 ➡️ \(url) ")
+        }
+    }
     
     static func thisError(_ error : Error) {
         print("🤬 ERROR: \(error.localizedDescription)")
