@@ -118,7 +118,11 @@ extension PKCEManager: RemoteDataSourceProtocol {
                     continuation.resume(returning: code)
                 })
             }
-            return try await getToken(with: code)
+            if code != nil {
+                return try await getToken(with: code)
+            } else {
+                return try await getAccessToken(with: parameters)
+            }
         } catch {
             throw AuthError.badRequest
         }
@@ -158,9 +162,15 @@ extension PKCEManager: RemoteDataSourceProtocol {
      Remove storage and initialize authenticatin flow
      */
     public func logout() async {
-        logoutHandler { success in
+        Task {
+            let success = await withCheckedContinuation { continuation in
+                logoutHandler { success in
+                    continuation.resume(returning: success)
+                }
+            }
             if success {
-
+                self.storage.removeAll()
+                await try? self.getAccessToken(with: [:])
             }
         }
     }
@@ -184,12 +194,12 @@ extension PKCEManager: RemoteDataSourceProtocol {
             Log.thisURL(finalURL)
         }
         DispatchQueue.main.async {
-            let session = ASWebAuthenticationSession(url: logoutURL.url!, callbackURLScheme: callback.scheme) { _, error in
+            let session = ASWebAuthenticationSession(url: logoutURL.url!, callbackURLScheme: callback.scheme) { response, error in
                 guard error == nil else {
                     success(false)
                     return
                 }
-                self.storage.removeAll()
+
                 success(true)
             }
             session.prefersEphemeralWebBrowserSession = self.SSO
