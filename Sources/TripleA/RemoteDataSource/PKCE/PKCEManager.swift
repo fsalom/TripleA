@@ -170,7 +170,7 @@ extension PKCEManager: RemoteDataSourceProtocol {
             }
             if success {
                 self.storage.removeAll()
-                await try? self.getAccessToken(with: [:])
+                _ = try? await self.getAccessToken(with: [:])
             }
         }
     }
