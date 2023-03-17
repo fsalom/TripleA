@@ -144,26 +144,37 @@ public struct Endpoint{
     }
 
     // MARK: - create a Data for body with params and image
-    public mutating func createBody(with parameters: [String: String],
+    public mutating func createBody(with parameters: [String: Any],
                                     and image: Data?,
                                     for imageKey: String,
                                     boundary: String) {
         var body = Data()
+
         for (key, value) in parameters {
-            body.appendString("--\(boundary)\r\n")
-            body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            body.appendString("\(value)\r\n")
+            body.append(contentsOf: "--\(boundary)\r\n".utf8)
+            body.append(contentsOf: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".utf8)
+
+            if let string = value as? String {
+                body.append(contentsOf: string.utf8)
+                body.append(contentsOf: "\r\n".utf8)
+            } else if let number = value as? NSNumber {
+                body.append(contentsOf: number.stringValue.utf8)
+                body.append(contentsOf: "\r\n".utf8)
+            } else {
+                assertionFailure("Unsupported value type")
+            }
+            body.append(contentsOf: "\r\n".utf8)
         }
 
         let filename = "\(boundary).jpg"
         let mimetype = "image/jpg"
-        body.appendString("--\(boundary)\r\n")
+        body.append(contentsOf: "--\(boundary)\r\n".utf8)
         if let imageData = image {
-            body.appendString("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n")
-            body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+            body.append(contentsOf: "Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".utf8)
+            body.append(contentsOf: "Content-Type: \(mimetype)\r\n\r\n".utf8)
             body.append(imageData)
-            body.appendString("\r\n")
-            body.appendString("--\(boundary)--\r\n")
+            body.append(contentsOf: "\r\n".utf8)
+            body.append(contentsOf: "--\(boundary)--\r\n".utf8)
         }
         self.body = body
     }
