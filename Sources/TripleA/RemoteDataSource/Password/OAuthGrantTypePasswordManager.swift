@@ -1,4 +1,5 @@
 import Foundation
+#if canImport(UIKit)
 import UIKit
 
 public final class OAuthGrantTypePasswordManager {
@@ -89,3 +90,4 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         return parseData
     }
 }
+#endif

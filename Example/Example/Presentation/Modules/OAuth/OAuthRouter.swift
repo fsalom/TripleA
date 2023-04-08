@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 final class OAuthRouter {
@@ -7,3 +8,4 @@ final class OAuthRouter {
         self.viewController = viewController
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 class OAuthController: UIViewController {
@@ -119,3 +120,4 @@ class OAuthController: UIViewController {
         }
     }
 }
+#endif
