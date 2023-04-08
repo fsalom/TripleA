@@ -1,6 +1,4 @@
 import Foundation
-import UIKit
-import Combine
 
 public final actor AuthManager {
     private var storage: StorageProtocol

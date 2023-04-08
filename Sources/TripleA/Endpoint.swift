@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 public struct Endpoint{
     public enum HTTPMethod{
@@ -155,12 +154,15 @@ public struct Endpoint{
             body.append(contentsOf: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".utf8)
 
             if let string = value as? String {
+                print("value type String: \(value) for key: \(key)")
                 body.append(contentsOf: string.utf8)
                 body.append(contentsOf: "\r\n".utf8)
             } else if let number = value as? NSNumber {
+                print("value type number: \(value) for key: \(key)")
                 body.append(contentsOf: number.stringValue.utf8)
                 body.append(contentsOf: "\r\n".utf8)
             } else {
+                print("unsupported value type: \(value) for key: \(key)")
                 assertionFailure("Unsupported value type")
             }
             body.append(contentsOf: "\r\n".utf8)
@@ -175,6 +177,7 @@ public struct Endpoint{
             body.append(imageData)
             body.append(contentsOf: "\r\n".utf8)
             body.append(contentsOf: "--\(boundary)--\r\n".utf8)
+            print("added new image")
         }
         self.body = body
     }

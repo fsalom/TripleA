@@ -1,8 +1,8 @@
-import UIKit
+import Foundation
 import AuthenticationServices
 import CommonCrypto
 
-public final class PKCEManager: NSObject {
+public class PKCEManager: NSObject {
     private var storage: StorageProtocol!
     private let SSO: Bool
     private let config: PKCEConfig!

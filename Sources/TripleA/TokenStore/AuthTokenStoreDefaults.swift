@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 public class AuthTokenStoreDefault {
     private let userDefaults = UserDefaults.standard

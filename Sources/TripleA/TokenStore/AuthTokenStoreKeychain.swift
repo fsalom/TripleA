@@ -1,5 +1,5 @@
-import UIKit
 import Security
+import Foundation
 
 fileprivate class KeyChain {
     class func save(key: String, data: Data) -> OSStatus {

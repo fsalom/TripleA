@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 open class Network {
     var baseURL: String = ""
@@ -29,7 +28,7 @@ open class Network {
      - Throws: An error of type `CustomError`  with extra info
     */
     open func loadAuthorized<T: Decodable>(endpoint: Endpoint,
-                                           of type: T.Type? = AuthNoReply,
+                                           of type: T.Type? = AuthNoReply.self,
                                            allowRetry: Bool = true) async throws -> T {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
@@ -69,7 +68,7 @@ open class Network {
      - Throws: An error of type `CustomError`  with extra info
     */
     open func load<T: Decodable>(endpoint: Endpoint,
-                                 of type: T.Type? = AuthNoReply,
+                                 of type: T.Type? = AuthNoReply.self,
                                  allowRetry: Bool = true) async throws -> T {
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
@@ -100,7 +99,7 @@ open class Network {
     */
     private func parse<T: Decodable>(with data: Data,
                                      and response: HTTPURLResponse,
-                                     for type: T.Type? = AuthNoReply) throws -> T {
+                                     for type: T.Type? = AuthNoReply.self) throws -> T {
         Log.thisResponse(response, data: data, format: format)
         let decoder = JSONDecoder()
         if (200..<300).contains(response.statusCode) {
