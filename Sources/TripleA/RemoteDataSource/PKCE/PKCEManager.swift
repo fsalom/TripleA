@@ -47,6 +47,7 @@ public class PKCEManager: NSObject {
     }
 }
 
+@available(macOS 10.15, *)
 extension PKCEManager: RemoteDataSourceProtocol {
     // MARK: - showLogin - initialize authentication flow with ASWebAuthenticationSession
     /**
@@ -221,7 +222,9 @@ extension PKCEManager: RemoteDataSourceProtocol {
     }
 }
 
+@available(macOS 10.15, *)
 extension PKCEManager: ASWebAuthenticationPresentationContextProviding {
+    @available(macOS 10.15, *)
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         presentationAnchor ?? ASPresentationAnchor()
     }

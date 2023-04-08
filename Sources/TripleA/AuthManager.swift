@@ -1,5 +1,6 @@
 import Foundation
 
+@available(macOS 10.15, *)
 public final actor AuthManager {
     private var storage: StorageProtocol
     private var remoteDataSource: RemoteDataSourceProtocol

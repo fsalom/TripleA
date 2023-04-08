@@ -1,5 +1,6 @@
 import Foundation
 
+@available(macOS 10.15, *)
 open class Network {
     var baseURL: String = ""
     public let authManager: AuthManager?
@@ -245,6 +246,7 @@ open class Network {
     }
 }
 
+@available(macOS 10.15, *)
 extension Network {
     public struct AuthNoReply: Codable {
     }
