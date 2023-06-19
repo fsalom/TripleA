@@ -177,7 +177,47 @@ public struct Endpoint{
             body.append(imageData)
             body.append(contentsOf: "\r\n".utf8)
             body.append(contentsOf: "--\(boundary)--\r\n".utf8)
-            print("added new image")
+        }
+        self.body = body
+    }
+
+    // MARK: - create a Data for body with params and image
+    public mutating func createBody(with parameters: [String: Any],
+                                    and images: [Data],
+                                    for imageKey: String,
+                                    boundary: String) {
+        var body = Data()
+
+        for (key, value) in parameters {
+            body.append(contentsOf: "--\(boundary)\r\n".utf8)
+            body.append(contentsOf: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".utf8)
+
+            if let string = value as? String {
+                print("value type String: \(value) for key: \(key)")
+                body.append(contentsOf: string.utf8)
+                body.append(contentsOf: "\r\n".utf8)
+            } else if let number = value as? NSNumber {
+                print("value type number: \(value) for key: \(key)")
+                body.append(contentsOf: number.stringValue.utf8)
+                body.append(contentsOf: "\r\n".utf8)
+            } else {
+                print("unsupported value type: \(value) for key: \(key)")
+                assertionFailure("Unsupported value type")
+            }
+            body.append(contentsOf: "\r\n".utf8)
+        }
+
+
+        body.append(contentsOf: "--\(boundary)\r\n".utf8)
+        for image in images {
+            let filename = "\(UUID().uuidString).jpg"
+            let mimetype = "image/jpg"
+            body.append(contentsOf: "Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".utf8)
+            body.append(contentsOf: "Content-Type: \(mimetype)\r\n\r\n".utf8)
+            body.append(image)
+            body.append(contentsOf: "\r\n".utf8)
+            body.append(contentsOf: "--\(boundary)--\r\n".utf8)
+
         }
         self.body = body
     }
