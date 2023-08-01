@@ -150,6 +150,29 @@ open class Network {
         }
     }
 
+    // MARK: - loadAuthorizedRaw
+    /**
+     Makes a call and return status code and raw data
+     - Parameters:
+        - endpoint: Endpoint that contains the information related with the request
+     - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
+     - Throws: An error of type `NetworkError`  with extra info
+    */
+    open func loadAuthorizedRaw(this endpoint: Endpoint) async throws -> (Int, Data) {
+        guard let authManager = authManager else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
+        }
+        var modifiedEndpoint: Endpoint = endpoint
+        modifiedEndpoint.addExtra(headers: additionalHeaders)
+        modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
+        do {
+            return try await loadAndResponse(this: modifiedEndpoint)
+        } catch {
+            Log.thisError(error)
+            throw error
+        }
+    }
+
     // MARK: - loadAndResponse
     /**
      Load and response information with raw data and status code
