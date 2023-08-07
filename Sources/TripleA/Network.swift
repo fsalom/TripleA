@@ -158,18 +158,28 @@ open class Network {
      - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
      - Throws: An error of type `NetworkError`  with extra info
     */
-    open func loadAuthorizedRaw(this endpoint: Endpoint) async throws -> (Int, Data) {
+    open func loadAuthorizedRaw(this endpoint: Endpoint) async throws -> (Int, Data?) {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
-        do {
-            return try await loadAndResponse(this: modifiedEndpoint)
-        } catch {
-            Log.thisError(error)
-            throw error
+        let request = try await authorizedRequest(from: modifiedEndpoint.request)
+        Log.thisCall(request, format: format)
+        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+        guard let response = urlResponse as? HTTPURLResponse else{
+            throw NetworkError.invalidResponse
+        }
+        if response.statusCode == 401{
+            _ = try await authManager.renewToken()
+            return try await loadAuthorizedRaw(this: endpoint)
+
+        }
+        if (200..<300).contains(response.statusCode) {
+            return (response.statusCode, data)
+        } else {
+            throw NetworkError.failure(statusCode: response.statusCode, data: data, response: response)
         }
     }
 
