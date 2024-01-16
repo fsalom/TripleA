@@ -78,7 +78,8 @@ public final actor AuthManager {
             do {
                 return try await remoteDataSource.getRefreshToken(with: refreshToken)
             } catch {
-                throw AuthError.badRequest
+                await self.logout()
+                throw AuthError.refreshFailed
             }
         }
         self.refreshTask = task
