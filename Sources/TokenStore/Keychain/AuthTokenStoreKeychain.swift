@@ -58,8 +58,9 @@ fileprivate class KeyChain {
 
 fileprivate extension Data {
     init<T>(from value: T) {
-        var value = value
-        self.init(buffer: UnsafeBufferPointer(start: &value, count: 1))
+        self.init(withUnsafePointer(to: value) { (ptr: UnsafePointer<T>) -> Data in
+            return Data(buffer: UnsafeBufferPointer(start: ptr, count: 1))
+        })
     }
 
     func to<T>(type: T.Type) -> T {
