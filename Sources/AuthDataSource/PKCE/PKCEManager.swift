@@ -3,14 +3,14 @@ import AuthenticationServices
 import CommonCrypto
 
 public class PKCEManager: NSObject {
-    private var storage: StorageProtocol!
+    private var storage: TokenStorageProtocol!
     private let SSO: Bool
     private let config: PKCEConfig!
     weak var presentationAnchor: ASPresentationAnchor?
 
     private var codeVerifier: String = ""
 
-    public init(storage: StorageProtocol,
+    public init(storage: TokenStorageProtocol,
                 presentationAnchor: ASPresentationAnchor?,
                 SSO: Bool = true,
                 config: PKCEConfig) {
@@ -148,7 +148,7 @@ extension PKCEManager: RemoteDataSourceProtocol {
                                 httpMethod: .post,
                                 parameters: parameters)
 
-        let tokens = try await self.load(endpoint: endpoint, of: TokensDTO.self)
+        let tokens = try await self.load(endpoint: endpoint, of: TokensPKCEDTO.self)
         storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
         storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
         return tokens.accessToken

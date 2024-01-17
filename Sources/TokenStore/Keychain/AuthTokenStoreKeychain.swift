@@ -71,7 +71,7 @@ public class AuthTokenStoreKeychain {
     public init() { }
 }
 
-extension AuthTokenStoreKeychain: StorageProtocol {
+extension AuthTokenStoreKeychain: TokenStorageProtocol {
     public var accessToken: Token? {
         get {
             let accessTokenKey = StorageKey.accessToken.rawValue

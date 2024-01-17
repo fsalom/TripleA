@@ -5,7 +5,7 @@ public class AuthTokenStoreDefault {
     public init() { }
 }
 
-extension AuthTokenStoreDefault: StorageProtocol {
+extension AuthTokenStoreDefault: TokenStorageProtocol {
     public var accessToken: Token? {
         get {
             let accessTokenKey = StorageKey.accessToken.rawValue
