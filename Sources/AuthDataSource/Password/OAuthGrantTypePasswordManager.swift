@@ -3,12 +3,12 @@ import Foundation
 import UIKit
 
 public final class OAuthGrantTypePasswordManager {
-    private var storage: StorageProtocol!
+    private var storage: TokenStorageProtocol!
     private var startController: UIViewController?
     public var refreshTokenEndpoint: Endpoint
     public var tokensEndpoint: Endpoint
 
-    public init(storage: StorageProtocol, startController: UIViewController, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
+    public init(storage: TokenStorageProtocol, startController: UIViewController, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
         self.storage = storage
         self.startController = startController
         self.refreshTokenEndpoint = refreshTokenEndpoint
