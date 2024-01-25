@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - SimulationTableHeaderViewProtocol
 
-protocol SimulationTableHeaderViewProtocol: AnyObject {  
+protocol SimulationTableHeaderViewProtocol: AnyObject {
     func didEnableReloadView(enabled: Bool)
 }
 
