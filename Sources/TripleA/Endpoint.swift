@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Endpoint{
+public struct Endpoint: Identifiable {
     public enum HTTPMethod{
         case get
         case post
@@ -47,6 +47,7 @@ public struct Endpoint{
         }
     }
 
+    public let id: String
     var baseURL: String = ""
     var path: String
     var httpMethod: HTTPMethod
@@ -97,6 +98,7 @@ public struct Endpoint{
                 query: [String: Any] = [:]) {
         self.path = path
         self.httpMethod = httpMethod
+        self.id = "\(httpMethod)\(path)".uppercased()
         self.parameters = parameters
         self.contentType = contentType == nil ? .defaultInMethod(self.httpMethod) : contentType
         self.headers = headers

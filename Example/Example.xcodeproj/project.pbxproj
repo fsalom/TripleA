@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA77EC762B502D08001F6599 /* Crypto400KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AA77EC752B502D08001F6599 /* Crypto400KO.json */; };
+		AA77EC782B51C98F001F6599 /* Marvel200OK.json in Resources */ = {isa = PBXBuildFile; fileRef = AA77EC772B51C98F001F6599 /* Marvel200OK.json */; };
+		AA9861122B4D96880017B7CE /* Crypto200OK.json in Resources */ = {isa = PBXBuildFile; fileRef = AA9861112B4D96880017B7CE /* Crypto200OK.json */; };
 		C11DEB5E28AAC4DC00CA1168 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DEB5D28AAC4DC00CA1168 /* AppDelegate.swift */; };
 		C11DEB6028AAC4DC00CA1168 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DEB5F28AAC4DC00CA1168 /* SceneDelegate.swift */; };
 		C11DEB6228AAC4DC00CA1168 /* CryptoListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DEB6128AAC4DC00CA1168 /* CryptoListController.swift */; };
@@ -43,6 +46,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA77EC752B502D08001F6599 /* Crypto400KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto400KO.json; sourceTree = "<group>"; };
+		AA77EC772B51C98F001F6599 /* Marvel200OK.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Marvel200OK.json; sourceTree = "<group>"; };
+		AA9861112B4D96880017B7CE /* Crypto200OK.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto200OK.json; sourceTree = "<group>"; };
 		C11DEB5A28AAC4DC00CA1168 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C11DEB5D28AAC4DC00CA1168 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C11DEB5F28AAC4DC00CA1168 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +98,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA9861102B4D966F0017B7CE /* SimulationJSON */ = {
+			isa = PBXGroup;
+			children = (
+				AA9861112B4D96880017B7CE /* Crypto200OK.json */,
+				AA77EC752B502D08001F6599 /* Crypto400KO.json */,
+				AA77EC772B51C98F001F6599 /* Marvel200OK.json */,
+			);
+			path = SimulationJSON;
+			sourceTree = "<group>";
+		};
 		C11DEB5128AAC4DC00CA1168 = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +128,7 @@
 		C11DEB5C28AAC4DC00CA1168 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				AA9861102B4D966F0017B7CE /* SimulationJSON */,
 				C132756F28DCB232003166A8 /* DI */,
 				C15CBCB228BB75790043FAC3 /* Presentation */,
 				C15CBCA928BB54DC0043FAC3 /* Data */,
@@ -335,6 +352,7 @@
 			files = (
 				C15CBD0F28BCFD390043FAC3 /* CharacterCell.xib in Resources */,
 				C15CBCC028BB7CBA0043FAC3 /* CryptoCell.xib in Resources */,
+				AA77EC782B51C98F001F6599 /* Marvel200OK.json in Resources */,
 				C11DEB6A28AAC4DF00CA1168 /* LaunchScreen.storyboard in Resources */,
 				C15CBD0A28BCFCD50043FAC3 /* ApiKeyView.storyboard in Resources */,
 				C15CBCC528BB843F0043FAC3 /* CryptoListView.storyboard in Resources */,
@@ -342,6 +360,8 @@
 				C11DEB6728AAC4DF00CA1168 /* Assets.xcassets in Resources */,
 				C15CBCFA28BCD4340043FAC3 /* OAuthView.storyboard in Resources */,
 				C11DEB6528AAC4DC00CA1168 /* Main.storyboard in Resources */,
+				AA77EC762B502D08001F6599 /* Crypto400KO.json in Resources */,
+				AA9861122B4D96880017B7CE /* Crypto200OK.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

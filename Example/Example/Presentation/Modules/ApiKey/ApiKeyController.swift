@@ -6,8 +6,15 @@ class ApiKeyController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var viewModel: ApiKeyViewModel!
 
+    let endpoints = [SimulationEndpoint(endpoint: MarvelAPI.characters([:]).endpoint,
+                                        responses: [SimulationResponse(fileName: "Marvel200OK",
+                                                                       displayName: "Marvel characters",
+                                                                       description: "Returns list of characters of Marvel",
+                                                                       statusCode: 200)])]
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        SimulationManager.setupSimulations(endpoints, on: self)
         let router = ApiKeyRouter(viewController: self)
         viewModel = ApiKeyViewModel(router: router)
         configure()
