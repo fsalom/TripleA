@@ -10,7 +10,11 @@ class ApiKeyController: UIViewController {
                                         responses: [SimulationResponse(fileName: "Marvel200OK",
                                                                        displayName: "Marvel characters",
                                                                        description: "Returns list of characters of Marvel",
-                                                                       statusCode: 200)])]
+                                                                       statusCode: 200),
+                                                    SimulationResponse(fileName: "Marvel500KO",
+                                                                       displayName: "500 server error",
+                                                                       description: "Returns 500 server error" ,
+                                                                       statusCode: 500)])]
 
     override func viewDidLoad() {
         super.viewDidLoad()
