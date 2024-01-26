@@ -8,7 +8,7 @@
 import Foundation
 
 public struct SimulationResponse: Identifiable {
-    public let id: UUID
+    public let id: String
     let fileName: String
     let displayName: String
     let description: String
@@ -21,7 +21,7 @@ public struct SimulationResponse: Identifiable {
                 displayName: String,
                 description: String,
                 statusCode: Int) {
-        self.id = UUID()
+        self.id = fileName.uppercased()
         self.fileName = fileName
         self.displayName = displayName
         self.description = description
@@ -42,5 +42,13 @@ public struct SimulationResponse: Identifiable {
         } else {
             self.data = nil
         }
+    }
+}
+
+// MARK: - Equatable
+
+extension SimulationResponse: Equatable {
+    public static func == (lhs: SimulationResponse, rhs: SimulationResponse) -> Bool {
+        lhs.id == rhs.id
     }
 }

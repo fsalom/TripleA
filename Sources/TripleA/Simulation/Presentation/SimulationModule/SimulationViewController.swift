@@ -21,7 +21,6 @@ public class SimulationViewController: UIViewController {
     var viewModel: SimulationViewModel!
     var targetVC: UIViewController!
     var targetName: String!
-    var enabledReloadView: Bool = false
 
     // MARK: - Views
 
@@ -32,16 +31,6 @@ public class SimulationViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-    }
-
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // TODO:
-        if enabledReloadView {
-            targetVC.viewDidLoad()
-            targetVC.viewWillAppear(false)
-            targetVC.viewDidAppear(false)
-        }
     }
 
     public override func viewWillLayoutSubviews() {
@@ -55,14 +44,7 @@ public class SimulationViewController: UIViewController {
 fileprivate extension SimulationViewController {
 
     func setupView() {
-        setupNavigationBar()
         setupTableView()
-    }
-
-    func setupNavigationBar() {
-        navigationItem.title = "Simulation mode"
-        navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     func setupTableView() {
@@ -90,7 +72,6 @@ fileprivate extension SimulationViewController {
 
     func createTableHeader() -> SimulationTableHeaderView {
         let header = SimulationTableHeaderView()
-        header.delegate = self
         header.setup(with: SimulationTableHeaderView.Dependencies(screenName: targetName))
         return header
     }
@@ -161,13 +142,6 @@ extension SimulationViewController: SimulationSectionHeaderViewProtocol {
         viewModel.updateEndpointSimulationEnabled(for: endpointId, enabled: enabled)
         guard let index = viewModel.endpoints.firstIndex(where: { $0.id == endpointId }) else { return }
         tableView.reloadSections([index], with: .automatic)
-    }
-}
-
-// MARK: - SimulationTableHeaderViewProtocol
-extension SimulationViewController: SimulationTableHeaderViewProtocol {
-    func didEnableReloadView(enabled: Bool) {
-        enabledReloadView = enabled
     }
 }
 
