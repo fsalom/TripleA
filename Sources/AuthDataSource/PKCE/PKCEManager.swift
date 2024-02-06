@@ -107,7 +107,15 @@ extension PKCEManager: RemoteDataSourceProtocol {
                         do {
                             return try await self.getRefreshToken(with: refreshToken.value)
                         } catch {
-                            throw AuthError.badRequest
+                            let errors: [URLError.Code] = [.timedOut, .notConnectedToInternet]
+                            guard let value = (error as? URLError)?.code else {
+                                throw AuthError.badRequest
+                            }
+                            if errors.contains(value) {
+                                throw AuthError.noInternet
+                            } else {
+                                throw AuthError.badRequest
+                            }
                         }
                     }
                 }
@@ -125,7 +133,15 @@ extension PKCEManager: RemoteDataSourceProtocol {
                 return try await getAccessToken(with: parameters)
             }
         } catch {
-            throw AuthError.badRequest
+            let errors: [URLError.Code] = [.timedOut, .notConnectedToInternet]
+            guard let value = (error as? URLError)?.code else {
+                throw AuthError.badRequest
+            }
+            if errors.contains(value) {
+                throw AuthError.noInternet
+            } else {
+                throw AuthError.badRequest
+            }
         }
     }
 
