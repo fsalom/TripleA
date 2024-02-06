@@ -45,10 +45,7 @@ public class PKCEManager: NSObject {
         let hash = Data(buffer2)
         return hash.base64URLEscapedEncodedString()
     }
-}
 
-@available(macOS 10.15, *)
-extension PKCEManager: RemoteDataSourceProtocol {
     // MARK: - showLogin - initialize authentication flow with ASWebAuthenticationSession
     /**
      return a code for PKCE flow
@@ -92,43 +89,6 @@ extension PKCEManager: RemoteDataSourceProtocol {
         }
     }
 
-    // MARK: - getAccessToken - get access token or initialize authentication flow
-    /**
-     get access token from storage or initialize authentication flow
-     - Returns: valid access token `String`
-     */
-    public func getAccessToken(with parameters: [String : Any]) async throws -> String {
-        if let accessToken = storage.accessToken {
-            if accessToken.isValid {
-                return accessToken.value
-            } else {
-                if let refreshToken = storage.refreshToken {
-                    if refreshToken.isValid {
-                        do {
-                            return try await self.getRefreshToken(with: refreshToken.value)
-                        } catch {
-                            throw AuthError.badRequest
-                        }
-                    }
-                }
-            }
-        }
-        do {
-            let code = await withCheckedContinuation { continuation in
-                self.showLogin(completion: { code in
-                    continuation.resume(returning: code)
-                })
-            }
-            if code != nil {
-                return try await getToken(with: code)
-            } else {
-                return try await getAccessToken(with: parameters)
-            }
-        } catch {
-            throw AuthError.badRequest
-        }
-    }
-
     // MARK: - getToken - Call authority with code challenge to get access and refresh tokens
     /**
      - Returns: new access token  `String`
@@ -152,28 +112,6 @@ extension PKCEManager: RemoteDataSourceProtocol {
         storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
         storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
         return tokens.accessToken
-    }
-
-    public func getRefreshToken(with refreshToken: String) async throws -> String {
-        return ""
-    }
-
-    // MARK: - logout
-    /**
-     Remove storage and initialize authenticatin flow
-     */
-    public func logout() async {
-        Task {
-            let success = await withCheckedContinuation { continuation in
-                logoutHandler { success in
-                    continuation.resume(returning: success)
-                }
-            }
-            if success {
-                self.storage.removeAll()
-                _ = try? await self.getAccessToken(with: [:])
-            }
-        }
     }
 
     // MARK: - logout with ASWebAuthenticationSession
@@ -206,6 +144,70 @@ extension PKCEManager: RemoteDataSourceProtocol {
             session.prefersEphemeralWebBrowserSession = self.SSO
             session.presentationContextProvider = self
             session.start()
+        }
+    }
+}
+
+@available(macOS 10.15, *)
+extension PKCEManager: RemoteDataSourceProtocol {
+    // MARK: - getAccessToken - get access token or initialize authentication flow
+    /**
+     get access token from storage or initialize authentication flow
+     - Returns: valid access token `String`
+     */
+    public func getAccessToken(with parameters: [String : Any]) async throws -> Tokens {
+        if let accessToken = storage.accessToken {
+            if accessToken.isValid {
+                return accessToken.value
+            } else {
+                if let refreshToken = storage.refreshToken {
+                    if refreshToken.isValid {
+                        do {
+                            return try await self.getRefreshToken(with: refreshToken.value)
+                        } catch {
+                            throw AuthError.badRequest
+                        }
+                    }
+                }
+            }
+        }
+        do {
+            let code = await withCheckedContinuation { continuation in
+                self.showLogin(completion: { code in
+                    continuation.resume(returning: code)
+                })
+            }
+            if code != nil {
+                return try await getToken(with: code)
+            } else {
+                return try await getAccessToken(with: parameters)
+            }
+        } catch {
+            throw AuthError.badRequest
+        }
+    }
+
+
+
+    public func getRefreshToken(with refreshToken: String) async throws -> String {
+        return ""
+    }
+
+    // MARK: - logout
+    /**
+     Remove storage and initialize authenticatin flow
+     */
+    public func logout() async {
+        Task {
+            let success = await withCheckedContinuation { continuation in
+                logoutHandler { success in
+                    continuation.resume(returning: success)
+                }
+            }
+            if success {
+                self.storage.removeAll()
+                _ = try? await self.getAccessToken(with: [:])
+            }
         }
     }
 
