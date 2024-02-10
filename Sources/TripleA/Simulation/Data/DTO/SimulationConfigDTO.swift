@@ -8,8 +8,8 @@
 import Foundation
 
 public struct SimulationConfigDTO: Codable {
-    let screensEndpoint: [String: [SimulationEndpointDTO]]
-    let endpointsAvailability: [SimulationEndpoint.ID: Bool]
-    let simulationResponses: [SimulationEndpoint.ID: [SimulationResponseDTO]]
-    let simulationResponsesAvailability: [SimulationResponse.ID: Bool]
+    let endpoints: [SimulationEndpointDTO]
+    let endpointsAvailability: [SimulationEndpointDTO.ID: Bool]
+    let simulationResponsesForEndpoint: [SimulationEndpointDTO.ID: [SimulationResponseDTO.ID]]
+    let simulationResponsesAvailability: [SimulationResponseDTO.ID: Bool]
 }

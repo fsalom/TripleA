@@ -7,30 +7,28 @@
 
 import Foundation
 
-class SimulationStoreDefaults: SimulationStorageProtocol {
+class SimulationDataSourceDefaults: SimulationStorageProtocol {
 
     // MARK: - Func
 
-    static func setConfig(_ newConfig: SimulationConfig) {
+    static func setConfig(_ newConfig: SimulationConfig) throws {
         let dto = SimulationConfigMapper.toDTO(newConfig)
 
         let configKey = SimulationStorageKey.simulationConfig.rawValue
-        Log.this("Saving - \(configKey)")
         guard let encodedData = try? JSONEncoder().encode(dto) else {
-            Log.this("🤬 Error saving - \(configKey) > JSON ENCODER ERROR")
-            return
+            throw SimulationStorageError.impossibleEncode
         }
         UserDefaults.standard.set(encodedData, forKey: configKey)
     }
 
-    static func getConfig() -> SimulationConfig? {
+    static func getConfig() -> SimulationConfig {
         let configKey = SimulationStorageKey.simulationConfig.rawValue
         guard let savedData = UserDefaults.standard.object(forKey: configKey) as? Data  else {
-            Log.this("Fetching - \(configKey) > NOT FOUND")
-            return nil
+            return SimulationConfig()
         }
-        guard let dto = try? JSONDecoder().decode(SimulationConfigDTO.self, from: savedData) else { return nil }
-        Log.this("Fetching - \(configKey)")
+        guard let dto = try? JSONDecoder().decode(SimulationConfigDTO.self, from: savedData) else {
+            return SimulationConfig()
+        }
         let object = SimulationConfigMapper.toEntity(dto)
         return object
     }

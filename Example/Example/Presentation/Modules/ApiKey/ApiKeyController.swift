@@ -18,7 +18,7 @@ class ApiKeyController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        SimulationManager.setupSimulations(endpoints, on: self)
+        //SimulationManager.setupSimulations(endpoints, on: self)
         let router = ApiKeyRouter(viewController: self)
         viewModel = ApiKeyViewModel(router: router)
         configure()

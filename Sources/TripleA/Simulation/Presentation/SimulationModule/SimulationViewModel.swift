@@ -9,24 +9,22 @@ import Foundation
 
 class SimulationViewModel {
 
-    // MARK: - Properties
-
-    let endpoints: [SimulationEndpoint]
-
     // MARK: - Init
 
-    init(endpoints: [SimulationEndpoint]) {
-        self.endpoints = endpoints
-    }
+    init() {}
 
     // MARK: - Public func
+
+    func getEndpoints() -> [SimulationEndpoint] {
+        SimulationManager.simulatedEndpoints()
+    }
 
     func responsesForEndpoint(endpointId: SimulationEndpoint.ID) -> [SimulationResponse] {
         SimulationManager.responsesForEndpoint(endpointId)
     }
 
     func isEndpointSimulationEnabled(endpointId: SimulationEndpoint.ID) -> Bool {
-        SimulationManager.isEndpointSimulationEnabled(endpointId)
+        SimulationManager.isEndpointEnabled(endpointId)
     }
 
     func isResponseSimulationEnabled(responseId: SimulationResponse.ID) -> Bool {
@@ -37,8 +35,11 @@ class SimulationViewModel {
         SimulationManager.setEndpointSimulationEnabled(endpointId, enabled: enabled)
     }
 
-    func updateResponseSimulationEnabled(for responseId: SimulationResponse.ID,
+    func updateResponseSimulationEnabled(enabled: Bool,
+                                         for responseId: SimulationResponse.ID,
                                          from endpointId: SimulationEndpoint.ID) {
-        SimulationManager.setResponseSimulationEnabled(responseId, from: endpointId)
+        SimulationManager.setResponseSimulationEnabled(enabled: enabled,
+                                                       responseId,
+                                                       from: endpointId)
     }
 }

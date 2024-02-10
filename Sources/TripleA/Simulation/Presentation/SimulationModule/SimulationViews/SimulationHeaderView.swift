@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SimulationTableHeaderView: UITableViewHeaderFooterView {
+class SimulationHeaderView: UIView {
 
     // MARK: - Dependencies
 
@@ -29,38 +29,15 @@ class SimulationTableHeaderView: UITableViewHeaderFooterView {
         setupTitleLabel()
         setupInfoLabel(with: dependencies.screenName)
     }
-
-
-    // Top Padding
-    // Title Label Height
-    // MainStackView Spacing
-    // ImageView Height
-    // MainStackView Spacing
-    // Info Label Height
-    // Bottom padding
-    public func calculateHeight() -> CGFloat {
-        let screenWidth = UIScreen.main.bounds.width
-        let width = screenWidth - (Constants.mainStackViewHorizontalPadding * 2)
-        guard let infoTextHeight = infoLabel.text?.size(font: infoLabel.font,
-                                                        width: width).height ,
-              let titleTextHeight = titleLabel.text?.size(font: titleLabel.font,
-                                                          width: width).height else { return 0.0 }
-        return Constants.mainStackViewTopPadding +
-        titleTextHeight +
-        Constants.imageViewHeightAndWidth +
-        infoTextHeight +
-        (Constants.stackViewSpacing * 2) +
-        Constants.mainStackViewBottomPadding
-    }
 }
 
-fileprivate extension SimulationTableHeaderView {
+fileprivate extension SimulationHeaderView {
     func setupImageView() {
-        imageView = UIImageView(image: UIImage(systemName: "waveform.path.ecg"))
+        imageView = UIImageView(image: UIImage(systemName: "scribble.variable"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.addArrangedSubview(imageView)
         imageView.backgroundColor = .systemGray5
-        imageView.layer.cornerRadius = Constants.imageViewHeightAndWidth / 2
+        imageView.layer.cornerRadius = Constants.imageViewHeightAndWidth / 4
         imageView.layer.borderWidth = 1.5
         imageView.layer.borderColor = UIColor.systemBlue.cgColor
         setupImageViewConstraints()
@@ -120,7 +97,7 @@ fileprivate extension SimulationTableHeaderView {
 
 // MARK: - Constants & Localizables
 
-private extension SimulationTableHeaderView {
+private extension SimulationHeaderView {
     enum Constants {
         static let mainStackViewTopPadding: CGFloat = 40.0
         static let mainStackViewBottomPadding: CGFloat = 4.0
@@ -132,8 +109,8 @@ private extension SimulationTableHeaderView {
     }
 
     enum Localizables {
-        static let title = "Modo simulación"
-        static let info = "En esta pantalla se muestran los servicios de red disponibles que tienen disponible la funcion de simularse en %@."
+        static let title = "Simulación de red"
+        static let info = "TripleA te ofrece una opcion de simular los servicios de red que se producen en esta app. De esta manera tanto desarrolladores como testers desempeñan sus tareas en el menor tiempo posible.\n\nEn esta pantalla se muestran los servicios de red disponibles que tienen disponible la funcion de simularse en %@."
     }
 }
 

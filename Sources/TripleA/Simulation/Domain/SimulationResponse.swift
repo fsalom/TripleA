@@ -49,6 +49,10 @@ public struct SimulationResponse: Identifiable {
 
 extension SimulationResponse: Equatable {
     public static func == (lhs: SimulationResponse, rhs: SimulationResponse) -> Bool {
-        lhs.id == rhs.id
+        lhs.id == rhs.id &&
+        lhs.fileName == rhs.fileName &&
+        lhs.displayName == rhs.displayName &&
+        lhs.description == rhs.description &&
+        lhs.statusCode == rhs.statusCode
     }
 }

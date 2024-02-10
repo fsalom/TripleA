@@ -5,9 +5,10 @@ public enum SimulationStorageKey: String, CaseIterable {
 public enum SimulationStorageError: Error {
     case valueNotFound
     case keyNotFound
+    case impossibleEncode
 }
 
 public protocol SimulationStorageProtocol {
-    static func setConfig(_ newConfig: SimulationConfig)
-    static func getConfig() -> SimulationConfig?
+    static func setConfig(_ newConfig: SimulationConfig) throws
+    static func getConfig() -> SimulationConfig
 }

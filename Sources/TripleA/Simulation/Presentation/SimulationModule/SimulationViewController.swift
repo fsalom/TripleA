@@ -24,6 +24,7 @@ public class SimulationViewController: UIViewController {
 
     // MARK: - Views
 
+    var headerView: SimulationHeaderView!
     var tableView: UITableView!
 
     // MARK: - Life Cycle
@@ -31,11 +32,6 @@ public class SimulationViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-    }
-
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        updateTableHeaderHeight()
     }
 }
 
@@ -45,6 +41,15 @@ fileprivate extension SimulationViewController {
 
     func setupView() {
         setupTableView()
+        setupHeaderView()
+    }
+
+    func setupHeaderView() {
+        headerView = SimulationHeaderView()
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(headerView)
+        headerView.setup(with: SimulationHeaderView.Dependencies(screenName: targetName))
+        setupHeaderViewConstraints()
     }
 
     func setupTableView() {
@@ -54,7 +59,7 @@ fileprivate extension SimulationViewController {
         tableView.register(SimulationTableCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
         tableView.register(SimulationSectionHeaderView.self,
                            forHeaderFooterViewReuseIdentifier: Constants.headerIdentifier)
-        tableView.tableHeaderView = createTableHeader()
+        tableView.contentInset.top = 350
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
@@ -70,20 +75,13 @@ fileprivate extension SimulationViewController {
         ])
     }
 
-    func createTableHeader() -> SimulationTableHeaderView {
-        let header = SimulationTableHeaderView()
-        header.setup(with: SimulationTableHeaderView.Dependencies(screenName: targetName))
-        return header
-    }
-
-    func updateTableHeaderHeight() {
-        guard let header = tableView.tableHeaderView as? SimulationTableHeaderView else { return }
-        let frame = CGRect(x: 0,
-                           y: 0,
-                           width: tableView.frame.width,
-                           height: header.calculateHeight().rounded(.up))
-        header.frame = frame
-        tableView.tableHeaderView = header
+    func setupHeaderViewConstraints() {
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 350)
+        ])
     }
 }
 
@@ -92,17 +90,17 @@ fileprivate extension SimulationViewController {
 extension SimulationViewController: UITableViewDataSource, UITableViewDelegate {
 
     public func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.endpoints.count
+        viewModel.getEndpoints().count
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.responsesForEndpoint(endpointId: viewModel.endpoints[section].id).count
+        viewModel.responsesForEndpoint(endpointId: viewModel.getEndpoints()[section].id).count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier,
                                                  for: indexPath) as! SimulationTableCell
-        let endpointId = viewModel.endpoints[indexPath.section].id
+        let endpointId = viewModel.getEndpoints()[indexPath.section].id
         let response = viewModel.responsesForEndpoint(endpointId: endpointId)[indexPath.row]
         let isResponseSelected = viewModel.isResponseSimulationEnabled(responseId: response.id)
         cell.setup(dependencies: SimulationTableCell.Dependencies(responseName: response.displayName,
@@ -115,7 +113,7 @@ extension SimulationViewController: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.headerIdentifier) as! SimulationSectionHeaderView
         header.delegate = self
-        let simulationEndpoint = viewModel.endpoints[section]
+        let simulationEndpoint = viewModel.getEndpoints()[section]
         let isEndpointSimulationEnabled = viewModel.isEndpointSimulationEnabled(endpointId: simulationEndpoint.id)
         header.setup(with: SimulationSectionHeaderView.Dependencies(displayName: simulationEndpoint.displayName,
                                                                     endpointId: simulationEndpoint.id,
@@ -128,9 +126,9 @@ extension SimulationViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let endpointId = viewModel.endpoints[indexPath.section].id
+        let endpointId = viewModel.getEndpoints()[indexPath.section].id
         let responseId = viewModel.responsesForEndpoint(endpointId: endpointId)[indexPath.row].id
-        viewModel.updateResponseSimulationEnabled(for: responseId, from: endpointId)
+        viewModel.updateResponseSimulationEnabled(enabled: true, for: responseId, from: endpointId)
         tableView.reloadSections([indexPath.section], with: .automatic)
     }
 }
@@ -140,7 +138,7 @@ extension SimulationViewController: UITableViewDataSource, UITableViewDelegate {
 extension SimulationViewController: SimulationSectionHeaderViewProtocol {
     func didEnableEndpoint(_ endpointId: SimulationEndpoint.ID, enabled: Bool) {
         viewModel.updateEndpointSimulationEnabled(for: endpointId, enabled: enabled)
-        guard let index = viewModel.endpoints.firstIndex(where: { $0.id == endpointId }) else { return }
+        guard let index = viewModel.getEndpoints().firstIndex(where: { $0.id == endpointId }) else { return }
         tableView.reloadSections([index], with: .automatic)
     }
 }

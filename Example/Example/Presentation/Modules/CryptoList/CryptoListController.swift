@@ -3,32 +3,23 @@ import TripleA
 
 class CryptoListController: UIViewController {
 
-    var simulations: [SimulationEndpoint] = [
-        SimulationEndpoint(endpoint: CryptoAPI.assets.endpoint,
-                           responses: [
-                            SimulationResponse(fileName: "Crypto200OK",
-                                               displayName: "Crypto Entities",
-                                               description: "Returns list of entities successfully ",
-                                               statusCode: 200),
-                            SimulationResponse(fileName: "Crypto400KO",
-                                               displayName: "Crypto Bad Request Error",
-                                               description: "Returns bad request error",
-                                               statusCode: 400)
-                           ])
-    ]
-
     @IBOutlet weak var tableView: UITableView!
 
     var viewModel: CryptoListViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        SimulationManager.setupSimulations(simulations, on: self)
         let router = CryptoListRouter(viewController: self)
         viewModel = CryptoListViewModel(router: router)
         
         loadData()
         configure()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        loadData()
     }
 
     func loadData(){

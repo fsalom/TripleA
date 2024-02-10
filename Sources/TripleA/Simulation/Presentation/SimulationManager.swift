@@ -8,90 +8,107 @@
 import UIKit
 
 public class SimulationManager {
-    private static var shared = SimulationManager()
+    // MARK: - SETUP
 
-    private var config: SimulationConfig {
-        get {
-            if let config = SimulationStoreDefaults.getConfig() {
-                return config
-            } else {
-                return SimulationConfig(screensEndpoint: [:],
-                                        endpointsAvailability: [:],
-                                        simulationResponses: [:],
-                                        simulationResponsesAvailability: [:])
-            }
-        }
+    public static func setupSimulations(_ endpoints: [SimulationEndpoint]) {
+        var config = SimulationManager.beginUpdates()
 
-        set {
-            SimulationStoreDefaults.setConfig(newValue)
-        }
-    }
-
-    public static func setupSimulations(_ endpoints: [SimulationEndpoint],
-                                        on viewController: UIViewController) {
         for endpoint in endpoints {
-            if shared.config.endpointsAvailability.keys.contains(where: { $0 == endpoint.id }),
-               shared.config.screensEndpoint.values.flatMap({ $0 }).contains(where: {
-                   $0 == endpoint
-               }) {
+
+            if config.endpoints.contains(endpoint) {
                 continue
             }
-            shared.config.screensEndpoint[String(describing: type(of: viewController))] = endpoints
-            shared.config.endpointsAvailability[endpoint.id] = false
-            shared.config.simulationResponses[endpoint.id] = endpoint.responses
+
+            config.endpoints = endpoints
+            config.endpointsAvailability[endpoint.id] = false
+            config.simulationResponsesForEndpoint[endpoint.id] = endpoint.responses.map{ $0.id }
             endpoint.responses.forEach { simulationResponse in
-                shared.config.simulationResponsesAvailability[simulationResponse.id] = false
+                config.simulationResponsesAvailability[simulationResponse.id] = false
             }
         }
+
+        SimulationManager.endUpdates(for: config)
     }
 
-    public static func simulatedEndpoints(for vc: String) -> [SimulationEndpoint] {
-        shared.config.screensEndpoint[vc] ?? []
+    // MARK: - GETTERS
+    
+    // ENDPOINT
+
+    public static func simulatedEndpoints() -> [SimulationEndpoint] {
+        SimulationManager.beginUpdates().endpoints
     }
 
-    public static func isEndpointSimulationEnabled(_ endpointId: SimulationEndpoint.ID) -> Bool {
-        shared.config.endpointsAvailability[endpointId] ?? false
+    public static func isEndpointEnabled(_ endpointId: SimulationEndpoint.ID) -> Bool {
+        SimulationManager.beginUpdates().endpointsAvailability[endpointId] ?? false
     }
 
-    public static func setEndpointSimulationEnabled(_ endpointId: SimulationEndpoint.ID, enabled: Bool) {
-        shared.config.endpointsAvailability[endpointId] = enabled
-        if !enabled {
-            let endpointResponses = shared.config.simulationResponses[endpointId]
-            endpointResponses?.forEach({ simulationResponse in
-                shared.config.simulationResponsesAvailability[simulationResponse.id] = false
-            })
-        }
-    }
+    // RESPONSE
 
     public static func responsesForEndpoint(_ endpointId: SimulationEndpoint.ID) -> [SimulationResponse] {
-        shared.config.simulationResponses[endpointId] ?? []
+        let config = SimulationManager.beginUpdates()
+        guard let responsesIds = config.simulationResponsesForEndpoint[endpointId] else { return [] }
+        return config.endpoints.flatMap({ $0.responses }).filter({ responsesIds.contains($0.id) })
     }
 
     public static func isResponseSimulationEnabled(_ responseId: SimulationResponse.ID) -> Bool {
-        shared.config.simulationResponsesAvailability[responseId] ?? false
+        SimulationManager.beginUpdates().simulationResponsesAvailability[responseId] ?? false
     }
 
-    public static func enabledResponseSimulationFor(_ endpointId: SimulationEndpoint.ID) -> SimulationResponse? {
-        shared.config.simulationResponses[endpointId]?.first(where: { isResponseSimulationEnabled($0.id) })
+    public static func enabledResponseFor(_ endpointId: SimulationEndpoint.ID) -> SimulationResponse? {
+        let config = SimulationManager.beginUpdates()
+        return config.endpoints.first(where: { $0.id == endpointId })?.responses.first(where: { isResponseSimulationEnabled($0.id) })
     }
 
-    public static func setResponseSimulationEnabled(_ responseId: SimulationResponse.ID,
+    // MARK: - SETTERS
+
+    public static func setEndpointSimulationEnabled(_ endpointId: SimulationEndpoint.ID, enabled: Bool) {
+        var config = SimulationManager.beginUpdates()
+        config.endpointsAvailability[endpointId] = enabled
+        if !enabled {
+            let endpointResponses = config.endpoints.first(where: { $0.id == endpointId })?.responses
+            endpointResponses?.forEach({ simulationResponse in
+                config.simulationResponsesAvailability[simulationResponse.id] = false
+            })
+        }
+
+        SimulationManager.endUpdates(for: config)
+    }
+
+    public static func setResponseSimulationEnabled(enabled: Bool,
+                                                    _ responseId: SimulationResponse.ID,
                                                     from endpointId: SimulationEndpoint.ID) {
-        let responsesIdsForEndpoint = responsesForEndpoint(endpointId).compactMap({ $0.id })
-        shared.config.simulationResponsesAvailability.keys.forEach { responseId in
-            if responsesIdsForEndpoint.contains(responseId) {
-                shared.config.simulationResponsesAvailability[responseId] = false
+        var config = SimulationManager.beginUpdates()
+        let responsesIdsForEndpoint = responsesForEndpoint(endpointId).map({ $0.id })
+        config.simulationResponsesAvailability.keys.forEach { keyResponseId in
+            if responsesIdsForEndpoint.contains(keyResponseId) {
+                config.simulationResponsesAvailability[keyResponseId] = false
             }
         }
-        shared.config.simulationResponsesAvailability[responseId] = true
+        config.simulationResponsesAvailability[responseId] = enabled
+        SimulationManager.endUpdates(for: config)
     }
 
+    // MARK: - SIMULATE
+
     public static func simulateIfNeeded(for endpointId: SimulationEndpoint.ID) -> SimulationResponse? {
-        if shared.config.endpointsAvailability[endpointId] ?? false,
-           let response = enabledResponseSimulationFor(endpointId) {
+        let config = SimulationManager.beginUpdates()
+        if config.endpointsAvailability[endpointId] ?? false,
+           let response = enabledResponseFor(endpointId) {
             return response
         }
 
         return nil
+    }
+
+    private static func beginUpdates() -> SimulationConfig {
+        SimulationDataSourceDefaults.getConfig()
+    }
+
+    private static func endUpdates(for config: SimulationConfig) {
+        do {
+            try SimulationDataSourceDefaults.setConfig(config)
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
     }
 }

@@ -9,14 +9,12 @@ import UIKit
 
 public class SimulationBuilder {
     public static func build(vcToSimulate: UIViewController) -> SimulationViewController {
-        let screenName = String(describing: type(of: vcToSimulate))
-        let simulationEndpoints = SimulationManager.simulatedEndpoints(for: screenName)
-        let viewModel = SimulationViewModel(endpoints: simulationEndpoints)
+        let viewModel = SimulationViewModel()
 
         let viewController = SimulationViewController()
         viewController.viewModel = viewModel
         viewController.targetVC = vcToSimulate
-        viewController.targetName = screenName
+        viewController.targetName = "screenName"
         return viewController
     }
 }

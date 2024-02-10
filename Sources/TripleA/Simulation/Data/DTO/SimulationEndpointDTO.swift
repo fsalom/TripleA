@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SimulationEndpointDTO: Codable {
+struct SimulationEndpointDTO: Identifiable, Codable {
     let id: String
     let displayName: String
     let responses: [SimulationResponseDTO]

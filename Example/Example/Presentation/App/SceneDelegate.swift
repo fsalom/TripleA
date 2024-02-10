@@ -1,4 +1,5 @@
 import UIKit
+import TripleA
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -11,6 +12,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         Container.shared.window = window
+        var simulations: [SimulationEndpoint] = [
+            SimulationEndpoint(endpoint: CryptoAPI.assets.endpoint,
+                               responses: [
+                                SimulationResponse(fileName: "Crypto200OK",
+                                                   displayName: "Crypto Entities",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 200),
+                                SimulationResponse(fileName: "Crypto400KO",
+                                                   displayName: "Error 400",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 400)
+                               ])
+        ]
+        SimulationManager.setupSimulations(simulations)
         Task {
             if true {//await Container.network.authManager?.isLogged ?? false {
                 Container.shared.window?.rootViewController = Container.getTabbar()
