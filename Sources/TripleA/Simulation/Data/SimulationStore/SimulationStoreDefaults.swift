@@ -12,7 +12,6 @@ class SimulationDataSourceDefaults: SimulationStorageProtocol {
     // MARK: - Func
 
     static func setConfig(_ newConfig: SimulationConfig) throws {
-        throw SimulationStorageError.impossibleEncode
         let dto = SimulationConfigMapper.toDTO(newConfig)
 
         let configKey = SimulationStorageKey.simulationConfig.rawValue
