@@ -1,5 +1,6 @@
 import UIKit
 import TripleA
+import os
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -12,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         Container.shared.window = window
-        var simulations: [SimulationEndpoint] = [
+        let simulations: [SimulationEndpoint] = [
             SimulationEndpoint(endpoint: CryptoAPI.assets.endpoint,
                                responses: [
                                 SimulationResponse(fileName: "Crypto200OK",
@@ -22,10 +23,72 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                 SimulationResponse(fileName: "Crypto400KO",
                                                    displayName: "Error 400",
                                                    description: "Returns list of entities successfully ",
-                                                   statusCode: 400)
+                                                   statusCode: 400),
+                                SimulationResponse(fileName: "Crypto401KO",
+                                                   displayName: "Error 401",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 401),
+                                SimulationResponse(fileName: "Crypto403KO",
+                                                   displayName: "Error 403",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 403),
+                                SimulationResponse(fileName: "Crypto404KO",
+                                                   displayName: "Error 404",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 404),
+                                SimulationResponse(fileName: "Crypto405KO",
+                                                   displayName: "Error 405",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 405),
+                                SimulationResponse(fileName: "Crypto406KO",
+                                                   displayName: "Error 406",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 406),
+                                SimulationResponse(fileName: "Crypto407KO",
+                                                   displayName: "Error 407",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 407),
+                                SimulationResponse(fileName: "Crypto408KO",
+                                                   displayName: "Error 408",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 408),
+                                SimulationResponse(fileName: "Crypto500KO",
+                                                   displayName: "Error 500",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 500)
+
+                               ]),
+            SimulationEndpoint(endpoint: MarvelAPI.characters([:]).endpoint,
+                               responses: [
+                                SimulationResponse(fileName: "Marvel200OK",
+                                                   displayName: "Characters list",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 200),
+                                SimulationResponse(fileName: "Marvel400KO",
+                                                   displayName: "Error 400",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 400),
+                                SimulationResponse(fileName: "Marvel401K",
+                                                   displayName: "Error 401",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 401),
+                                SimulationResponse(fileName: "Marvel403KO",
+                                                   displayName: "Error 403",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 403),
+                                SimulationResponse(fileName: "Marvel500OK",
+                                                   displayName: "Error 500",
+                                                   description: "Returns list of entities successfully ",
+                                                   statusCode: 500),
                                ])
         ]
-        SimulationManager.setupSimulations(simulations)
+
+        do {
+            try SimulationManager.setupSimulations(simulations)
+        } catch {
+            Logger().error("Simulation could not be setted up: \(error.localizedDescription)")
+        }
+
         Task {
             if true {//await Container.network.authManager?.isLogged ?? false {
                 Container.shared.window?.rootViewController = Container.getTabbar()

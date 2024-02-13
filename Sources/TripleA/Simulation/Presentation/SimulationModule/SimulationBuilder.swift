@@ -13,8 +13,6 @@ public class SimulationBuilder {
 
         let viewController = SimulationViewController()
         viewController.viewModel = viewModel
-        viewController.targetVC = vcToSimulate
-        viewController.targetName = "screenName"
         return viewController
     }
 }

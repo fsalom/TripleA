@@ -31,15 +31,15 @@ class SimulationViewModel {
         SimulationManager.isResponseSimulationEnabled(responseId)
     }
 
-    func updateEndpointSimulationEnabled(for endpointId: SimulationEndpoint.ID, enabled: Bool) {
-        SimulationManager.setEndpointSimulationEnabled(endpointId, enabled: enabled)
+    func updateEndpointSimulationEnabled(for endpointId: SimulationEndpoint.ID, enabled: Bool) throws {
+        try SimulationManager.setEndpointSimulationEnabled(endpointId, enabled: enabled)
     }
 
     func updateResponseSimulationEnabled(enabled: Bool,
                                          for responseId: SimulationResponse.ID,
-                                         from endpointId: SimulationEndpoint.ID) {
-        SimulationManager.setResponseSimulationEnabled(enabled: enabled,
-                                                       responseId,
-                                                       from: endpointId)
+                                         from endpointId: SimulationEndpoint.ID) throws {
+        try SimulationManager.setResponseSimulationEnabled(enabled: enabled,
+                                                           responseId,
+                                                           from: endpointId)
     }
 }

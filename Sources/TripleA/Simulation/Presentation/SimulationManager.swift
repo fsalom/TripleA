@@ -10,8 +10,8 @@ import UIKit
 public class SimulationManager {
     // MARK: - SETUP
 
-    public static func setupSimulations(_ endpoints: [SimulationEndpoint]) {
-        var config = SimulationManager.beginUpdates()
+    public static func setupSimulations(_ endpoints: [SimulationEndpoint]) throws {
+        var config = SimulationManager.getCurrentConfig()
 
         for endpoint in endpoints {
 
@@ -27,7 +27,7 @@ public class SimulationManager {
             }
         }
 
-        SimulationManager.endUpdates(for: config)
+        try SimulationManager.setCurrentConfig(for: config)
     }
 
     // MARK: - GETTERS
@@ -35,34 +35,34 @@ public class SimulationManager {
     // ENDPOINT
 
     public static func simulatedEndpoints() -> [SimulationEndpoint] {
-        SimulationManager.beginUpdates().endpoints
+        SimulationManager.getCurrentConfig().endpoints
     }
 
     public static func isEndpointEnabled(_ endpointId: SimulationEndpoint.ID) -> Bool {
-        SimulationManager.beginUpdates().endpointsAvailability[endpointId] ?? false
+        SimulationManager.getCurrentConfig().endpointsAvailability[endpointId] ?? false
     }
 
     // RESPONSE
 
     public static func responsesForEndpoint(_ endpointId: SimulationEndpoint.ID) -> [SimulationResponse] {
-        let config = SimulationManager.beginUpdates()
+        let config = SimulationManager.getCurrentConfig()
         guard let responsesIds = config.simulationResponsesForEndpoint[endpointId] else { return [] }
         return config.endpoints.flatMap({ $0.responses }).filter({ responsesIds.contains($0.id) })
     }
 
     public static func isResponseSimulationEnabled(_ responseId: SimulationResponse.ID) -> Bool {
-        SimulationManager.beginUpdates().simulationResponsesAvailability[responseId] ?? false
+        SimulationManager.getCurrentConfig().simulationResponsesAvailability[responseId] ?? false
     }
 
     public static func enabledResponseFor(_ endpointId: SimulationEndpoint.ID) -> SimulationResponse? {
-        let config = SimulationManager.beginUpdates()
+        let config = SimulationManager.getCurrentConfig()
         return config.endpoints.first(where: { $0.id == endpointId })?.responses.first(where: { isResponseSimulationEnabled($0.id) })
     }
 
     // MARK: - SETTERS
 
-    public static func setEndpointSimulationEnabled(_ endpointId: SimulationEndpoint.ID, enabled: Bool) {
-        var config = SimulationManager.beginUpdates()
+    public static func setEndpointSimulationEnabled(_ endpointId: SimulationEndpoint.ID, enabled: Bool) throws {
+        var config = SimulationManager.getCurrentConfig()
         config.endpointsAvailability[endpointId] = enabled
         if !enabled {
             let endpointResponses = config.endpoints.first(where: { $0.id == endpointId })?.responses
@@ -71,13 +71,13 @@ public class SimulationManager {
             })
         }
 
-        SimulationManager.endUpdates(for: config)
+        try SimulationManager.setCurrentConfig(for: config)
     }
 
     public static func setResponseSimulationEnabled(enabled: Bool,
                                                     _ responseId: SimulationResponse.ID,
-                                                    from endpointId: SimulationEndpoint.ID) {
-        var config = SimulationManager.beginUpdates()
+                                                    from endpointId: SimulationEndpoint.ID) throws {
+        var config = SimulationManager.getCurrentConfig()
         let responsesIdsForEndpoint = responsesForEndpoint(endpointId).map({ $0.id })
         config.simulationResponsesAvailability.keys.forEach { keyResponseId in
             if responsesIdsForEndpoint.contains(keyResponseId) {
@@ -85,13 +85,13 @@ public class SimulationManager {
             }
         }
         config.simulationResponsesAvailability[responseId] = enabled
-        SimulationManager.endUpdates(for: config)
+        try SimulationManager.setCurrentConfig(for: config)
     }
 
     // MARK: - SIMULATE
 
     public static func simulateIfNeeded(for endpointId: SimulationEndpoint.ID) -> SimulationResponse? {
-        let config = SimulationManager.beginUpdates()
+        let config = SimulationManager.getCurrentConfig()
         if config.endpointsAvailability[endpointId] ?? false,
            let response = enabledResponseFor(endpointId) {
             return response
@@ -100,15 +100,11 @@ public class SimulationManager {
         return nil
     }
 
-    private static func beginUpdates() -> SimulationConfig {
+    private static func getCurrentConfig() -> SimulationConfig {
         SimulationDataSourceDefaults.getConfig()
     }
 
-    private static func endUpdates(for config: SimulationConfig) {
-        do {
-            try SimulationDataSourceDefaults.setConfig(config)
-        } catch {
-            print("Error: \(error.localizedDescription)")
-        }
+    private static func setCurrentConfig(for config: SimulationConfig) throws {
+        try SimulationDataSourceDefaults.setConfig(config)
     }
 }

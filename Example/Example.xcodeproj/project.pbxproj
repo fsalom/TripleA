@@ -11,6 +11,17 @@
 		AA77EC782B51C98F001F6599 /* Marvel200OK.json in Resources */ = {isa = PBXBuildFile; fileRef = AA77EC772B51C98F001F6599 /* Marvel200OK.json */; };
 		AA9861122B4D96880017B7CE /* Crypto200OK.json in Resources */ = {isa = PBXBuildFile; fileRef = AA9861112B4D96880017B7CE /* Crypto200OK.json */; };
 		AA9F62DF2B641DAE004A4B21 /* Marvel500KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AA9F62DE2B641DAE004A4B21 /* Marvel500KO.json */; };
+		AAB3981F2B7BBA8300CE27C9 /* Crypto401KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB3981E2B7BBA8300CE27C9 /* Crypto401KO.json */; };
+		AAB398212B7BBAAE00CE27C9 /* Crypto500KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB398202B7BBAAE00CE27C9 /* Crypto500KO.json */; };
+		AAB398232B7BBACF00CE27C9 /* Crypto403KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB398222B7BBACF00CE27C9 /* Crypto403KO.json */; };
+		AAB398252B7BBBD000CE27C9 /* Crypto404KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB398242B7BBBD000CE27C9 /* Crypto404KO.json */; };
+		AAB398272B7BBBEA00CE27C9 /* Crypto405KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB398262B7BBBEA00CE27C9 /* Crypto405KO.json */; };
+		AAB398292B7BBC0F00CE27C9 /* Crypto406KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB398282B7BBC0F00CE27C9 /* Crypto406KO.json */; };
+		AAB3982B2B7BBC2900CE27C9 /* Crypto407KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB3982A2B7BBC2900CE27C9 /* Crypto407KO.json */; };
+		AAB3982D2B7BBC4700CE27C9 /* Crypto408KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB3982C2B7BBC4700CE27C9 /* Crypto408KO.json */; };
+		AAB3982F2B7BBC6800CE27C9 /* Marvel400KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB3982E2B7BBC6800CE27C9 /* Marvel400KO.json */; };
+		AAB398312B7BBC7C00CE27C9 /* Marvel401KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB398302B7BBC7C00CE27C9 /* Marvel401KO.json */; };
+		AAB398332B7BBC9F00CE27C9 /* Marvel403KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAB398322B7BBC9F00CE27C9 /* Marvel403KO.json */; };
 		C11DEB5E28AAC4DC00CA1168 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DEB5D28AAC4DC00CA1168 /* AppDelegate.swift */; };
 		C11DEB6028AAC4DC00CA1168 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DEB5F28AAC4DC00CA1168 /* SceneDelegate.swift */; };
 		C11DEB6228AAC4DC00CA1168 /* CryptoListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DEB6128AAC4DC00CA1168 /* CryptoListController.swift */; };
@@ -51,6 +62,17 @@
 		AA77EC772B51C98F001F6599 /* Marvel200OK.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Marvel200OK.json; sourceTree = "<group>"; };
 		AA9861112B4D96880017B7CE /* Crypto200OK.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto200OK.json; sourceTree = "<group>"; };
 		AA9F62DE2B641DAE004A4B21 /* Marvel500KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Marvel500KO.json; sourceTree = "<group>"; };
+		AAB3981E2B7BBA8300CE27C9 /* Crypto401KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto401KO.json; sourceTree = "<group>"; };
+		AAB398202B7BBAAE00CE27C9 /* Crypto500KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto500KO.json; sourceTree = "<group>"; };
+		AAB398222B7BBACF00CE27C9 /* Crypto403KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto403KO.json; sourceTree = "<group>"; };
+		AAB398242B7BBBD000CE27C9 /* Crypto404KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto404KO.json; sourceTree = "<group>"; };
+		AAB398262B7BBBEA00CE27C9 /* Crypto405KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto405KO.json; sourceTree = "<group>"; };
+		AAB398282B7BBC0F00CE27C9 /* Crypto406KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto406KO.json; sourceTree = "<group>"; };
+		AAB3982A2B7BBC2900CE27C9 /* Crypto407KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto407KO.json; sourceTree = "<group>"; };
+		AAB3982C2B7BBC4700CE27C9 /* Crypto408KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Crypto408KO.json; sourceTree = "<group>"; };
+		AAB3982E2B7BBC6800CE27C9 /* Marvel400KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Marvel400KO.json; sourceTree = "<group>"; };
+		AAB398302B7BBC7C00CE27C9 /* Marvel401KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Marvel401KO.json; sourceTree = "<group>"; };
+		AAB398322B7BBC9F00CE27C9 /* Marvel403KO.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Marvel403KO.json; sourceTree = "<group>"; };
 		C11DEB5A28AAC4DC00CA1168 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C11DEB5D28AAC4DC00CA1168 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C11DEB5F28AAC4DC00CA1168 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,7 +127,18 @@
 			children = (
 				AA9861112B4D96880017B7CE /* Crypto200OK.json */,
 				AA77EC752B502D08001F6599 /* Crypto400KO.json */,
+				AAB3981E2B7BBA8300CE27C9 /* Crypto401KO.json */,
+				AAB398222B7BBACF00CE27C9 /* Crypto403KO.json */,
+				AAB398242B7BBBD000CE27C9 /* Crypto404KO.json */,
+				AAB398262B7BBBEA00CE27C9 /* Crypto405KO.json */,
+				AAB398282B7BBC0F00CE27C9 /* Crypto406KO.json */,
+				AAB3982A2B7BBC2900CE27C9 /* Crypto407KO.json */,
+				AAB3982C2B7BBC4700CE27C9 /* Crypto408KO.json */,
+				AAB398202B7BBAAE00CE27C9 /* Crypto500KO.json */,
 				AA77EC772B51C98F001F6599 /* Marvel200OK.json */,
+				AAB3982E2B7BBC6800CE27C9 /* Marvel400KO.json */,
+				AAB398302B7BBC7C00CE27C9 /* Marvel401KO.json */,
+				AAB398322B7BBC9F00CE27C9 /* Marvel403KO.json */,
 				AA9F62DE2B641DAE004A4B21 /* Marvel500KO.json */,
 			);
 			path = SimulationJSON;
@@ -354,16 +387,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				C15CBD0F28BCFD390043FAC3 /* CharacterCell.xib in Resources */,
+				AAB3982B2B7BBC2900CE27C9 /* Crypto407KO.json in Resources */,
 				C15CBCC028BB7CBA0043FAC3 /* CryptoCell.xib in Resources */,
+				AAB398332B7BBC9F00CE27C9 /* Marvel403KO.json in Resources */,
 				AA77EC782B51C98F001F6599 /* Marvel200OK.json in Resources */,
+				AAB3982F2B7BBC6800CE27C9 /* Marvel400KO.json in Resources */,
+				AAB3981F2B7BBA8300CE27C9 /* Crypto401KO.json in Resources */,
 				C11DEB6A28AAC4DF00CA1168 /* LaunchScreen.storyboard in Resources */,
 				C15CBD0A28BCFCD50043FAC3 /* ApiKeyView.storyboard in Resources */,
 				C15CBCC528BB843F0043FAC3 /* CryptoListView.storyboard in Resources */,
 				C132756E28DCB1A0003166A8 /* LoginView.storyboard in Resources */,
+				AAB398252B7BBBD000CE27C9 /* Crypto404KO.json in Resources */,
 				C11DEB6728AAC4DF00CA1168 /* Assets.xcassets in Resources */,
+				AAB398292B7BBC0F00CE27C9 /* Crypto406KO.json in Resources */,
+				AAB398312B7BBC7C00CE27C9 /* Marvel401KO.json in Resources */,
 				C15CBCFA28BCD4340043FAC3 /* OAuthView.storyboard in Resources */,
 				C11DEB6528AAC4DC00CA1168 /* Main.storyboard in Resources */,
 				AA77EC762B502D08001F6599 /* Crypto400KO.json in Resources */,
+				AAB3982D2B7BBC4700CE27C9 /* Crypto408KO.json in Resources */,
+				AAB398212B7BBAAE00CE27C9 /* Crypto500KO.json in Resources */,
+				AAB398232B7BBACF00CE27C9 /* Crypto403KO.json in Resources */,
+				AAB398272B7BBBEA00CE27C9 /* Crypto405KO.json in Resources */,
 				AA9F62DF2B641DAE004A4B21 /* Marvel500KO.json in Resources */,
 				AA9861122B4D96880017B7CE /* Crypto200OK.json in Resources */,
 			);

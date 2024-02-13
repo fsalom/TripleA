@@ -6,21 +6,18 @@
 //
 
 import UIKit
+import os
 
 public class SimulationViewController: UIViewController {
 
     // MARK: - Dependencies
     public struct Dependencies {
         let viewModel: SimulationViewModel
-        let targetVC: UIViewController
-        let targetName: String
     }
 
     // MARK: - Properties
 
     var viewModel: SimulationViewModel!
-    var targetVC: UIViewController!
-    var targetName: String!
 
     // MARK: - Views
 
@@ -33,6 +30,27 @@ public class SimulationViewController: UIViewController {
         super.viewDidLoad()
         setupView()
     }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // update table header size
+        guard let headerView = tableView.tableHeaderView else { return }
+
+        let height = headerView.systemLayoutSizeFitting(CGSize(width: tableView.frame.width,
+                                                               height: .greatestFiniteMagnitude),
+                                                        withHorizontalFittingPriority: .required,
+                                                        verticalFittingPriority: .defaultLow).height
+
+        var frame = headerView.frame
+
+        // avoids infinite loop!
+        if height != frame.height {
+            frame.size.height = height
+            headerView.frame = frame
+            tableView.tableHeaderView = headerView
+        }
+    }
 }
 
 // MARK: - Layout
@@ -41,15 +59,13 @@ fileprivate extension SimulationViewController {
 
     func setupView() {
         setupTableView()
-        setupHeaderView()
+        view.backgroundColor = .systemGray5
     }
 
-    func setupHeaderView() {
+    func createHeaderView() -> SimulationHeaderView {
         headerView = SimulationHeaderView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(headerView)
-        headerView.setup(with: SimulationHeaderView.Dependencies(screenName: targetName))
-        setupHeaderViewConstraints()
+        headerView.setup()
+        return headerView
     }
 
     func setupTableView() {
@@ -59,9 +75,12 @@ fileprivate extension SimulationViewController {
         tableView.register(SimulationTableCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
         tableView.register(SimulationSectionHeaderView.self,
                            forHeaderFooterViewReuseIdentifier: Constants.headerIdentifier)
-        tableView.contentInset.top = 350
+
+        tableView.tableHeaderView = createHeaderView()
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = .clear
         view.addSubview(tableView)
         setupTableViewConstraints()
     }
@@ -72,15 +91,6 @@ fileprivate extension SimulationViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-
-    func setupHeaderViewConstraints() {
-        NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 350)
         ])
     }
 }
@@ -126,18 +136,25 @@ extension SimulationViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let endpointId = viewModel.getEndpoints()[indexPath.section].id
-        let responseId = viewModel.responsesForEndpoint(endpointId: endpointId)[indexPath.row].id
-        viewModel.updateResponseSimulationEnabled(enabled: true, for: responseId, from: endpointId)
-        tableView.reloadSections([indexPath.section], with: .automatic)
+
+        do {
+            let endpointId = viewModel.getEndpoints()[indexPath.section].id
+            let responseId = viewModel.responsesForEndpoint(endpointId: endpointId)[indexPath.row].id
+            try viewModel.updateResponseSimulationEnabled(enabled: true, for: responseId, from: endpointId)
+            tableView.reloadSections([indexPath.section], with: .automatic)
+        } catch {
+            Logger().error("Simulation response availability could not be updated: \(error.localizedDescription)")
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+
     }
 }
 
 // MARK: - SimulationHeaderViewProtocol
 
 extension SimulationViewController: SimulationSectionHeaderViewProtocol {
-    func didEnableEndpoint(_ endpointId: SimulationEndpoint.ID, enabled: Bool) {
-        viewModel.updateEndpointSimulationEnabled(for: endpointId, enabled: enabled)
+    func didEnableEndpoint(_ endpointId: SimulationEndpoint.ID, enabled: Bool) throws {
+        try viewModel.updateEndpointSimulationEnabled(for: endpointId, enabled: enabled)
         guard let index = viewModel.getEndpoints().firstIndex(where: { $0.id == endpointId }) else { return }
         tableView.reloadSections([index], with: .automatic)
     }

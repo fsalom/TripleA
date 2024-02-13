@@ -73,7 +73,6 @@ fileprivate extension SimulationTableCell {
         selectedImageView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.addArrangedSubview(selectedImageView)
         manageSelectedImageViewVisibility(by: isSelected,animated: false)
-        setupSelectedImageViewConstraints()
     }
 
     func setupMainStackView() {
@@ -93,13 +92,6 @@ fileprivate extension SimulationTableCell {
         ])
     }
 
-    func setupSelectedImageViewConstraints() {
-        NSLayoutConstraint.activate([
-            selectedImageView.widthAnchor.constraint(equalToConstant: Constants.selectedImageHeightAndWidth),
-            selectedImageView.heightAnchor.constraint(equalToConstant: Constants.selectedImageHeightAndWidth)
-        ])
-    }
-
     func manageSelectedImageViewVisibility(by isSelected: Bool, animated: Bool = true) {
         if animated {
             UIView.animate(withDuration: 0.15) { [weak self] in
@@ -113,7 +105,6 @@ fileprivate extension SimulationTableCell {
 
 extension SimulationTableCell {
     enum Constants {
-        static let selectedImageHeightAndWidth = 24.0
         static let mainStackVerticalAndHorizontalPadding = 10.0
         static let mainStackSpacing = 10.0
     }

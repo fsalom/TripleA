@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import os
 
 // MARK: - SimulationSectionHeaderViewProtocol
 
 protocol SimulationSectionHeaderViewProtocol: AnyObject {
-    func didEnableEndpoint(_ endpointId: SimulationEndpoint.ID, enabled: Bool)
+    func didEnableEndpoint(_ endpointId: SimulationEndpoint.ID, enabled: Bool) throws
 }
 
 // MARK: - SimulationSectionHeaderView
@@ -20,7 +21,7 @@ class SimulationSectionHeaderView: UITableViewHeaderFooterView {
     // MARK: - Dependencies
 
     struct Dependencies {
-        let displayName: String
+        let displayName: AttributedString
         let endpointId: SimulationEndpoint.ID
         let isEndpointSimulationEnabled: Bool
     }
@@ -36,6 +37,16 @@ class SimulationSectionHeaderView: UITableViewHeaderFooterView {
     weak var delegate: SimulationSectionHeaderViewProtocol?
     private var endpointId: SimulationEndpoint.ID!
 
+    // MARK: - Life Cycle
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        mainStackView = nil
+        nameLabel = nil
+        simulationSwitch = nil
+    }
+
     // MARK: - Setup
 
     public func setup(with dependencies: Dependencies) {
@@ -47,11 +58,11 @@ class SimulationSectionHeaderView: UITableViewHeaderFooterView {
 }
 
 fileprivate extension SimulationSectionHeaderView {
-    func setupNameLabel(with name: String) {
+    func setupNameLabel(with name: AttributedString) {
         nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.addArrangedSubview(nameLabel)
-        nameLabel.text = name
+        nameLabel.attributedText = NSAttributedString(name)
         nameLabel.font = UIFont.boldSystemFont(ofSize: 18)
     }
 
@@ -89,6 +100,11 @@ fileprivate extension SimulationSectionHeaderView {
     // MARK: - Observers
 
     @objc func onSwitchValueChanged(_ switch: UISwitch) {
-        delegate?.didEnableEndpoint(endpointId, enabled: `switch`.isOn)
+        do {
+            try delegate?.didEnableEndpoint(endpointId, enabled: `switch`.isOn)
+        } catch {
+            Logger().error("Simulation endpoint availability could not be updated: \(error.localizedDescription)")
+            `switch`.setOn(!`switch`.isOn, animated: true)
+        }
     }
 }

@@ -9,58 +9,37 @@ import UIKit
 
 class SimulationHeaderView: UIView {
 
-    // MARK: - Dependencies
-
-    struct Dependencies {
-        let screenName: String
-    }
-
     // MARK: - Views
     private var mainStackView: UIStackView!
-    private var imageView: UIImageView!
     private var titleLabel: UILabel!
     private var infoLabel: UILabel!
 
     // MARK: - Setup
 
-    public func setup(with dependencies: Dependencies) {
+    public func setup() {
         setupMainStackView()
-        setupImageView()
         setupTitleLabel()
-        setupInfoLabel(with: dependencies.screenName)
+        setupInfoLabel()
     }
 }
 
 fileprivate extension SimulationHeaderView {
-    func setupImageView() {
-        imageView = UIImageView(image: UIImage(systemName: "scribble.variable"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        mainStackView.addArrangedSubview(imageView)
-        imageView.backgroundColor = .systemGray5
-        imageView.layer.cornerRadius = Constants.imageViewHeightAndWidth / 4
-        imageView.layer.borderWidth = 1.5
-        imageView.layer.borderColor = UIColor.systemBlue.cgColor
-        setupImageViewConstraints()
-    }
-
     func setupTitleLabel() {
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.addArrangedSubview(titleLabel)
-        titleLabel.text = Localizables.title
+        titleLabel.text = Localizables.title.uppercased()
         titleLabel.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
                                             weight: .bold)
-        titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 1
     }
 
-    func setupInfoLabel(with screenName: String) {
+    func setupInfoLabel() {
         infoLabel = UILabel()
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.addArrangedSubview(infoLabel)
-        infoLabel.text = String(format: Localizables.info, screenName)
+        infoLabel.text = Localizables.info
         infoLabel.font = UIFont.systemFont(ofSize: Constants.infoLabelFontSize)
-        infoLabel.textAlignment = .center
         infoLabel.numberOfLines = 0
     }
 
@@ -69,13 +48,11 @@ fileprivate extension SimulationHeaderView {
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mainStackView)
         mainStackView.axis = .vertical
-        mainStackView.alignment = .center
-        mainStackView.spacing = Constants.stackViewSpacing
         setupMainStackViewConstraints()
     }
 
     func setupMainStackViewConstraints() {
-        NSLayoutConstraint.activate([
+        let constraints = [
             mainStackView.topAnchor.constraint(equalTo: topAnchor,
                                                constant: Constants.mainStackViewTopPadding),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
@@ -84,14 +61,12 @@ fileprivate extension SimulationHeaderView {
                                                       constant: -Constants.mainStackViewHorizontalPadding),
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor,
                                                    constant: Constants.mainStackViewHorizontalPadding),
-        ])
-    }
+        ]
 
-    func setupImageViewConstraints() {
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: Constants.imageViewHeightAndWidth),
-            imageView.widthAnchor.constraint(equalToConstant: Constants.imageViewHeightAndWidth)
-        ])
+        NSLayoutConstraint.activate(constraints.map({
+            $0.priority = .defaultHigh // avoids constraints conflicts
+            return $0
+        }))
     }
 }
 
@@ -99,28 +74,15 @@ fileprivate extension SimulationHeaderView {
 
 private extension SimulationHeaderView {
     enum Constants {
-        static let mainStackViewTopPadding: CGFloat = 40.0
-        static let mainStackViewBottomPadding: CGFloat = 4.0
+        static let mainStackViewTopPadding: CGFloat = 20.0
+        static let mainStackViewBottomPadding: CGFloat = 8.0
         static let mainStackViewHorizontalPadding: CGFloat = 20.0
-        static let stackViewSpacing: CGFloat = 12.0
-        static let imageViewHeightAndWidth: CGFloat = 80.0
-        static let titleLabelFontSize: CGFloat = 34.0
+        static let titleLabelFontSize: CGFloat = 28.0
         static let infoLabelFontSize: CGFloat = 12.0
     }
 
     enum Localizables {
-        static let title = "Simulación de red"
-        static let info = "TripleA te ofrece una opcion de simular los servicios de red que se producen en esta app. De esta manera tanto desarrolladores como testers desempeñan sus tareas en el menor tiempo posible.\n\nEn esta pantalla se muestran los servicios de red disponibles que tienen disponible la funcion de simularse en %@."
-    }
-}
-
-// MARK: - String Extension
-
-private extension String {
-  func size(font: UIFont, width: CGFloat) -> CGSize {
-      let attrString = NSAttributedString(string: self, attributes: [.font: font])
-        let bounds = attrString.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil)
-        let size = CGSize(width: bounds.width, height: bounds.height)
-        return size
+        static let title = "Simulador de red"
+        static let info = "TripleA ofrece la opción de simular los servicios de red que se consumen en esta app. De esta manera facilita el trabajo de desarrolladores y QA"
     }
 }

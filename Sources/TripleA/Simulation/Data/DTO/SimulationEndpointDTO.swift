@@ -9,6 +9,6 @@ import Foundation
 
 struct SimulationEndpointDTO: Identifiable, Codable {
     let id: String
-    let displayName: String
+    let displayName: AttributedString
     let responses: [SimulationResponseDTO]
 }
