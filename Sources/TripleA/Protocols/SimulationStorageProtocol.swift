@@ -9,6 +9,6 @@ public enum SimulationStorageError: Error {
 }
 
 public protocol SimulationStorageProtocol {
-    static func setConfig(_ newConfig: SimulationConfig) throws
-    static func getConfig() -> SimulationConfig
+    func setConfig(_ newConfig: SimulationConfig) throws
+    func getConfig() -> SimulationConfig
 }

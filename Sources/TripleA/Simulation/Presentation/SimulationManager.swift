@@ -8,6 +8,10 @@
 import UIKit
 
 public class SimulationManager {
+
+    // MARK: - Properties
+    private static let storage = SimulationStorageDefaults()
+
     // MARK: - SETUP
 
     public static func setupSimulations(_ endpoints: [SimulationEndpoint]) throws {
@@ -101,10 +105,10 @@ public class SimulationManager {
     }
 
     private static func getCurrentConfig() -> SimulationConfig {
-        SimulationDataSourceDefaults.getConfig()
+        storage.getConfig()
     }
 
     private static func setCurrentConfig(for config: SimulationConfig) throws {
-        try SimulationDataSourceDefaults.setConfig(config)
+        try storage.setConfig(config)
     }
 }
