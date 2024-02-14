@@ -18,7 +18,7 @@ class SimulationDataSourceDefaults: SimulationStorageProtocol {
         guard let encodedData = try? JSONEncoder().encode(dto) else {
             throw SimulationStorageError.impossibleEncode
         }
-        UserDefaults.standard.set(encodedData, forKey: configKey)
+        UserDefaults.standard.setValue(encodedData, forKey: configKey)
     }
 
     static func getConfig() -> SimulationConfig {

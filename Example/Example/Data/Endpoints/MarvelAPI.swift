@@ -8,7 +8,7 @@ enum MarvelAPI {
         get {
             switch self {
             case .characters(let parameters):
-                return Endpoint(path: "characters", httpMethod: .delete, query: parameters)
+                return Endpoint(path: "characters", httpMethod: .get, query: parameters)
             }
         }
     }
