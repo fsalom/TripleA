@@ -68,7 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                    displayName: "Error 400",
                                                    description: "Returns list of entities successfully ",
                                                    statusCode: 400),
-                                SimulationResponse(fileName: "Marvel401K",
+                                SimulationResponse(fileName: "Marvel401KO",
                                                    displayName: "Error 401",
                                                    description: "Returns list of entities successfully ",
                                                    statusCode: 401),

@@ -23,7 +23,7 @@ public class SimulationManager {
                 continue
             }
 
-            config.endpoints = endpoints
+            config.endpoints.append(endpoint)
             config.endpointsAvailability[endpoint.id] = false
             config.simulationResponsesForEndpoint[endpoint.id] = endpoint.responses.map{ $0.id }
             endpoint.responses.forEach { simulationResponse in
