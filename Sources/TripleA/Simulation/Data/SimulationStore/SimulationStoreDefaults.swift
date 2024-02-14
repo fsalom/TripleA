@@ -23,7 +23,7 @@ class SimulationDataSourceDefaults: SimulationStorageProtocol {
 
     static func getConfig() -> SimulationConfig {
         let configKey = SimulationStorageKey.simulationConfig.rawValue
-        guard let savedData = UserDefaults.standard.object(forKey: configKey) as? Data  else {
+        guard let savedData = UserDefaults.standard.data(forKey: configKey) else {
             return SimulationConfig()
         }
         guard let dto = try? JSONDecoder().decode(SimulationConfigDTO.self, from: savedData) else {
