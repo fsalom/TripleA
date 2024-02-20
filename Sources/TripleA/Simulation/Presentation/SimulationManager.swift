@@ -23,6 +23,7 @@ public class SimulationManager {
                 continue
             }
 
+            config.endpoints.removeAll(where: { $0.id == endpoint.id })
             config.endpoints.append(endpoint)
             config.endpointsAvailability[endpoint.id] = false
             config.simulationResponsesForEndpoint[endpoint.id] = endpoint.responses.map{ $0.id }
