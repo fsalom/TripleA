@@ -8,7 +8,7 @@
 import UIKit
 
 public class SimulationBuilder {
-    public static func build(vcToSimulate: UIViewController) -> SimulationViewController {
+    public static func build() -> SimulationViewController {
         let viewModel = SimulationViewModel()
 
         let viewController = SimulationViewController()
