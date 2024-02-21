@@ -31,29 +31,43 @@ open class Network {
     open func loadAuthorized<T: Decodable>(endpoint: Endpoint,
                                            of type: T.Type? = AuthNoReply.self,
                                            allowRetry: Bool = true) async throws -> T {
-        guard let authManager = authManager else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
-        }
-        var modifiedEndpoint: Endpoint = endpoint
-        modifiedEndpoint.addExtra(headers: additionalHeaders)
-        modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
-        let request = try await authorizedRequest(from: modifiedEndpoint.request)
-        Log.thisCall(request, format: format)
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
-        guard let response = urlResponse as? HTTPURLResponse else{
-            throw NetworkError.invalidResponse
-        }
-        if response.statusCode == 401{
-            if allowRetry {
-                _ = try await authManager.renewToken()
-                return try await loadAuthorized(endpoint: endpoint, of: type, allowRetry: false)
+        if let type = type,
+           let simulatedResponse = SimulationManager.simulateIfNeeded(for: endpoint.id) {
+            do {
+                guard let data = simulatedResponse.data, let httpResponse = simulatedResponse.httpResponse else {
+                    throw NetworkError.invalidResponse
+                }
+
+                return try parse(with: data, and: httpResponse, for: type)
+            } catch {
+                Log.thisError(error)
+                throw error
             }
-        }
-        do {
-            return try parse(with: data, and: response, for: type)
-        } catch {
-            Log.thisError(error)
-            throw error
+        } else {
+            guard let authManager = authManager else {
+                fatalError("Please provide an AuthManager in order to make authorized calls")
+            }
+            var modifiedEndpoint: Endpoint = endpoint
+            modifiedEndpoint.addExtra(headers: additionalHeaders)
+            modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
+            let request = try await authorizedRequest(from: modifiedEndpoint.request)
+            Log.thisCall(request, format: format)
+            let (data, urlResponse) = try await URLSession.shared.data(for: request)
+            guard let response = urlResponse as? HTTPURLResponse else{
+                throw NetworkError.invalidResponse
+            }
+            if response.statusCode == 401{
+                if allowRetry {
+                    _ = try await authManager.renewToken()
+                    return try await loadAuthorized(endpoint: endpoint, of: type, allowRetry: false)
+                }
+            }
+            do {
+                return try parse(with: data, and: response, for: type)
+            } catch {
+                Log.thisError(error)
+                throw error
+            }
         }
     }
 
@@ -71,20 +85,34 @@ open class Network {
     open func load<T: Decodable>(endpoint: Endpoint,
                                  of type: T.Type? = AuthNoReply.self,
                                  allowRetry: Bool = true) async throws -> T {
-        var modifiedEndpoint: Endpoint = endpoint
-        modifiedEndpoint.addExtra(headers: additionalHeaders)
-        modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
-        Log.thisCall(modifiedEndpoint.request, format: format)
-        let request = modifiedEndpoint.request
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
-        guard let response = urlResponse as? HTTPURLResponse else{
-            throw NetworkError.invalidResponse
-        }
-        do {
-            return try parse(with: data, and: response, for: type)
-        } catch {
-            Log.thisError(error)
-            throw error
+        if let type = type,
+           let simulatedResponse = SimulationManager.simulateIfNeeded(for: endpoint.id) {
+            do {
+                guard let data = simulatedResponse.data, let httpResponse = simulatedResponse.httpResponse else {
+                    throw NetworkError.invalidResponse
+                }
+
+                return try parse(with: data, and: httpResponse, for: type)
+            } catch {
+                Log.thisError(error)
+                throw error
+            }
+        } else {
+            var modifiedEndpoint: Endpoint = endpoint
+            modifiedEndpoint.addExtra(headers: additionalHeaders)
+            modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
+            Log.thisCall(modifiedEndpoint.request, format: format)
+            let request = modifiedEndpoint.request
+            let (data, urlResponse) = try await URLSession.shared.data(for: request)
+            guard let response = urlResponse as? HTTPURLResponse else{
+                throw NetworkError.invalidResponse
+            }
+            do {
+                return try parse(with: data, and: response, for: type)
+            } catch {
+                Log.thisError(error)
+                throw error
+            }
         }
     }
 

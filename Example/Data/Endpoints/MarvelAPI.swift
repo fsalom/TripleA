@@ -11,5 +11,5 @@ enum MarvelAPI {
                 return Endpoint(path: "characters", httpMethod: .get, query: parameters)
             }
         }
-    }    
+    }
 }

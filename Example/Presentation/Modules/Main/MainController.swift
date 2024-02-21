@@ -1,8 +1,10 @@
 import UIKit
+import TripleA
 
 class MainController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.becomeFirstResponder()
         delegate = self
 
         let cryptoListStoryboard = UIStoryboard(name: "CryptoListView", bundle: nil)
@@ -22,6 +24,22 @@ class MainController: UITabBarController, UITabBarControllerDelegate {
 
         let viewControllers = [cryptoListVC, apikeyVC, oauthVC]
         self.viewControllers = viewControllers
+    }
+
+
+    // We are willing to become first responder to get shake motion
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return true
+        }
+    }
+
+    // Enable detection of shake motion
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            let simulationVC = SimulationBuilder.build()
+            present(simulationVC, animated: true)
+        }
     }
 
 }

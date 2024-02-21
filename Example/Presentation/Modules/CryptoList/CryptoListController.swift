@@ -16,6 +16,12 @@ class CryptoListController: UIViewController {
         configure()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        loadData()
+    }
+
     func loadData(){
         Task {
             await getCryptos()
@@ -32,7 +38,12 @@ class CryptoListController: UIViewController {
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true)
-        } catch{
+        } catch {
+            let alert = UIAlertController(title: "Error",
+                                          message: error.localizedDescription,
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
 }
@@ -56,4 +67,3 @@ extension CryptoListController: UITableViewDelegate, UITableViewDataSource {
     }
 
 }
-
