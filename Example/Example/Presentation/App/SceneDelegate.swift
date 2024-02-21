@@ -90,7 +90,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         Task {
-            if true {//await Container.network.authManager?.isLogged ?? false {
+            if await Container.network.authManager?.isLogged ?? false {
                 Container.shared.window?.rootViewController = Container.getTabbar()
                 Container.shared.window?.makeKeyAndVisible()
             }else{
