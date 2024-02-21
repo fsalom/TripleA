@@ -2,7 +2,7 @@ import Foundation
 
 @available(macOS 10.15, *)
 public final actor AuthManager {
-    private var storage: StorageProtocol
+    private var storage: TokenStorageProtocol
     private var remoteDataSource: RemoteDataSourceProtocol
     private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
@@ -15,7 +15,7 @@ public final actor AuthManager {
         }
     }
 
-    public init(storage: StorageProtocol, remoteDataSource: RemoteDataSourceProtocol, parameters: [String: Any] = [:]) {
+    public init(storage: TokenStorageProtocol, remoteDataSource: RemoteDataSourceProtocol, parameters: [String: Any] = [:]) {
         self.storage = storage
         self.parameters = parameters
         self.remoteDataSource = remoteDataSource
@@ -78,7 +78,8 @@ public final actor AuthManager {
             do {
                 return try await remoteDataSource.getRefreshToken(with: refreshToken)
             } catch {
-                throw AuthError.badRequest
+                await self.logout()
+                throw AuthError.refreshFailed
             }
         }
         self.refreshTask = task

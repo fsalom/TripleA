@@ -5,6 +5,9 @@ public enum AuthError: Error {
     case missingExpiresIn
     case badRequest
     case tokenNotFound
+    case refreshFailed
+    case timeout
+    case noInternet
     case errorData(Data)
 
     var data: Data {

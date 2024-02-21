@@ -10,7 +10,7 @@ public enum StorageError: Error {
     case keyNotFound
 }
 
-public protocol StorageProtocol {
+public protocol TokenStorageProtocol {
     var accessToken: Token? { get set }
     var refreshToken: Token? { get set }
     var idToken: Token? { get set }

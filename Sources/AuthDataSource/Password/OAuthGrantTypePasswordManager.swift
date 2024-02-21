@@ -3,12 +3,12 @@ import Foundation
 import UIKit
 
 public final class OAuthGrantTypePasswordManager {
-    private var storage: StorageProtocol!
+    private var storage: TokenStorageProtocol!
     private var startController: UIViewController?
     public var refreshTokenEndpoint: Endpoint
     public var tokensEndpoint: Endpoint
 
-    public init(storage: StorageProtocol, startController: UIViewController, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
+    public init(storage: TokenStorageProtocol, startController: UIViewController, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
         self.storage = storage
         self.startController = startController
         self.refreshTokenEndpoint = refreshTokenEndpoint
@@ -27,7 +27,17 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
                         do {
                             return try await self.getRefreshToken(with: refreshToken.value)
                         } catch {
-                            throw AuthError.badRequest
+                            let errors: [URLError.Code] = [.timedOut,
+                                                           .notConnectedToInternet,
+                                                           .dataNotAllowed]
+                            guard let value = (error as? URLError)?.code else {
+                                throw AuthError.badRequest
+                            }
+                            if errors.contains(value) {
+                                throw AuthError.noInternet
+                            } else {
+                                throw AuthError.badRequest
+                            }
                         }
                     }
                 }
@@ -47,7 +57,17 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
             storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
             return tokens.accessToken
         } catch {
-            throw AuthError.badRequest
+            let errors: [URLError.Code] = [.timedOut,
+                                           .notConnectedToInternet,
+                                           .dataNotAllowed]
+            guard let value = (error as? URLError)?.code else {
+                throw AuthError.badRequest
+            }
+            if errors.contains(value) {
+                throw AuthError.noInternet
+            } else {
+                throw AuthError.badRequest
+            }
         }
     }
 
@@ -60,7 +80,17 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
             storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
             return tokens.accessToken
         } catch {
-            throw AuthError.badRequest
+            let errors: [URLError.Code] = [.timedOut,
+                                           .notConnectedToInternet,
+                                           .dataNotAllowed]
+            guard let value = (error as? URLError)?.code else {
+                throw AuthError.badRequest
+            }
+            if errors.contains(value) {
+                throw AuthError.noInternet
+            } else {
+                throw AuthError.badRequest
+            }
         }
     }
 
