@@ -61,7 +61,7 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
                                            .notConnectedToInternet,
                                            .dataNotAllowed]
             guard let value = (error as? URLError)?.code else {
-                throw AuthError.badRequest
+                throw error
             }
             if errors.contains(value) {
                 throw AuthError.noInternet
@@ -115,9 +115,15 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
             throw NetworkError.invalidResponse
         }
         Log.thisResponse(response, data: data)
-        let decoder = JSONDecoder()
-        let parseData = try decoder.decode(T.self, from: data)
-        return parseData
+        if (200..<300).contains(response.statusCode) {
+            let decoder = JSONDecoder()
+            let parseData = try decoder.decode(T.self, from: data)
+            return parseData
+        } else {
+            throw NetworkError.failure(statusCode: response.statusCode,
+                                       data: data,
+                                       response: response)
+        }
     }
 }
 #endif
