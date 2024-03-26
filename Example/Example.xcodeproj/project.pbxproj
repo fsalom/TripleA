@@ -54,6 +54,8 @@
 		AAA8F0952BB328E8005D7730 /* Crypto406KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAA8F0662BB328E8005D7730 /* Crypto406KO.json */; };
 		AAA8F0962BB328E8005D7730 /* Crypto400KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAA8F0672BB328E8005D7730 /* Crypto400KO.json */; };
 		AAA8F0972BB328E8005D7730 /* Crypto500KO.json in Resources */ = {isa = PBXBuildFile; fileRef = AAA8F0682BB328E8005D7730 /* Crypto500KO.json */; };
+		AADAF8F72BB32FE60018779E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AADAF8F62BB32FE60018779E /* Settings.bundle */; };
+		AADAF8FA2BB330960018779E /* SettingsBundleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADAF8F92BB330960018779E /* SettingsBundleManager.swift */; };
 		C18B719E28ABA98F00560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719D28ABA98F00560703 /* TripleA */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +107,8 @@
 		AAA8F0662BB328E8005D7730 /* Crypto406KO.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Crypto406KO.json; sourceTree = "<group>"; };
 		AAA8F0672BB328E8005D7730 /* Crypto400KO.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Crypto400KO.json; sourceTree = "<group>"; };
 		AAA8F0682BB328E8005D7730 /* Crypto500KO.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Crypto500KO.json; sourceTree = "<group>"; };
+		AADAF8F62BB32FE60018779E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		AADAF8F92BB330960018779E /* SettingsBundleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleManager.swift; sourceTree = "<group>"; };
 		C11DEB5A28AAC4DC00CA1168 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1DED19028AD04D6005C68F3 /* TripleA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = TripleA; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,12 +128,13 @@
 		AAA8F0282BB328E8005D7730 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				AAA8F0292BB328E8005D7730 /* DI */,
+				AADAF8F82BB330770018779E /* SettingsBundleManager */,
 				AAA8F02B2BB328E8005D7730 /* Assets.xcassets */,
-				AAA8F02C2BB328E8005D7730 /* LaunchScreen.storyboard */,
 				AAA8F02E2BB328E8005D7730 /* Data */,
+				AAA8F0292BB328E8005D7730 /* DI */,
+				AAA8F02C2BB328E8005D7730 /* LaunchScreen.storyboard */,
 				AAA8F0382BB328E8005D7730 /* Presentation */,
-				AAA8F0592BB328E8005D7730 /* SimulationJSON */,
+				AADAF8F62BB32FE60018779E /* Settings.bundle */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 		AAA8F02E2BB328E8005D7730 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				AAA8F0592BB328E8005D7730 /* SimulationJSON */,
 				AAA8F02F2BB328E8005D7730 /* DTO */,
 				AAA8F0342BB328E8005D7730 /* Endpoints */,
 			);
@@ -295,6 +301,14 @@
 			path = SimulationJSON;
 			sourceTree = "<group>";
 		};
+		AADAF8F82BB330770018779E /* SettingsBundleManager */ = {
+			isa = PBXGroup;
+			children = (
+				AADAF8F92BB330960018779E /* SettingsBundleManager.swift */,
+			);
+			path = SettingsBundleManager;
+			sourceTree = "<group>";
+		};
 		C11DEB5128AAC4DC00CA1168 = {
 			isa = PBXGroup;
 			children = (
@@ -406,6 +420,7 @@
 				AAA8F0942BB328E8005D7730 /* Marvel500KO.json in Resources */,
 				AAA8F0772BB328E8005D7730 /* OAuthView.storyboard in Resources */,
 				AAA8F0892BB328E8005D7730 /* Marvel401KO.json in Resources */,
+				AADAF8F72BB32FE60018779E /* Settings.bundle in Resources */,
 				AAA8F0812BB328E8005D7730 /* CryptoListView.storyboard in Resources */,
 				AAA8F08C2BB328E8005D7730 /* Crypto407KO.json in Resources */,
 			);
@@ -438,6 +453,7 @@
 				AAA8F0712BB328E8005D7730 /* MarvelAPI.swift in Sources */,
 				AAA8F07E2BB328E8005D7730 /* CharacterCell.swift in Sources */,
 				AAA8F0792BB328E8005D7730 /* ApiKeyViewModel.swift in Sources */,
+				AADAF8FA2BB330960018779E /* SettingsBundleManager.swift in Sources */,
 				AAA8F0782BB328E8005D7730 /* OAuthRouter.swift in Sources */,
 				AAA8F06F2BB328E8005D7730 /* ListDTO.swift in Sources */,
 				AAA8F07A2BB328E8005D7730 /* ApiKeyRouter.swift in Sources */,

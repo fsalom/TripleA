@@ -36,7 +36,7 @@ class MainController: UITabBarController, UITabBarControllerDelegate {
 
     // Enable detection of shake motion
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
+        if motion == .motionShake, SettingsBundleManager.issimulationEnabled() {
             let simulationVC = SimulationBuilder.build()
             present(simulationVC, animated: true)
         }
