@@ -20,6 +20,34 @@ public final actor AuthManager {
         self.parameters = parameters
         self.remoteDataSource = remoteDataSource
     }
+}
+
+extension AuthManager: AuthManagerProtocol {
+    // MARK: - refreshToken - create a task and call refreshToken if needed
+    /**
+     Refresh token when is needed or logout
+     - Returns: new refresh_token  `String`
+     - Throws: An error of type `AuthError`
+     */
+    public func renewToken() async throws -> String {
+        if let refreshTask = refreshTask {
+            return try await refreshTask.value
+        }
+        let task = Task { () throws -> String in
+            defer { refreshTask = nil }
+            guard let refreshToken = storage.refreshToken?.value else {
+                throw AuthError.tokenNotFound
+            }
+            do {
+                return try await remoteDataSource.getRefreshToken(with: refreshToken)
+            } catch {
+                await self.logout()
+                throw AuthError.refreshFailed
+            }
+        }
+        self.refreshTask = task
+        return try await task.value
+    }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
     /**
@@ -45,7 +73,7 @@ public final actor AuthManager {
         try await getNewToken()
         throw AuthError.missingToken
     }
-
+    
     // MARK: - validToken - check if token is valid or refresh token otherwise
     /**
     Call to login if needed and get token
@@ -58,32 +86,6 @@ public final actor AuthManager {
         } catch let error {
             throw error
         }
-    }
-    
-    // MARK: - refreshToken - create a task and call refreshToken if needed
-    /**
-     Refresh token when is needed or logout
-     - Returns: new refresh_token  `String`
-     - Throws: An error of type `AuthError`
-     */
-    func renewToken() async throws -> String {
-        if let refreshTask = refreshTask {
-            return try await refreshTask.value
-        }
-        let task = Task { () throws -> String in
-            defer { refreshTask = nil }
-            guard let refreshToken = storage.refreshToken?.value else {
-                throw AuthError.tokenNotFound
-            }
-            do {
-                return try await remoteDataSource.getRefreshToken(with: refreshToken)
-            } catch {
-                await self.logout()
-                throw AuthError.refreshFailed
-            }
-        }
-        self.refreshTask = task
-        return try await task.value
     }
 
     // MARK: - logout
