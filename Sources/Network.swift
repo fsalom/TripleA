@@ -2,12 +2,14 @@ import Foundation
 
 @available(macOS 10.15, *)
 open class Network {
-    var baseURL: String = ""
-    public let authManager: AuthManager?
-    var additionalHeaders: [String: String] = [:]
-    var format: LogFormat!
+    private var baseURL: String = ""
+    public let authManager: AuthManagerProtocol?
+    private var additionalHeaders: [String: String] = [:]
+    private var session: URLSession!
+    private var format: LogFormat!
 
     public init(baseURL: String,
+                session: URLSession? = URLSession(configuration: .default),
                 authManager: AuthManager? = nil,
                 headers: [String: String] = [:],
                 format: LogFormat = .full) {
@@ -15,6 +17,7 @@ open class Network {
         self.additionalHeaders = headers
         self.baseURL = baseURL
         self.format = format
+        self.session = session
     }
 
     // MARK: -  loadAuthorized
@@ -39,7 +42,7 @@ open class Network {
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
         let request = try await authorizedRequest(from: modifiedEndpoint.request)
         Log.thisCall(request, format: format)
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+        let (data, urlResponse) = try await session.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
@@ -76,7 +79,7 @@ open class Network {
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
         Log.thisCall(modifiedEndpoint.request, format: format)
         let request = modifiedEndpoint.request
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+        let (data, urlResponse) = try await session.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
@@ -167,7 +170,7 @@ open class Network {
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
         let request = try await authorizedRequest(from: modifiedEndpoint.request)
         Log.thisCall(request, format: format)
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+        let (data, urlResponse) = try await session.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
@@ -196,7 +199,7 @@ open class Network {
         endpoint.addExtra(headers: additionalHeaders)
         endpoint.addBaseURLIfNeeded(url: baseURL)
         Log.thisCall(endpoint.request, format: format)
-        let (data, response) = try await URLSession.shared.data(for: endpoint.request)
+        let (data, response) = try await session.data(for: endpoint.request)
         guard let response = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
