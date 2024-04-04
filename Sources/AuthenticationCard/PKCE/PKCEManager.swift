@@ -149,13 +149,13 @@ public class PKCEManager: NSObject {
 }
 
 @available(macOS 10.15, *)
-extension PKCEManager: RemoteDataSourceProtocol {
+extension PKCEManager: AuthenticationCardProtocol {
     // MARK: - getAccessToken - get access token or initialize authentication flow
     /**
      get access token from storage or initialize authentication flow
      - Returns: valid access token `String`
      */
-    public func getAccessToken(with parameters: [String : Any]) async throws -> Tokens {
+    public func getAccessToken(with parameters: [String : Any]) async throws -> String {
         if let accessToken = storage.accessToken {
             if accessToken.isValid {
                 return accessToken.value

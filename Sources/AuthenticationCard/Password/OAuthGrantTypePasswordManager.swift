@@ -16,7 +16,7 @@ public final class OAuthGrantTypePasswordManager {
     }
 }
 
-extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
+extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
     public func getAccessToken(with parameters: [String : Any]) async throws -> String {
         if let accessToken = storage.accessToken {
             if accessToken.isValid {
