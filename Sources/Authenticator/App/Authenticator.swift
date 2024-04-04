@@ -1,9 +1,9 @@
 import Foundation
 
 @available(macOS 10.15, *)
-public final actor AuthManager {
+public final actor Authenticator {
     private var storage: TokenStorageProtocol
-    private var remoteDataSource: RemoteDataSourceProtocol
+    private var card: AuthenticationCardProtocol
     private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
     
@@ -15,14 +15,16 @@ public final actor AuthManager {
         }
     }
 
-    public init(storage: TokenStorageProtocol, remoteDataSource: RemoteDataSourceProtocol, parameters: [String: Any] = [:]) {
+    public init(storage: TokenStorageProtocol,
+                card: AuthenticationCardProtocol,
+                parameters: [String: Any] = [:]) {
         self.storage = storage
         self.parameters = parameters
-        self.remoteDataSource = remoteDataSource
+        self.card = card
     }
 }
 
-extension AuthManager: AuthManagerProtocol {
+extension Authenticator: AuthenticatorProtocol {
     // MARK: - refreshToken - create a task and call refreshToken if needed
     /**
      Refresh token when is needed or logout
@@ -39,7 +41,7 @@ extension AuthManager: AuthManagerProtocol {
                 throw AuthError.tokenNotFound
             }
             do {
-                return try await remoteDataSource.getRefreshToken(with: refreshToken)
+                return try await card.getRefreshToken(with: refreshToken)
             } catch {
                 await self.logout()
                 throw AuthError.refreshFailed
@@ -82,7 +84,7 @@ extension AuthManager: AuthManagerProtocol {
     */
     public func getNewToken(with parameters: [String: Any] = [:]) async throws {
         do {
-            _ = try await remoteDataSource.getAccessToken(with: parameters)
+            _ = try await card.getAccessToken(with: parameters)
         } catch let error {
             throw error
         }
@@ -93,6 +95,6 @@ extension AuthManager: AuthManagerProtocol {
      Remove data and go to start view controller
      */
     public func logout() async {
-        await remoteDataSource.logout()
+        await card.logout()
     }
 }
