@@ -24,6 +24,9 @@ let package = Package(
             path: "Sources/"),
         .testTarget(
             name: "TripleATests",
+            dependencies: [
+                "TripleA"
+                ],
             path: "Tests/"),
     ]
 )
