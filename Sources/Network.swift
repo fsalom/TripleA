@@ -2,18 +2,18 @@ import Foundation
 
 @available(macOS 10.15, *)
 open class Network {
+    public let authenticator: AuthenticatorProtocol?
     private var baseURL: String = ""
-    public let authManager: AuthManagerProtocol?
     private var additionalHeaders: [String: String] = [:]
     private var session: URLSession!
     private var format: LogFormat!
 
-    public init(baseURL: String,
+    public init(baseURL: String = "",
                 session: URLSession? = URLSession(configuration: .default),
-                authManager: AuthManager? = nil,
+                authenticator: AuthenticatorProtocol? = nil,
                 headers: [String: String] = [:],
                 format: LogFormat = .full) {
-        self.authManager = authManager
+        self.authenticator = authenticator
         self.additionalHeaders = headers
         self.baseURL = baseURL
         self.format = format
@@ -31,11 +31,11 @@ open class Network {
      - Returns: object of type  `T` already parsed.x
      - Throws: An error of type `CustomError`  with extra info
     */
-    open func loadAuthorized<T: Decodable>(endpoint: Endpoint,
+    open func loadAuthorized<T: Decodable>(this endpoint: Endpoint,
                                            of type: T.Type? = AuthNoReply.self,
                                            allowRetry: Bool = true) async throws -> T {
-        guard let authManager = authManager else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
+        guard let authenticator = authenticator else {
+            fatalError("Please provide an Authenticator in order to make authorized calls")
         }
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
@@ -48,8 +48,8 @@ open class Network {
         }
         if response.statusCode == 401{
             if allowRetry {
-                _ = try await authManager.renewToken()
-                return try await loadAuthorized(endpoint: endpoint, of: type, allowRetry: false)
+                _ = try await authenticator.renewToken()
+                return try await loadAuthorized(this: endpoint, of: type, allowRetry: false)
             }
         }
         do {
@@ -71,7 +71,7 @@ open class Network {
      - Returns: object of type  `T` already parsed.
      - Throws: An error of type `CustomError`  with extra info
     */
-    open func load<T: Decodable>(endpoint: Endpoint,
+    open func load<T: Decodable>(this endpoint: Endpoint,
                                  of type: T.Type? = AuthNoReply.self,
                                  allowRetry: Bool = true) async throws -> T {
         var modifiedEndpoint: Endpoint = endpoint
@@ -162,8 +162,8 @@ open class Network {
      - Throws: An error of type `NetworkError`  with extra info
     */
     open func loadAuthorizedRaw(this endpoint: Endpoint) async throws -> (Int, Data?) {
-        guard let authManager = authManager else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
+        guard let authenticator = authenticator else {
+            fatalError("Please provide an authenticator in order to make authorized calls")
         }
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
@@ -175,7 +175,7 @@ open class Network {
             throw NetworkError.invalidResponse
         }
         if response.statusCode == 401{
-            _ = try await authManager.renewToken()
+            _ = try await authenticator.renewToken()
             return try await loadAuthorizedRaw(this: endpoint)
 
         }
@@ -220,33 +220,33 @@ open class Network {
      - Throws: An error of type `CustomError`  with extra info
     */
     private func authorizedRequest(from request: URLRequest) async throws -> URLRequest {
-        guard let authManager = authManager else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
+        guard let authenticator = authenticator else {
+            fatalError("Please provide an authenticator in order to make authorized calls")
         }
         var requestWithHeader = request
         do{
-            let token = try await authManager.getCurrentToken()
+            let token = try await authenticator.getCurrentToken()
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }catch let error{
             Log.thisError(error)
-            await authManager.logout()
+            await authenticator.logout()
         }
         return requestWithHeader
     }
 
     // MARK: - getNewToken
     /**
-     Make a call through authManager to get new accessToken
+     Make a call through authenticator to get new accessToken
      - Parameters:
         - parameters: optional parameters that call needed [String: Any]
      - Throws: An error of type `CustomError`  with extra info
     */
     public func getNewToken(with parameters: [String: Any] = [:]) async throws {
-        guard let authManager = authManager else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
+        guard let authenticator = authenticator else {
+            fatalError("Please provide an authenticator in order to make authorized calls")
         }
         do {
-            try await authManager.getNewToken(with: parameters)
+            try await authenticator.getNewToken(with: parameters)
         } catch let error {
             throw error
         }
@@ -255,15 +255,15 @@ open class Network {
 
     // MARK: - renewToken
     /**
-     Renew refreshToken if needed through authManager
+     Renew refreshToken if needed through authenticator
      - Throws: An error of type `CustomError`  with extra info
     */
     public func renewToken() async throws {
-        guard let authManager = authManager else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
+        guard let authenticator = authenticator else {
+            fatalError("Please provide an authenticator in order to make authorized calls")
         }
         do {
-            _ = try await authManager.renewToken()
+            _ = try await authenticator.renewToken()
         } catch {
             throw error
         }
@@ -271,14 +271,14 @@ open class Network {
 
     // MARK: - logout
     /**
-     Logout throug authManager
+     Logout throug authenticator
      - Throws: An error of type `CustomError`  with extra info
     */
     public func logout() async throws {
-        guard let authManager = authManager else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
+        guard let authenticator = authenticator else {
+            fatalError("Please provide an authenticator in order to make authorized calls")
         }
-        await authManager.logout()
+        await authenticator.logout()
     }
 }
 
