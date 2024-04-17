@@ -8,7 +8,7 @@ public final class OAuthGrantTypePasswordManager {
     public var refreshTokenEndpoint: Endpoint
     public var tokensEndpoint: Endpoint
 
-    public init(storage: TokenStorageProtocol, startController: UIViewController, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
+    public init(storage: TokenStorageProtocol, startController: UIViewController?, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
         self.storage = storage
         self.startController = startController
         self.refreshTokenEndpoint = refreshTokenEndpoint
@@ -96,7 +96,9 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
 
     public func logout() async {
         storage.removeAll()
-        showLogin()
+        if let startController {
+            showLogin()
+        }
     }
 
     public func showLogin() {
