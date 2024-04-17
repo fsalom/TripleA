@@ -1,4 +1,5 @@
 import Foundation
+
 #if canImport(UIKit)
 import UIKit
 
@@ -71,10 +72,15 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
 
     public func showLogin() {
         DispatchQueue.main.async {
-            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-            guard let window = scene.windows.first else { return }
-            window.rootViewController = self.startController
-            window.makeKeyAndVisible()
+            
+            guard let scene = UIApplication
+                .shared
+                .connectedScenes
+                .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+                .last else { return }
+
+            scene.rootViewController = self.startController
+            scene.makeKeyAndVisible()            
         }
     }
 
