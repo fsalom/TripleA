@@ -8,8 +8,8 @@ public final actor AuthManager {
     private var refreshTask: Task<String, Error>?
     
     public var isLogged: Bool {
-        if let accessToken = storage.accessToken {
-            return accessToken.isValid
+        if let refreshToken = storage.refreshToken {
+            return refreshToken.isValid
         }else{
             return false
         }
