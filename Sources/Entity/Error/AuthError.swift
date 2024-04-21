@@ -8,6 +8,7 @@ public enum AuthError: Error {
     case refreshFailed
     case timeout
     case noInternet
+    case logoutFailed
     case errorData(Data)
 
     var data: Data {
