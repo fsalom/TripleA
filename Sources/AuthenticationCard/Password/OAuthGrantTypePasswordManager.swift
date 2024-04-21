@@ -7,12 +7,18 @@ public final class OAuthGrantTypePasswordManager {
     private var startController: UIViewController?
     public var refreshTokenEndpoint: Endpoint
     public var tokensEndpoint: Endpoint
+    public var logoutEndpoint: Endpoint?
 
-    public init(storage: TokenStorageProtocol, startController: UIViewController?, refreshTokenEndpoint: Endpoint, tokensEndPoint: Endpoint ) {
+    public init(storage: TokenStorageProtocol,
+                startController: UIViewController?,
+                refreshTokenEndpoint: Endpoint,
+                tokensEndpoint: Endpoint,
+                logoutEndpoint: Endpoint? = nil) {
         self.storage = storage
         self.startController = startController
         self.refreshTokenEndpoint = refreshTokenEndpoint
-        self.tokensEndpoint = tokensEndPoint
+        self.tokensEndpoint = tokensEndpoint
+        self.logoutEndpoint = logoutEndpoint
     }
 }
 
@@ -94,23 +100,10 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         }
     }
 
-    public func logout() async {
+    public func logout() async throws {
         storage.removeAll()
         if let startController {
             showLogin()
-        }
-    }
-
-    public func showLogin() {
-        DispatchQueue.main.async {
-            guard let scene = UIApplication
-                .shared
-                .connectedScenes
-                .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
-                .last else { return }
-
-            scene.rootViewController = self.startController
-            scene.makeKeyAndVisible()
         }
     }
 
