@@ -22,7 +22,7 @@ public final class OAuthGrantTypePasswordManager {
     }
 }
 
-extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
+extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
     public func getAccessToken(with parameters: [String : Any]) async throws -> String {
         if let accessToken = storage.accessToken {
             if accessToken.isValid {
@@ -51,7 +51,6 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         }
         do {
             if parameters.isEmpty {
-                showLogin()
                 return ""
             }
             parameters.forEach { (key: String, value: Any) in
@@ -81,7 +80,7 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
         do {
             refreshTokenEndpoint.parameters["refresh_token"] = refreshToken
             Log.thisCall(refreshTokenEndpoint.request)
-            let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)
+            let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)            
             storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
             storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
             return tokens.accessToken
@@ -102,12 +101,13 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
 
     public func logout() async throws {
         storage.removeAll()
-        if let startController {
-            showLogin()
+        if let logoutEndpoint {
+            _ = try await load(endpoint: logoutEndpoint)
         }
     }
 
-    func load<T: Decodable>(endpoint: Endpoint, of type: T.Type, allowRetry: Bool = true) async throws -> T {
+
+    func load<T: Decodable>(endpoint: Endpoint, of type: T.Type = NoContentDTO.self, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
         let (data, urlResponse) = try await URLSession.shared.data(for: endpoint.request)
         guard let response = urlResponse as? HTTPURLResponse else{
@@ -124,5 +124,9 @@ extension OAuthGrantTypePasswordManager: RemoteDataSourceProtocol {
                                        response: response)
         }
     }
+}
+
+extension OAuthGrantTypePasswordManager {
+    struct NoContentDTO: Codable { }
 }
 #endif
