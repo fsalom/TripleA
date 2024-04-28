@@ -1,12 +1,14 @@
 import Foundation
+import UIKit
 
 @available(macOS 10.15, *)
-public final actor AuthManager {
+public final class AuthManager {
     private var storage: TokenStorageProtocol
-    private var remoteDataSource: RemoteDataSourceProtocol
+    private var card: AuthenticationCardProtocol
     private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
-    
+    private var entryViewController: UIViewController?
+
     public var isLogged: Bool {
         if let refreshToken = storage.refreshToken {
             return refreshToken.isValid
@@ -15,10 +17,12 @@ public final actor AuthManager {
         }
     }
 
-    public init(storage: TokenStorageProtocol, remoteDataSource: RemoteDataSourceProtocol, parameters: [String: Any] = [:]) {
+    public init(storage: TokenStorageProtocol,
+                card: AuthenticationCardProtocol,
+                parameters: [String: Any] = [:]) {
         self.storage = storage
         self.parameters = parameters
-        self.remoteDataSource = remoteDataSource
+        self.card = card
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
@@ -53,11 +57,7 @@ public final actor AuthManager {
      - Throws: An error of type `CustomError`  with extra info
     */
     public func getNewToken(with parameters: [String: Any] = [:]) async throws {
-        do {
-            _ = try await remoteDataSource.getAccessToken(with: parameters)
-        } catch let error {
-            throw error
-        }
+        _ = try await card.getAccessToken(with: parameters)
     }
     
     // MARK: - refreshToken - create a task and call refreshToken if needed
@@ -76,10 +76,10 @@ public final actor AuthManager {
                 throw AuthError.tokenNotFound
             }
             do {
-                return try await remoteDataSource.getRefreshToken(with: refreshToken)
+                return try await card.getRefreshToken(with: refreshToken)
             } catch {
-                await self.logout()
-                throw AuthError.refreshFailed
+                try await self.logout()
+                return ""
             }
         }
         self.refreshTask = task
@@ -90,7 +90,28 @@ public final actor AuthManager {
     /**
      Remove data and go to start view controller
      */
-    public func logout() async {
-        await remoteDataSource.logout()
+    public func logout() async throws {
+        do {
+            try await card.logout()
+            storage.removeAll()
+            showLogin()
+        } catch {
+            throw AuthError.logoutFailed
+        }
+    }
+
+    public func showLogin() {
+        if let entryViewController {
+            DispatchQueue.main.async {
+                guard let scene = UIApplication
+                    .shared
+                    .connectedScenes
+                    .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+                    .last else { return }
+
+                scene.rootViewController = self.entryViewController
+                scene.makeKeyAndVisible()
+            }
+        }
     }
 }
