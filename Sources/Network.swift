@@ -226,7 +226,7 @@ open class Network {
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }catch let error{
             Log.thisError(error)
-            await authManager.logout()
+            try await authManager.logout()
         }
         return requestWithHeader
     }
@@ -275,7 +275,7 @@ open class Network {
         guard let authManager = authManager else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
-        await authManager.logout()
+        try await authManager.logout()
     }
 }
 
