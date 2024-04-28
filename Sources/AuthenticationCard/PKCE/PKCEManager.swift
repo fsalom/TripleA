@@ -48,7 +48,7 @@ public class PKCEManager: NSObject {
 }
 
 @available(macOS 10.15, *)
-extension PKCEManager: RemoteDataSourceProtocol {
+extension PKCEManager: AuthenticationCardProtocol {
     // MARK: - showLogin - initialize authentication flow with ASWebAuthenticationSession
     /**
      return a code for PKCE flow
