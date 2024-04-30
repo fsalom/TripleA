@@ -103,7 +103,7 @@ class OAuthController: UIViewController {
 
     @IBAction func logoutPressed(_ sender: Any) {
         Task {
-            await Container.shared.authManager.logout()
+            try await Container.shared.authManager.logout()
         }
     }
 

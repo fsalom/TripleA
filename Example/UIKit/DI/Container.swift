@@ -17,7 +17,7 @@ class Container {
     static let remoteDataSource = OAuthGrantTypePasswordManager(storage: Container.storage,
                                                                 startController: getLoginController(),
                                                                 refreshTokenEndpoint: OAuthAPI.refresh(parametersRefresh).endpoint,
-                                                                tokensEndPoint: OAuthAPI.login(parametersLogin).endpoint)
+                                                                tokensEndpoint: OAuthAPI.login(parametersLogin).endpoint)
 
     static let config = PKCEConfig(clientID: "vW6QyPMdId5NlGRNqbULm0YFWk0hq6VMWBDWSovp",
                                    clientSecret: "9ElafIEJbecCbk83t0SNYobrSMdD6mKUvgIwOE1vkWOqHvqhcWtCBZV1tGB9wJNi81EYLUwV8kSfIbQb12AhZAgGCl8gfpYh5Tr8o45iuNC97Ucizac32qySLe9lhdJ3",
@@ -32,7 +32,7 @@ class Container {
     static let PKCEDataSource = PKCEManager(storage: Container.storage, presentationAnchor: nil, config: config )
     //AUTHMANAGER
     let authManager = AuthManager(storage: Container.storage,
-                                  remoteDataSource: Container.PKCEDataSource,
+                                  card: Container.PKCEDataSource,
                                   parameters: [:])
     //NETWORK
     static let network = Network(baseURL: "https://dashboard-staging.rudo.es/",
