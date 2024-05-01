@@ -119,7 +119,6 @@
 		C1054A472BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCasesProtocol.swift; sourceTree = "<group>"; };
 		C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCases.swift; sourceTree = "<group>"; };
 		C11DEB5A28AAC4DC00CA1168 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C1DED19028AD04D6005C68F3 /* TripleA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = TripleA; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,14 +245,6 @@
 				C10549CB2BDD7C80004D5FD8 /* Datasources */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		C10549D42BDD7C80004D5FD8 /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				C10549D32BDD7C80004D5FD8 /* LaunchScreen.storyboard */,
-			);
-			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 		C10549D92BDD7C80004D5FD8 /* App */ = {
@@ -464,6 +455,7 @@
 		C1054A4B2BDE7D48004D5FD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C10549D32BDD7C80004D5FD8 /* LaunchScreen.storyboard */,
 				C10549D52BDD7C80004D5FD8 /* Info.plist */,
 				C10549D62BDD7C80004D5FD8 /* Assets.xcassets */,
 			);
@@ -475,7 +467,6 @@
 			children = (
 				C1054A4B2BDE7D48004D5FD8 /* Resources */,
 				C1054A1F2BDE7411004D5FD8 /* Domain */,
-				C10549D42BDD7C80004D5FD8 /* Base.lproj */,
 				C10549D12BDD7C80004D5FD8 /* Data */,
 				C10549BA2BDD7C80004D5FD8 /* DI */,
 				C10549F82BDD7C80004D5FD8 /* Presentation */,
@@ -495,7 +486,6 @@
 		C1DED18D28AD0380005C68F3 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				C1DED19028AD04D6005C68F3 /* TripleA */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -775,7 +765,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R88CDNMKLQ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -803,7 +793,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R88CDNMKLQ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
