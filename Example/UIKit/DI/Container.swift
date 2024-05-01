@@ -33,7 +33,6 @@ class Container {
     //AUTHMANAGER
     let authManager = AuthManager(storage: Container.storage,
                                   card: Container.oauthCard,
-                                  parameters: [:], 
                                   entryViewController: getLoginController())
     //NETWORK
     static let network = Network(baseURL: "https://dashboard-staging.rudo.es/",
@@ -45,7 +44,7 @@ class Container {
 
 extension Container {
     public static func getLoginController() -> LoginController {
-        let storyboard = UIStoryboard(name: "LoginView", bundle: nil)
+        let storyboard = UIStoryboard(name: "LoginController", bundle: nil)
         let LoginVC = storyboard.instantiateViewController(withIdentifier: "LoginController") as! LoginController
         return LoginVC
     }

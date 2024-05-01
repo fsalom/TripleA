@@ -15,8 +15,7 @@ class MainController: UITabBarController, UITabBarControllerDelegate {
         let icon1 = UITabBarItem(title: "Marvel API", image: nil, selectedImage: nil)
         apikeyVC.tabBarItem = icon1
 
-        let oauthStoryboard = UIStoryboard(name: "OAuthView", bundle: nil)
-        let oauthVC = oauthStoryboard.instantiateViewController(withIdentifier: "OAuthView")
+        let oauthVC = OAuthBuilder().build()
         let icon2 = UITabBarItem(title: "Oauth", image: nil, selectedImage: nil)
         oauthVC.tabBarItem = icon2
 

@@ -1,7 +1,7 @@
 #if canImport(UIKit)
 import UIKit
 
-class OAuthController: UIViewController {
+class OAuthViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
@@ -12,9 +12,6 @@ class OAuthController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let router = OAuthRouter(viewController: self)
-        viewModel = OAuthViewModel(router: router)
-        
         setupUI()
     }
 
@@ -110,7 +107,7 @@ class OAuthController: UIViewController {
     @IBAction func infoPressed(_ sender: Any) {
         Task {
             do {
-                let user: UserDTO = try await viewModel.getInfo()
+                let user: User = try await viewModel.getInfo()
                 self.infoLabel.text = "User logged with email: \(user.email)"
                 setInfoButton(with: .logged)
             } catch {

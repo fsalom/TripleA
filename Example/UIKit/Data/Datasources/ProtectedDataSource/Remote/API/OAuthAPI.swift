@@ -4,6 +4,7 @@ enum OAuthAPI {
     case login([String: Any])
     case refresh([String: Any])
     case me
+    case users
     var endpoint: Endpoint {
         get {
             switch self {
@@ -13,6 +14,8 @@ enum OAuthAPI {
                 return Endpoint(path: "https://dashboard-staging.rudo.es/auth/token/", httpMethod: .post, parameters: parameters)
             case .me:
                 return Endpoint(path: "users/me/", httpMethod: .get)
+            case .users:
+                return Endpoint(path: "users/", httpMethod: .get)
             }
         }
     }

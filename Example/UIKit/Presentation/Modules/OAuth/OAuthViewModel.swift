@@ -9,15 +9,17 @@ enum LoginState {
 
 final class OAuthViewModel {
     let router: OAuthRouter
+    let usecase: ProtectedUseCasesProtocol
     var currentState: LoginState = .none
     
-    init(router: OAuthRouter) {
-        self.router = router        
+    init(router: OAuthRouter, usecase: ProtectedUseCasesProtocol) {
+        self.router = router
+        self.usecase = usecase
     }
 
-    func getInfo() async throws -> UserDTO {
+    func getInfo() async throws -> User {
         do {
-            return try await Container.network.loadAuthorized(endpoint: OAuthAPI.me.endpoint, of: UserDTO.self)
+            return try await usecase.getMe()
         } catch let error {
             throw error
         }

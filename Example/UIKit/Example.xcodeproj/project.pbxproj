@@ -19,7 +19,6 @@
 		C1054A022BDD7C80004D5FD8 /* ListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549CC2BDD7C80004D5FD8 /* ListDTO.swift */; };
 		C1054A032BDD7C80004D5FD8 /* UserDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549CD2BDD7C80004D5FD8 /* UserDTO.swift */; };
 		C1054A042BDD7C80004D5FD8 /* OAuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549CF2BDD7C80004D5FD8 /* OAuthAPI.swift */; };
-		C1054A052BDD7C80004D5FD8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549D32BDD7C80004D5FD8 /* LaunchScreen.storyboard */; };
 		C1054A072BDD7C80004D5FD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C10549D62BDD7C80004D5FD8 /* Assets.xcassets */; };
 		C1054A082BDD7C80004D5FD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549D72BDD7C80004D5FD8 /* AppDelegate.swift */; };
 		C1054A092BDD7C80004D5FD8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549D82BDD7C80004D5FD8 /* SceneDelegate.swift */; };
@@ -36,10 +35,10 @@
 		C1054A142BDD7C80004D5FD8 /* CryptoListView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549E72BDD7C80004D5FD8 /* CryptoListView.storyboard */; };
 		C1054A152BDD7C80004D5FD8 /* CryptoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E82BDD7C80004D5FD8 /* CryptoListViewModel.swift */; };
 		C1054A162BDD7C80004D5FD8 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549EA2BDD7C80004D5FD8 /* LoginController.swift */; };
-		C1054A172BDD7C80004D5FD8 /* LoginView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549EB2BDD7C80004D5FD8 /* LoginView.storyboard */; };
+		C1054A172BDD7C80004D5FD8 /* LoginController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549EB2BDD7C80004D5FD8 /* LoginController.storyboard */; };
 		C1054A182BDD7C80004D5FD8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549EE2BDD7C80004D5FD8 /* Main.storyboard */; };
 		C1054A192BDD7C80004D5FD8 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549EF2BDD7C80004D5FD8 /* MainController.swift */; };
-		C1054A1A2BDD7C80004D5FD8 /* OAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549F22BDD7C80004D5FD8 /* OAuthController.swift */; };
+		C1054A1A2BDD7C80004D5FD8 /* OAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549F22BDD7C80004D5FD8 /* OAuthViewController.swift */; };
 		C1054A1B2BDD7C80004D5FD8 /* OAuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549F32BDD7C80004D5FD8 /* OAuthRouter.swift */; };
 		C1054A1C2BDD7C80004D5FD8 /* OAuthView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549F42BDD7C80004D5FD8 /* OAuthView.storyboard */; };
 		C1054A1D2BDD7C80004D5FD8 /* OAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549F52BDD7C80004D5FD8 /* OAuthViewModel.swift */; };
@@ -60,6 +59,8 @@
 		C1054A452BDE79A2004D5FD8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A442BDE79A2004D5FD8 /* User.swift */; };
 		C1054A482BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A472BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift */; };
 		C1054A4A2BDE7B8B004D5FD8 /* ProtectedUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */; };
+		C10CFC3A2BE2C210009424BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549D22BDD7C80004D5FD8 /* LaunchScreen.storyboard */; };
+		C10CFC3C2BE2C32E009424BB /* OAuthBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */; };
 		C18B719E28ABA98F00560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719D28ABA98F00560703 /* TripleA */; };
 /* End PBXBuildFile section */
 
@@ -76,7 +77,7 @@
 		C10549CC2BDD7C80004D5FD8 /* ListDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDTO.swift; sourceTree = "<group>"; };
 		C10549CD2BDD7C80004D5FD8 /* UserDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDTO.swift; sourceTree = "<group>"; };
 		C10549CF2BDD7C80004D5FD8 /* OAuthAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthAPI.swift; sourceTree = "<group>"; };
-		C10549D22BDD7C80004D5FD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C10549D22BDD7C80004D5FD8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C10549D52BDD7C80004D5FD8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C10549D62BDD7C80004D5FD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C10549D72BDD7C80004D5FD8 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,10 +95,10 @@
 		C10549E72BDD7C80004D5FD8 /* CryptoListView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CryptoListView.storyboard; sourceTree = "<group>"; };
 		C10549E82BDD7C80004D5FD8 /* CryptoListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoListViewModel.swift; sourceTree = "<group>"; };
 		C10549EA2BDD7C80004D5FD8 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		C10549EB2BDD7C80004D5FD8 /* LoginView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginView.storyboard; sourceTree = "<group>"; };
+		C10549EB2BDD7C80004D5FD8 /* LoginController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginController.storyboard; sourceTree = "<group>"; };
 		C10549ED2BDD7C80004D5FD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C10549EF2BDD7C80004D5FD8 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
-		C10549F22BDD7C80004D5FD8 /* OAuthController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthController.swift; sourceTree = "<group>"; };
+		C10549F22BDD7C80004D5FD8 /* OAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthViewController.swift; sourceTree = "<group>"; };
 		C10549F32BDD7C80004D5FD8 /* OAuthRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthRouter.swift; sourceTree = "<group>"; };
 		C10549F42BDD7C80004D5FD8 /* OAuthView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OAuthView.storyboard; sourceTree = "<group>"; };
 		C10549F52BDD7C80004D5FD8 /* OAuthViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthViewModel.swift; sourceTree = "<group>"; };
@@ -118,6 +119,7 @@
 		C1054A442BDE79A2004D5FD8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C1054A472BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCasesProtocol.swift; sourceTree = "<group>"; };
 		C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCases.swift; sourceTree = "<group>"; };
+		C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthBuilder.swift; sourceTree = "<group>"; };
 		C11DEB5A28AAC4DC00CA1168 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -302,7 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				C10549EA2BDD7C80004D5FD8 /* LoginController.swift */,
-				C10549EB2BDD7C80004D5FD8 /* LoginView.storyboard */,
+				C10549EB2BDD7C80004D5FD8 /* LoginController.storyboard */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -316,21 +318,14 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		C10549F12BDD7C80004D5FD8 /* TableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TableViewCell;
-			sourceTree = "<group>";
-		};
 		C10549F62BDD7C80004D5FD8 /* OAuth */ = {
 			isa = PBXGroup;
 			children = (
-				C10549F12BDD7C80004D5FD8 /* TableViewCell */,
-				C10549F22BDD7C80004D5FD8 /* OAuthController.swift */,
+				C10549F22BDD7C80004D5FD8 /* OAuthViewController.swift */,
 				C10549F32BDD7C80004D5FD8 /* OAuthRouter.swift */,
 				C10549F42BDD7C80004D5FD8 /* OAuthView.storyboard */,
 				C10549F52BDD7C80004D5FD8 /* OAuthViewModel.swift */,
+				C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */,
 			);
 			path = OAuth;
 			sourceTree = "<group>";
@@ -455,7 +450,7 @@
 		C1054A4B2BDE7D48004D5FD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C10549D32BDD7C80004D5FD8 /* LaunchScreen.storyboard */,
+				C10549D22BDD7C80004D5FD8 /* LaunchScreen.storyboard */,
 				C10549D52BDD7C80004D5FD8 /* Info.plist */,
 				C10549D62BDD7C80004D5FD8 /* Assets.xcassets */,
 			);
@@ -557,12 +552,12 @@
 				C1054A0E2BDD7C80004D5FD8 /* ApiKeyView.storyboard in Resources */,
 				C1054A1C2BDD7C80004D5FD8 /* OAuthView.storyboard in Resources */,
 				C1054A072BDD7C80004D5FD8 /* Assets.xcassets in Resources */,
-				C1054A052BDD7C80004D5FD8 /* LaunchScreen.storyboard in Resources */,
+				C10CFC3A2BE2C210009424BB /* LaunchScreen.storyboard in Resources */,
 				C1054A112BDD7C80004D5FD8 /* CryptoCell.xib in Resources */,
 				C1054A0B2BDD7C80004D5FD8 /* CharacterCell.xib in Resources */,
 				C1054A182BDD7C80004D5FD8 /* Main.storyboard in Resources */,
 				C1054A142BDD7C80004D5FD8 /* CryptoListView.storyboard in Resources */,
-				C1054A172BDD7C80004D5FD8 /* LoginView.storyboard in Resources */,
+				C1054A172BDD7C80004D5FD8 /* LoginController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,10 +585,11 @@
 				C1054A162BDD7C80004D5FD8 /* LoginController.swift in Sources */,
 				C1054A2E2BDE7518004D5FD8 /* MarvelUseCasesProtocol.swift in Sources */,
 				C1054A0C2BDD7C80004D5FD8 /* ApiKeyController.swift in Sources */,
+				C10CFC3C2BE2C32E009424BB /* OAuthBuilder.swift in Sources */,
 				C1054A0F2BDD7C80004D5FD8 /* ApiKeyViewModel.swift in Sources */,
 				C1054A122BDD7C80004D5FD8 /* CryptoListController.swift in Sources */,
 				C10549FE2BDD7C80004D5FD8 /* MarvelAPI.swift in Sources */,
-				C1054A1A2BDD7C80004D5FD8 /* OAuthController.swift in Sources */,
+				C1054A1A2BDD7C80004D5FD8 /* OAuthViewController.swift in Sources */,
 				C1054A452BDE79A2004D5FD8 /* User.swift in Sources */,
 				C1054A102BDD7C80004D5FD8 /* CryptoCell.swift in Sources */,
 				C1054A262BDE745E004D5FD8 /* Crypto.swift in Sources */,
@@ -623,14 +619,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		C10549D32BDD7C80004D5FD8 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C10549D22BDD7C80004D5FD8 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		C10549EE2BDD7C80004D5FD8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

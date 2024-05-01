@@ -3,13 +3,8 @@ import UIKit
 class LoginController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
 
-    var viewModel: OAuthViewModel!
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        let router = OAuthRouter(viewController: self)
-        viewModel = OAuthViewModel(router: router)
-
         setupUI()
     }
 
