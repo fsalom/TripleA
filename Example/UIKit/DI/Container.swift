@@ -33,7 +33,8 @@ class Container {
     //AUTHMANAGER
     let authManager = AuthManager(storage: Container.storage,
                                   card: Container.oauthCard,
-                                  parameters: [:])
+                                  parameters: [:], 
+                                  entryViewController: getLoginController())
     //NETWORK
     static let network = Network(baseURL: "https://dashboard-staging.rudo.es/",
                                  authManager: Container.shared.authManager,
