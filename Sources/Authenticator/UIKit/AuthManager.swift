@@ -19,10 +19,12 @@ public final class AuthManager {
 
     public init(storage: TokenStorageProtocol,
                 card: AuthenticationCardProtocol,
-                parameters: [String: Any] = [:]) {
+                parameters: [String: Any] = [:],
+                entryViewController: UIViewController? = nil) {
         self.storage = storage
         self.parameters = parameters
         self.card = card
+        self.entryViewController = entryViewController
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
@@ -100,7 +102,7 @@ public final class AuthManager {
         }
     }
 
-    public func showLogin() {
+    private func showLogin() {
         if let entryViewController {
             DispatchQueue.main.async {
                 guard let scene = UIApplication
