@@ -5,7 +5,6 @@ import UIKit
 public final class AuthManager {
     private var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
-    private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
     private var entryViewController: UIViewController?
 
@@ -19,10 +18,8 @@ public final class AuthManager {
 
     public init(storage: TokenStorageProtocol,
                 card: AuthenticationCardProtocol,
-                parameters: [String: Any] = [:],
                 entryViewController: UIViewController? = nil) {
         self.storage = storage
-        self.parameters = parameters
         self.card = card
         self.entryViewController = entryViewController
     }
