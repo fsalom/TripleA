@@ -15,7 +15,7 @@ class CryptoCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func setup(this crypto: CryptoDTO){
+    func setup(this crypto: Crypto){
         nameLabel.text = crypto.name
         priceLabel.text = crypto.priceUsd
     }

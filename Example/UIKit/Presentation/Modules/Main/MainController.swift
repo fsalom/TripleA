@@ -4,9 +4,8 @@ class MainController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-
-        let cryptoListStoryboard = UIStoryboard(name: "CryptoListView", bundle: nil)
-        let cryptoListVC = cryptoListStoryboard.instantiateViewController(withIdentifier: "CryptoListView")
+        
+        let cryptoListVC = CryptoListBuilder().build()
         let icon = UITabBarItem(title: "Public API", image: nil, selectedImage: nil)
         cryptoListVC.tabBarItem = icon
 

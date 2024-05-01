@@ -35,7 +35,7 @@ class Container {
                                   card: Container.oauthCard,
                                   entryViewController: getLoginController())
     //NETWORK
-    static let network = Network(baseURL: "https://dashboard-staging.rudo.es/",
+    static let network = Network(baseURL: "",
                                  authManager: Container.shared.authManager,
                                  format: .full)
 

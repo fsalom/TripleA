@@ -30,7 +30,7 @@
 		C1054A0F2BDD7C80004D5FD8 /* ApiKeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E02BDD7C80004D5FD8 /* ApiKeyViewModel.swift */; };
 		C1054A102BDD7C80004D5FD8 /* CryptoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E22BDD7C80004D5FD8 /* CryptoCell.swift */; };
 		C1054A112BDD7C80004D5FD8 /* CryptoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C10549E32BDD7C80004D5FD8 /* CryptoCell.xib */; };
-		C1054A122BDD7C80004D5FD8 /* CryptoListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E52BDD7C80004D5FD8 /* CryptoListController.swift */; };
+		C1054A122BDD7C80004D5FD8 /* CryptoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E52BDD7C80004D5FD8 /* CryptoListViewController.swift */; };
 		C1054A132BDD7C80004D5FD8 /* CryptoListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E62BDD7C80004D5FD8 /* CryptoListRouter.swift */; };
 		C1054A142BDD7C80004D5FD8 /* CryptoListView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549E72BDD7C80004D5FD8 /* CryptoListView.storyboard */; };
 		C1054A152BDD7C80004D5FD8 /* CryptoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E82BDD7C80004D5FD8 /* CryptoListViewModel.swift */; };
@@ -61,6 +61,7 @@
 		C1054A4A2BDE7B8B004D5FD8 /* ProtectedUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */; };
 		C10CFC3A2BE2C210009424BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549D22BDD7C80004D5FD8 /* LaunchScreen.storyboard */; };
 		C10CFC3C2BE2C32E009424BB /* OAuthBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */; };
+		C10CFC3E2BE2C706009424BB /* CryptoListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10CFC3D2BE2C706009424BB /* CryptoListBuilder.swift */; };
 		C18B719E28ABA98F00560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719D28ABA98F00560703 /* TripleA */; };
 /* End PBXBuildFile section */
 
@@ -90,7 +91,7 @@
 		C10549E02BDD7C80004D5FD8 /* ApiKeyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeyViewModel.swift; sourceTree = "<group>"; };
 		C10549E22BDD7C80004D5FD8 /* CryptoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoCell.swift; sourceTree = "<group>"; };
 		C10549E32BDD7C80004D5FD8 /* CryptoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CryptoCell.xib; sourceTree = "<group>"; };
-		C10549E52BDD7C80004D5FD8 /* CryptoListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoListController.swift; sourceTree = "<group>"; };
+		C10549E52BDD7C80004D5FD8 /* CryptoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoListViewController.swift; sourceTree = "<group>"; };
 		C10549E62BDD7C80004D5FD8 /* CryptoListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoListRouter.swift; sourceTree = "<group>"; };
 		C10549E72BDD7C80004D5FD8 /* CryptoListView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CryptoListView.storyboard; sourceTree = "<group>"; };
 		C10549E82BDD7C80004D5FD8 /* CryptoListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoListViewModel.swift; sourceTree = "<group>"; };
@@ -120,6 +121,7 @@
 		C1054A472BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCasesProtocol.swift; sourceTree = "<group>"; };
 		C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCases.swift; sourceTree = "<group>"; };
 		C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthBuilder.swift; sourceTree = "<group>"; };
+		C10CFC3D2BE2C706009424BB /* CryptoListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoListBuilder.swift; sourceTree = "<group>"; };
 		C11DEB5A28AAC4DC00CA1168 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -292,10 +294,11 @@
 			isa = PBXGroup;
 			children = (
 				C10549E42BDD7C80004D5FD8 /* TableViewCell */,
-				C10549E52BDD7C80004D5FD8 /* CryptoListController.swift */,
+				C10549E52BDD7C80004D5FD8 /* CryptoListViewController.swift */,
 				C10549E62BDD7C80004D5FD8 /* CryptoListRouter.swift */,
 				C10549E72BDD7C80004D5FD8 /* CryptoListView.storyboard */,
 				C10549E82BDD7C80004D5FD8 /* CryptoListViewModel.swift */,
+				C10CFC3D2BE2C706009424BB /* CryptoListBuilder.swift */,
 			);
 			path = CryptoList;
 			sourceTree = "<group>";
@@ -584,10 +587,11 @@
 				C1054A132BDD7C80004D5FD8 /* CryptoListRouter.swift in Sources */,
 				C1054A162BDD7C80004D5FD8 /* LoginController.swift in Sources */,
 				C1054A2E2BDE7518004D5FD8 /* MarvelUseCasesProtocol.swift in Sources */,
+				C10CFC3E2BE2C706009424BB /* CryptoListBuilder.swift in Sources */,
 				C1054A0C2BDD7C80004D5FD8 /* ApiKeyController.swift in Sources */,
 				C10CFC3C2BE2C32E009424BB /* OAuthBuilder.swift in Sources */,
 				C1054A0F2BDD7C80004D5FD8 /* ApiKeyViewModel.swift in Sources */,
-				C1054A122BDD7C80004D5FD8 /* CryptoListController.swift in Sources */,
+				C1054A122BDD7C80004D5FD8 /* CryptoListViewController.swift in Sources */,
 				C10549FE2BDD7C80004D5FD8 /* MarvelAPI.swift in Sources */,
 				C1054A1A2BDD7C80004D5FD8 /* OAuthViewController.swift in Sources */,
 				C1054A452BDE79A2004D5FD8 /* User.swift in Sources */,

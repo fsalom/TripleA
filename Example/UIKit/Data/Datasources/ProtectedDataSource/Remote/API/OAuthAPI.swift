@@ -13,9 +13,9 @@ enum OAuthAPI {
             case .refresh(let parameters):
                 return Endpoint(path: "https://dashboard-staging.rudo.es/auth/token/", httpMethod: .post, parameters: parameters)
             case .me:
-                return Endpoint(path: "users/me/", httpMethod: .get)
+                return Endpoint(path: "https://dashboard-staging.rudo.es/users/me/", httpMethod: .get)
             case .users:
-                return Endpoint(path: "users/", httpMethod: .get)
+                return Endpoint(path: "https://dashboard-staging.rudo.es/users/", httpMethod: .get)
             }
         }
     }

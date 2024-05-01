@@ -1,7 +1,7 @@
 import UIKit
 import TripleA
 
-class CryptoListController: UIViewController {
+class CryptoListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -9,9 +9,7 @@ class CryptoListController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let router = CryptoListRouter(viewController: self)
-        viewModel = CryptoListViewModel(router: router)
-        
+
         loadData()
         configure()
     }
@@ -37,7 +35,7 @@ class CryptoListController: UIViewController {
     }
 }
 
-extension CryptoListController: UITableViewDelegate, UITableViewDataSource {
+extension CryptoListViewController: UITableViewDelegate, UITableViewDataSource {
     func configure(){
         tableView.dataSource = self
         tableView.delegate = self
@@ -46,7 +44,11 @@ extension CryptoListController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CryptoCell", for: indexPath) as! CryptoCell
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "CryptoCell",
+            for: indexPath) as? CryptoCell else {
+            fatalError("Missing CryptoCell")
+        }
         cell.setup(this: viewModel.cryptos[indexPath.row])
         return cell
     }

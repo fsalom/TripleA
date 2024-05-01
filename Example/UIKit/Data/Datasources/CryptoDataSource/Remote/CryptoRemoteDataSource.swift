@@ -10,6 +10,6 @@ class CryptoRemoteDataSource: CryptoDataSourceProtocol {
     }
 
     func getCryptos() async throws -> [CryptoDTO] {
-        try await network.load(endpoint: CryptoAPI.assets.endpoint, of: [CryptoDTO].self)
+        try await network.load(endpoint: CryptoAPI.assets.endpoint, of: ListDTO.self).data
     }
 }

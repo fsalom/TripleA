@@ -6,7 +6,7 @@ enum CryptoAPI {
         get {
             switch self {
             case .assets:
-                return Endpoint(path: "assets", httpMethod: .get)
+                return Endpoint(path: "https://api.coincap.io/v2/assets", httpMethod: .get)
             }
         }
     }
