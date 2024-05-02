@@ -4,26 +4,25 @@ import var CommonCrypto.CC_MD5_DIGEST_LENGTH
 import func CommonCrypto.CC_MD5
 import typealias CommonCrypto.CC_LONG
 
-final class ApiKeyViewModel {
-    let router: ApiKeyRouter
-    let network: Network
-    var characters: [CharacterDTO] = []
+final class MarvelViewModel {
+    let router: MarvelRouter
+    let usecase: MarvelUseCasesProtocol
+    var characters: [Character] = []
 
-    init(router: ApiKeyRouter) {
+    init(router: MarvelRouter, usecase: MarvelUseCasesProtocol) {
         self.router = router
-        self.network = Network(baseURL: "https://gateway.marvel.com:443/v1/public/")
+        self.usecase = usecase
     }
 
     func getCharacters() async throws {
         do {
             let (ts, hash) = hash()
-            let parameters = ["limit": 100,
-                              "offset": 0,
-                              "apikey": publicKey,
+            let parameters = ["limit": "100",
+                              "offset": "0",
+                              "Marvel": publicKey,
                               "ts": ts,
-                              "hash": hash ] as [String : Any]
-            let list = try await network.load(endpoint: MarvelAPI.characters(parameters).endpoint, of: ResultDTO.self)
-            self.characters = list.data.results
+                              "hash": hash ] as [String : String]
+            self.characters = try await usecase.getCharacters(parameters: parameters)
         } catch let error {
             throw error
         }

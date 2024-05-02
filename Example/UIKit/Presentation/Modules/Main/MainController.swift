@@ -8,17 +8,16 @@ class MainController: UITabBarController, UITabBarControllerDelegate {
         let cryptoListVC = CryptoListBuilder().build()
         let icon = UITabBarItem(title: "Public API", image: nil, selectedImage: nil)
         cryptoListVC.tabBarItem = icon
-
-        let apiKeyStoryboard = UIStoryboard(name: "ApiKeyView", bundle: nil)
-        let apikeyVC = apiKeyStoryboard.instantiateViewController(withIdentifier: "ApiKeyView")
+        
+        let MarvelVC = MarvelBuilder().build()
         let icon1 = UITabBarItem(title: "Marvel API", image: nil, selectedImage: nil)
-        apikeyVC.tabBarItem = icon1
+        MarvelVC.tabBarItem = icon1
 
         let oauthVC = OAuthBuilder().build()
         let icon2 = UITabBarItem(title: "Oauth", image: nil, selectedImage: nil)
         oauthVC.tabBarItem = icon2
 
-        let viewControllers = [cryptoListVC, apikeyVC, oauthVC]
+        let viewControllers = [cryptoListVC, MarvelVC, oauthVC]
         self.viewControllers = viewControllers
     }
 

@@ -1,6 +1,6 @@
 import UIKit
 
-final class ApiKeyRouter {
+final class MarvelRouter {
     weak var viewController: UIViewController?
 
     init(viewController: UIViewController?) {

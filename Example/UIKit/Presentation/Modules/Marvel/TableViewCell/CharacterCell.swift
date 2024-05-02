@@ -15,7 +15,7 @@ class CharacterCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func setup(this character: CharacterDTO){
+    func setup(this character: Character){
         nameLabel.text = character.name
         priceLabel.text = "\(character.id)"
     }

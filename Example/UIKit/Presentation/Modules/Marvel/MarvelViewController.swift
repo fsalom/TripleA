@@ -1,15 +1,13 @@
 import UIKit
 import TripleA
 
-class ApiKeyController: UIViewController {
+class MarvelViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    var viewModel: ApiKeyViewModel!
+    var viewModel: MarvelViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let router = ApiKeyRouter(viewController: self)
-        viewModel = ApiKeyViewModel(router: router)
         configure()
         loadData()
     }
@@ -35,7 +33,7 @@ class ApiKeyController: UIViewController {
     }
 }
 
-extension ApiKeyController: UITableViewDelegate, UITableViewDataSource {
+extension MarvelViewController: UITableViewDelegate, UITableViewDataSource {
     func configure(){
         tableView.dataSource = self
         tableView.delegate = self
