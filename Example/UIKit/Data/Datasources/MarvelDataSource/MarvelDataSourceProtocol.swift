@@ -1,5 +1,5 @@
 import Foundation
 
 protocol MarvelDataSourceProtocol {
-    func getCharacters() async throws -> ResultDTO
+    func getCharacters(parameters: [String:String]) async throws -> ResultDTO
 }

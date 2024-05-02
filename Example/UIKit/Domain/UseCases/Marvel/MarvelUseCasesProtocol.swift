@@ -1,5 +1,5 @@
 import Foundation
 
 protocol MarvelUseCasesProtocol {
-    func getCharacters() async throws -> [Character]
+    func getCharacters(parameters: [String:String]) async throws -> [Character]
 }

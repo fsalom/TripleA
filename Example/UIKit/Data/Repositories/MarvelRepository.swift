@@ -7,8 +7,8 @@ class MarvelRepository: MarvelRepositoryProtocol {
         self.remote = remote
     }
     
-    func getCharacters() async throws -> [Character] {
-        let resultsDTO = try await remote.getCharacters()
+    func getCharacters(parameters: [String:String]) async throws -> [Character] {
+        let resultsDTO = try await remote.getCharacters(parameters: parameters)
         return resultsDTO.data.results.map({$0.toDomain()})
     }
 }

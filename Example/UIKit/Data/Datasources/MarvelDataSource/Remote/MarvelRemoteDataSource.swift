@@ -8,7 +8,7 @@ class MarvelRemoteDataSource: MarvelDataSourceProtocol {
         self.network = network
     }
 
-    func getCharacters() async throws -> ResultDTO {
-        return try await network.load(endpoint: MarvelAPI.characters([:]).endpoint, of: ResultDTO.self)
+    func getCharacters(parameters: [String:String]) async throws -> ResultDTO {
+        return try await network.load(endpoint: MarvelAPI.characters(parameters).endpoint, of: ResultDTO.self)
     }
 }

@@ -7,7 +7,7 @@ class MarvelUseCases: MarvelUseCasesProtocol {
         self.repository = repository
     }
     
-    func getCharacters() async throws -> [Character] {
-        try await repository.getCharacters()
+    func getCharacters(parameters: [String:String]) async throws -> [Character] {
+        try await repository.getCharacters(parameters: parameters)
     }
 }
