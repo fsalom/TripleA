@@ -1,7 +1,9 @@
 import Foundation
 
-struct Crypto {
+struct Crypto: Identifiable {
+    let id: String = UUID().uuidString
     let name: String
     let priceUsd: String
-    let changePercent24Hr : String
+    let symbol: String
+    let changePercent24Hr : Float
 }

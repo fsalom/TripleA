@@ -18,6 +18,7 @@ fileprivate extension CryptoDTO {
     func toDomain() -> Crypto {
         Crypto(name: self.name,
                priceUsd: self.priceUsd,
+               symbol: self.symbol,
                changePercent24Hr: self.changePercent24Hr)
     }
 }
