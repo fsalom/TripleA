@@ -19,6 +19,6 @@ fileprivate extension CryptoDTO {
         Crypto(name: self.name,
                priceUsd: self.priceUsd,
                symbol: self.symbol,
-               changePercent24Hr: self.changePercent24Hr)
+               changePercent24Hr: Float(self.changePercent24Hr) ?? 0.0)
     }
 }
