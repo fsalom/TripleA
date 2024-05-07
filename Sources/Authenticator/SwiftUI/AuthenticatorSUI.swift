@@ -1,35 +1,43 @@
 import Foundation
 
-enum Screen {
+public enum Screen {
     case login
     case home
 }
 
-public final class Authenticator: ObservableObject {
-    @Published var screen: Screen = .login
+public final class AuthenticatorSUI: ObservableObject {
+    @Published public var screen: Screen {
+        didSet {
+            print("SCREEN: \(screen)")
+        }
+    }
 
-    private var storage: TokenStorageProtocol
+    public var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
-    private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
 
     public var isLogged: Bool {
         if let refreshToken = storage.refreshToken {
             return refreshToken.isValid
-        }else{
+        } else {
             return false
         }
     }
 
-    public init(storage: TokenStorageProtocol,
-                card: AuthenticationCardProtocol,
-                parameters: [String: Any] = [:]) {
-        self.storage = storage
-        self.parameters = parameters
-        self.card = card
-        self.screen = isLogged ? .home : .login
+    public func checkState() {
+        self.changeScreen(to: isLogged ? .home : .login)
     }
 
+    public init(storage: TokenStorageProtocol,
+                card: AuthenticationCardProtocol) {
+        self.storage = storage
+        self.card = card
+        self.screen = storage.refreshToken?.isValid ?? false ? .home : .login
+    }
+
+}
+
+extension AuthenticatorSUI: AuthenticatorProtocol {
     // MARK: - validToken - check if token is valid or refresh token otherwise
     /**
      Return a valid token or try to get it from storage or remote data source
@@ -46,12 +54,12 @@ public final class Authenticator: ObservableObject {
                     return try await renewToken()
                 } catch {
                     self.storage.removeAll()
-                    try await getNewToken()
+                    self.handle(error)
+                    throw AuthError.missingToken
                 }
             }
         }
         self.storage.removeAll()
-        try await getNewToken()
         throw AuthError.missingToken
     }
 
@@ -61,11 +69,14 @@ public final class Authenticator: ObservableObject {
 
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func getNewToken(with parameters: [String: Any] = [:]) async throws {
+    public func getNewToken(with parameters: [String : Any] = [:]) async throws {
         do {
-            _ = try await card.getAccessToken(with: parameters)
+            let tokens = try await card.getTokensWithLogin(with: parameters)
+            self.storage.accessToken = tokens.accessToken
+            self.storage.refreshToken = tokens.refreshToken
+            self.changeScreen(to: .home)
         } catch let error {
-            throw error
+            handle(error)
         }
     }
 
@@ -75,7 +86,7 @@ public final class Authenticator: ObservableObject {
      - Returns: new refresh_token  `String`
      - Throws: An error of type `AuthError`
      */
-    func renewToken() async throws -> String {
+    public func renewToken() async throws -> String {
         if let refreshTask = refreshTask {
             return try await refreshTask.value
         }
@@ -85,7 +96,10 @@ public final class Authenticator: ObservableObject {
                 throw AuthError.tokenNotFound
             }
             do {
-                return try await card.getRefreshToken(with: refreshToken)
+                let tokens = try await card.getNewTokens(with: refreshToken)
+                self.storage.accessToken = tokens.accessToken
+                self.storage.refreshToken = tokens.refreshToken
+                return tokens.accessToken.value
             } catch {
                 try await self.logout()
                 throw AuthError.refreshFailed
@@ -101,6 +115,17 @@ public final class Authenticator: ObservableObject {
      */
     public func logout() async throws {
         try await card.logout()
-        self.screen = .login
+        self.storage.removeAll()
+        changeScreen(to: .login)
+    }
+
+    private func handle(_ error: Error) {
+        changeScreen(to: .login)
+    }
+
+    private func changeScreen(to screen: Screen) {
+        DispatchQueue.main.async {
+            self.screen = screen
+        }
     }
 }
