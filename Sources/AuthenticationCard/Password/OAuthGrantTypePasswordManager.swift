@@ -3,19 +3,13 @@ import Foundation
 import UIKit
 
 public final class OAuthGrantTypePasswordManager {
-    private var storage: TokenStorageProtocol!
-    private var startController: UIViewController?
     public var refreshTokenEndpoint: Endpoint
     public var tokensEndpoint: Endpoint
     public var logoutEndpoint: Endpoint?
 
-    public init(storage: TokenStorageProtocol,
-                startController: UIViewController?,
-                refreshTokenEndpoint: Endpoint,
+    public init(refreshTokenEndpoint: Endpoint,
                 tokensEndpoint: Endpoint,
                 logoutEndpoint: Endpoint? = nil) {
-        self.storage = storage
-        self.startController = startController
         self.refreshTokenEndpoint = refreshTokenEndpoint
         self.tokensEndpoint = tokensEndpoint
         self.logoutEndpoint = logoutEndpoint
@@ -23,44 +17,16 @@ public final class OAuthGrantTypePasswordManager {
 }
 
 extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
-    public func getAccessToken(with parameters: [String : Any]) async throws -> String {
-        if let accessToken = storage.accessToken {
-            if accessToken.isValid {
-                return accessToken.value
-            } else {
-                if let refreshToken = storage.refreshToken {
-                    if refreshToken.isValid {
-                        do {
-                            return try await self.getRefreshToken(with: refreshToken.value)
-                        } catch {
-                            let errors: [URLError.Code] = [.timedOut,
-                                                           .notConnectedToInternet,
-                                                           .dataNotAllowed]
-                            guard let value = (error as? URLError)?.code else {
-                                throw AuthError.badRequest
-                            }
-                            if errors.contains(value) {
-                                throw AuthError.noInternet
-                            } else {
-                                throw AuthError.badRequest
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    public func getTokensWithLogin(with parameters: [String : Any]) async throws -> Tokens {
         do {
-            if parameters.isEmpty {
-                return ""
-            }
             parameters.forEach { (key: String, value: Any) in
                 tokensEndpoint.parameters[key] = value
             }
             Log.thisCall(tokensEndpoint.request)
             let tokens = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
-            storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
-            storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
-            return tokens.accessToken
+            let accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
+            let refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
+            return Tokens(accessToken: accessToken, refreshToken: refreshToken)
         } catch {
             let errors: [URLError.Code] = [.timedOut,
                                            .notConnectedToInternet,
@@ -75,15 +41,15 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
             }
         }
     }
-
-    public func getRefreshToken(with refreshToken: String) async throws -> String {
+    
+    public func getNewTokens(with refreshToken: String) async throws -> Tokens {
         do {
             refreshTokenEndpoint.parameters["refresh_token"] = refreshToken
             Log.thisCall(refreshTokenEndpoint.request)
-            let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)            
-            storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
-            storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
-            return tokens.accessToken
+            let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)
+            let accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
+            let refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
+            return Tokens(accessToken: accessToken, refreshToken: refreshToken)
         } catch {
             let errors: [URLError.Code] = [.timedOut,
                                            .notConnectedToInternet,
@@ -100,12 +66,10 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
     }
 
     public func logout() async throws {
-        storage.removeAll()
         if let logoutEndpoint {
             _ = try await load(endpoint: logoutEndpoint)
         }
     }
-
 
     func load<T: Decodable>(endpoint: Endpoint, of type: T.Type = NoContentDTO.self, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)

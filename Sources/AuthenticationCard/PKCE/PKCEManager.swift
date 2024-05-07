@@ -3,18 +3,15 @@ import AuthenticationServices
 import CommonCrypto
 
 public class PKCEManager: NSObject {
-    private var storage: TokenStorageProtocol!
     private let SSO: Bool
     private let config: PKCEConfig!
     weak var presentationAnchor: ASPresentationAnchor?
 
     private var codeVerifier: String = ""
 
-    public init(storage: TokenStorageProtocol,
-                presentationAnchor: ASPresentationAnchor?,
+    public init(presentationAnchor: ASPresentationAnchor?,
                 SSO: Bool = true,
                 config: PKCEConfig) {
-        self.storage = storage
         self.presentationAnchor = presentationAnchor
         self.SSO = !SSO
         self.config = config
@@ -49,6 +46,35 @@ public class PKCEManager: NSObject {
 
 @available(macOS 10.15, *)
 extension PKCEManager: AuthenticationCardProtocol {
+    public func getTokensWithLogin(with parameters: [String : Any]) async throws -> Tokens {
+        do {
+            let code = await withCheckedContinuation { continuation in
+                self.showLogin(completion: { code in
+                    continuation.resume(returning: code)
+                })
+            }
+            if code != nil {
+                return try await getToken(with: code)
+            } else {
+                throw AuthError.tokenNotFound
+            }
+        } catch {
+            let errors: [URLError.Code] = [.timedOut, .notConnectedToInternet]
+            guard let value = (error as? URLError)?.code else {
+                throw AuthError.badRequest
+            }
+            if errors.contains(value) {
+                throw AuthError.noInternet
+            } else {
+                throw AuthError.badRequest
+            }
+        }
+    }
+    
+    public func getNewTokens(with refreshToken: String) async throws -> Tokens {
+        throw AuthError.refreshFailed
+    }
+    
     // MARK: - showLogin - initialize authentication flow with ASWebAuthenticationSession
     /**
      return a code for PKCE flow
@@ -92,66 +118,11 @@ extension PKCEManager: AuthenticationCardProtocol {
         }
     }
 
-    // MARK: - getAccessToken - get access token or initialize authentication flow
-    /**
-     get access token from storage or initialize authentication flow
-     - Returns: valid access token `String`
-     */
-    public func getAccessToken(with parameters: [String : Any]) async throws -> String {
-        if let accessToken = storage.accessToken {
-            if accessToken.isValid {
-                return accessToken.value
-            } else {
-                if let refreshToken = storage.refreshToken {
-                    if refreshToken.isValid {
-                        do {
-                            return try await self.getRefreshToken(with: refreshToken.value)
-                        } catch {
-                            let errors: [URLError.Code] = [.timedOut,
-                                                           .notConnectedToInternet,
-                                                           .dataNotAllowed]
-                            guard let value = (error as? URLError)?.code else {
-                                throw AuthError.badRequest
-                            }
-                            if errors.contains(value) {
-                                throw AuthError.noInternet
-                            } else {
-                                throw AuthError.badRequest
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        do {
-            let code = await withCheckedContinuation { continuation in
-                self.showLogin(completion: { code in
-                    continuation.resume(returning: code)
-                })
-            }
-            if code != nil {
-                return try await getToken(with: code)
-            } else {
-                return try await getAccessToken(with: parameters)
-            }
-        } catch {
-            let errors: [URLError.Code] = [.timedOut, .notConnectedToInternet]
-            guard let value = (error as? URLError)?.code else {
-                throw AuthError.badRequest
-            }
-            if errors.contains(value) {
-                throw AuthError.noInternet
-            } else {
-                throw AuthError.badRequest
-            }
-        }
-    }
-
     // MARK: - getToken - Call authority with code challenge to get access and refresh tokens
     /**
-     - Returns: new access token  `String`
+     - Returns: Tokens
      */
-    private func getToken(with code: String?) async throws -> String {
+    private func getToken(with code: String?) async throws -> Tokens {
         guard let code else { throw NetworkError.invalidResponse }
         let parameters = [
             "grant_type": "authorization_code",
@@ -167,20 +138,16 @@ extension PKCEManager: AuthenticationCardProtocol {
                                 parameters: parameters)
 
         let tokens = try await self.load(endpoint: endpoint, of: TokensPKCEDTO.self)
-        storage.accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
-        storage.refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
-        return tokens.accessToken
-    }
-
-    public func getRefreshToken(with refreshToken: String) async throws -> String {
-        return ""
+        let accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
+        let refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
+        return Tokens(accessToken: accessToken, refreshToken: refreshToken)
     }
 
     // MARK: - logout
     /**
      Remove storage and initialize authenticatin flow
      */
-    public func logout() async {
+    public func logout() async throws {
         Task {
             let success = await withCheckedContinuation { continuation in
                 logoutHandler { success in
@@ -188,8 +155,7 @@ extension PKCEManager: AuthenticationCardProtocol {
                 }
             }
             if success {
-                self.storage.removeAll()
-                _ = try? await self.getAccessToken(with: [:])
+                _ = try? await self.getTokensWithLogin(with: [:])
             }
         }
     }
