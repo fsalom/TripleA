@@ -1,17 +1,12 @@
 import Foundation
+import UIKit
 
-enum Screen {
-    case login
-    case home
-}
-
-public final class Authenticator: ObservableObject {
-    @Published var screen: Screen = .login
-
+@available(macOS 10.15, *)
+public final class AuthenticatorUIKit {
     private var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
-    private var parameters: [String: Any] = [:]
     private var refreshTask: Task<String, Error>?
+    private var entryViewController: UIViewController?
 
     public var isLogged: Bool {
         if let refreshToken = storage.refreshToken {
@@ -23,11 +18,10 @@ public final class Authenticator: ObservableObject {
 
     public init(storage: TokenStorageProtocol,
                 card: AuthenticationCardProtocol,
-                parameters: [String: Any] = [:]) {
+                entryViewController: UIViewController? = nil) {
         self.storage = storage
-        self.parameters = parameters
         self.card = card
-        self.screen = isLogged ? .home : .login
+        self.entryViewController = entryViewController
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
@@ -55,6 +49,9 @@ public final class Authenticator: ObservableObject {
         throw AuthError.missingToken
     }
 
+}
+
+extension AuthenticatorUIKit: AuthenticatorProtocol {
     // MARK: - validToken - check if token is valid or refresh token otherwise
     /**
     Call to login if needed and get token
@@ -62,20 +59,18 @@ public final class Authenticator: ObservableObject {
      - Throws: An error of type `CustomError`  with extra info
     */
     public func getNewToken(with parameters: [String: Any] = [:]) async throws {
-        do {
-            _ = try await card.getAccessToken(with: parameters)
-        } catch let error {
-            throw error
-        }
+        let tokens = try await card.getTokensWithLogin(with: parameters)
+        self.storage.accessToken = tokens.accessToken
+        self.storage.refreshToken = tokens.refreshToken
     }
-
+    
     // MARK: - refreshToken - create a task and call refreshToken if needed
     /**
      Refresh token when is needed or logout
      - Returns: new refresh_token  `String`
      - Throws: An error of type `AuthError`
      */
-    func renewToken() async throws -> String {
+    public func renewToken() async throws -> String {
         if let refreshTask = refreshTask {
             return try await refreshTask.value
         }
@@ -85,10 +80,10 @@ public final class Authenticator: ObservableObject {
                 throw AuthError.tokenNotFound
             }
             do {
-                return try await card.getRefreshToken(with: refreshToken)
+                return try await card.getNewTokens(with: refreshToken).accessToken.value
             } catch {
                 try await self.logout()
-                throw AuthError.refreshFailed
+                return ""
             }
         }
         self.refreshTask = task
@@ -100,7 +95,27 @@ public final class Authenticator: ObservableObject {
      Remove data and go to start view controller
      */
     public func logout() async throws {
-        try await card.logout()
-        self.screen = .login
+        do {
+            try await card.logout()
+            storage.removeAll()
+            showLogin()
+        } catch {
+            throw AuthError.logoutFailed
+        }
+    }
+
+    private func showLogin() {
+        if let entryViewController {
+            DispatchQueue.main.async {
+                guard let scene = UIApplication
+                    .shared
+                    .connectedScenes
+                    .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+                    .last else { return }
+
+                scene.rootViewController = self.entryViewController
+                scene.makeKeyAndVisible()
+            }
+        }
     }
 }

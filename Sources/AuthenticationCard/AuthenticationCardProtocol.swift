@@ -1,5 +1,5 @@
 public protocol AuthenticationCardProtocol {
-    func getAccessToken(with parameters: [String: Any]) async throws -> String
-    func getRefreshToken(with refreshToken: String) async throws -> String
+    func getTokensWithLogin(with parameters: [String: Any]) async throws -> Tokens
+    func getNewTokens(with refreshToken: String) async throws -> Tokens    
     func logout() async throws
 }

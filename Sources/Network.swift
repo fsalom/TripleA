@@ -3,12 +3,12 @@ import Foundation
 @available(macOS 10.15, *)
 open class Network {
     var baseURL: String = ""
-    public let authManager: AuthManager?
+    public let authManager: AuthenticatorProtocol?
     var additionalHeaders: [String: String] = [:]
     var format: LogFormat!
 
     public init(baseURL: String,
-                authManager: AuthManager? = nil,
+                authManager: AuthenticatorProtocol? = nil,
                 headers: [String: String] = [:],
                 format: LogFormat = .full) {
         self.authManager = authManager

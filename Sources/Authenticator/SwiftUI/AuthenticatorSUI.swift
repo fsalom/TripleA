@@ -1,29 +1,43 @@
 import Foundation
-import UIKit
 
-@available(macOS 10.15, *)
-public final class AuthManager {
-    private var storage: TokenStorageProtocol
+public enum Screen {
+    case login
+    case home
+}
+
+public final class AuthenticatorSUI: ObservableObject {
+    @Published public var screen: Screen {
+        didSet {
+            print("SCREEN: \(screen)")
+        }
+    }
+
+    public var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
     private var refreshTask: Task<String, Error>?
-    private var entryViewController: UIViewController?
 
     public var isLogged: Bool {
         if let refreshToken = storage.refreshToken {
             return refreshToken.isValid
-        }else{
+        } else {
             return false
         }
     }
 
-    public init(storage: TokenStorageProtocol,
-                card: AuthenticationCardProtocol,
-                entryViewController: UIViewController? = nil) {
-        self.storage = storage
-        self.card = card
-        self.entryViewController = entryViewController
+    public func checkState() {
+        self.changeScreen(to: isLogged ? .home : .login)
     }
 
+    public init(storage: TokenStorageProtocol,
+                card: AuthenticationCardProtocol) {
+        self.storage = storage
+        self.card = card
+        self.screen = storage.refreshToken?.isValid ?? false ? .home : .login
+    }
+
+}
+
+extension AuthenticatorSUI: AuthenticatorProtocol {
     // MARK: - validToken - check if token is valid or refresh token otherwise
     /**
      Return a valid token or try to get it from storage or remote data source
@@ -40,12 +54,12 @@ public final class AuthManager {
                     return try await renewToken()
                 } catch {
                     self.storage.removeAll()
-                    try await getNewToken()
+                    self.handle(error)
+                    throw AuthError.missingToken
                 }
             }
         }
         self.storage.removeAll()
-        try await getNewToken()
         throw AuthError.missingToken
     }
 
@@ -55,17 +69,24 @@ public final class AuthManager {
 
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func getNewToken(with parameters: [String: Any] = [:]) async throws {
-        _ = try await card.getAccessToken(with: parameters)
+    public func getNewToken(with parameters: [String : Any] = [:]) async throws {
+        do {
+            let tokens = try await card.getTokensWithLogin(with: parameters)
+            self.storage.accessToken = tokens.accessToken
+            self.storage.refreshToken = tokens.refreshToken
+            self.changeScreen(to: .home)
+        } catch let error {
+            handle(error)
+        }
     }
-    
+
     // MARK: - refreshToken - create a task and call refreshToken if needed
     /**
      Refresh token when is needed or logout
      - Returns: new refresh_token  `String`
      - Throws: An error of type `AuthError`
      */
-    func renewToken() async throws -> String {
+    public func renewToken() async throws -> String {
         if let refreshTask = refreshTask {
             return try await refreshTask.value
         }
@@ -75,10 +96,13 @@ public final class AuthManager {
                 throw AuthError.tokenNotFound
             }
             do {
-                return try await card.getRefreshToken(with: refreshToken)
+                let tokens = try await card.getNewTokens(with: refreshToken)
+                self.storage.accessToken = tokens.accessToken
+                self.storage.refreshToken = tokens.refreshToken
+                return tokens.accessToken.value
             } catch {
                 try await self.logout()
-                return ""
+                throw AuthError.refreshFailed
             }
         }
         self.refreshTask = task
@@ -90,27 +114,18 @@ public final class AuthManager {
      Remove data and go to start view controller
      */
     public func logout() async throws {
-        do {
-            try await card.logout()
-            storage.removeAll()
-            showLogin()
-        } catch {
-            throw AuthError.logoutFailed
-        }
+        try await card.logout()
+        self.storage.removeAll()
+        changeScreen(to: .login)
     }
 
-    private func showLogin() {
-        if let entryViewController {
-            DispatchQueue.main.async {
-                guard let scene = UIApplication
-                    .shared
-                    .connectedScenes
-                    .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
-                    .last else { return }
+    private func handle(_ error: Error) {
+        changeScreen(to: .login)
+    }
 
-                scene.rootViewController = self.entryViewController
-                scene.makeKeyAndVisible()
-            }
+    private func changeScreen(to screen: Screen) {
+        DispatchQueue.main.async {
+            self.screen = screen
         }
     }
 }
