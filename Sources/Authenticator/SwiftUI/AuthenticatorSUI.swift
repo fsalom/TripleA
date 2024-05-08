@@ -8,7 +8,7 @@ public enum Screen {
 public final class AuthenticatorSUI: ObservableObject {
     @Published public var screen: Screen {
         didSet {
-            print("SCREEN: \(screen)")
+            print("🛡️ Authenticator launched: \(screen)")
         }
     }
 
