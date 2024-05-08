@@ -22,7 +22,6 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
             parameters.forEach { (key: String, value: Any) in
                 tokensEndpoint.parameters[key] = value
             }
-            Log.thisCall(tokensEndpoint.request)
             let tokens = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
             let accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
             let refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
@@ -45,7 +44,6 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
     public func getNewTokens(with refreshToken: String) async throws -> Tokens {
         do {
             refreshTokenEndpoint.parameters["refresh_token"] = refreshToken
-            Log.thisCall(refreshTokenEndpoint.request)
             let tokens = try await load(endpoint: refreshTokenEndpoint, of: TokensDTO.self)
             let accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
             let refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
@@ -60,6 +58,7 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
             if errors.contains(value) {
                 throw AuthError.noInternet
             } else {
+                throw AuthError.badRequest
                 throw AuthError.badRequest
             }
         }
@@ -77,7 +76,7 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
-        Log.thisResponse(response, data: data)
+        Log.thisResponse(response, data: data, format: .short)
         if (200..<300).contains(response.statusCode) {
             let decoder = JSONDecoder()
             let parseData = try decoder.decode(T.self, from: data)
