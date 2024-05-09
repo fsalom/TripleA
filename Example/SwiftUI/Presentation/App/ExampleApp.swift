@@ -1,11 +1,14 @@
 import SwiftUI
+import TripleA
 
 @main
 struct ExampleApp: App {
+    @StateObject var authenticator: AuthenticatorSUI = Configuration.shared.authenticator
+
     var body: some Scene {
         WindowGroup {
-            @State var state = Authenticat
-            CryptoListBuilder().build()
+            SwitcherView()
+                .environmentObject(authenticator)
         }
     }
 }
