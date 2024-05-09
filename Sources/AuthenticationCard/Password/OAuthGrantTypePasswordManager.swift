@@ -27,17 +27,7 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
             let refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
             return Tokens(accessToken: accessToken, refreshToken: refreshToken)
         } catch {
-            let errors: [URLError.Code] = [.timedOut,
-                                           .notConnectedToInternet,
-                                           .dataNotAllowed]
-            guard let value = (error as? URLError)?.code else {
-                throw error
-            }
-            if errors.contains(value) {
-                throw AuthError.noInternet
-            } else {
-                throw AuthError.badRequest
-            }
+            throw handle(error)
         }
     }
     
@@ -49,18 +39,7 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
             let refreshToken = Token(value: tokens.refreshToken, expireInt: nil)
             return Tokens(accessToken: accessToken, refreshToken: refreshToken)
         } catch {
-            let errors: [URLError.Code] = [.timedOut,
-                                           .notConnectedToInternet,
-                                           .dataNotAllowed]
-            guard let value = (error as? URLError)?.code else {
-                throw AuthError.badRequest
-            }
-            if errors.contains(value) {
-                throw AuthError.noInternet
-            } else {
-                throw AuthError.badRequest
-                throw AuthError.badRequest
-            }
+            throw handle(error)
         }
     }
 
@@ -70,21 +49,35 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
         }
     }
 
-    func load<T: Decodable>(endpoint: Endpoint, of type: T.Type = NoContentDTO.self, allowRetry: Bool = true) async throws -> T {
+    private func load<T: Decodable>(endpoint: Endpoint, of type: T.Type = NoContentDTO.self, allowRetry: Bool = true) async throws -> T {
         Log.thisCall(endpoint.request)
         let (data, urlResponse) = try await URLSession.shared.data(for: endpoint.request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
-        Log.thisResponse(response, data: data, format: .short)
+        Log.thisResponse(response, data: data, format: .full)
         if (200..<300).contains(response.statusCode) {
             let decoder = JSONDecoder()
-            let parseData = try decoder.decode(T.self, from: data)
-            return parseData
+            return try decoder.decode(T.self, from: data)
         } else {
             throw NetworkError.failure(statusCode: response.statusCode,
                                        data: data,
                                        response: response)
+        }
+    }
+
+    private func handle(_ error: Error) -> Error {
+        let errors: [URLError.Code] = [.timedOut,
+                                       .notConnectedToInternet,
+                                       .dataNotAllowed]
+        guard let value = (error as? URLError)?.code else {
+            return AuthError.badRequest
+        }
+        if errors.contains(value) {
+            return AuthError.noInternet
+        } else {
+            return AuthError.badRequest
+            return AuthError.badRequest
         }
     }
 }
