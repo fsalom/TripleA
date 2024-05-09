@@ -28,31 +28,68 @@ open class Network {
      - Returns: object of type  `T` already parsed.x
      - Throws: An error of type `CustomError`  with extra info
     */
-    open func loadAuthorized<T: Decodable>(endpoint: Endpoint,
-                                           of type: T.Type? = AuthNoReply.self,
-                                           allowRetry: Bool = true) async throws -> T {
+    open func loadAuthorized<T: Decodable>(this endpoint: Endpoint,
+                                           of type: T.Type? = AuthNoReply.self) async throws -> T {
         guard let authenticator = authenticator else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
-        let request = try await authorizedRequest(from: modifiedEndpoint.request)
-        Log.thisCall(request, format: format)
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
-        guard let response = urlResponse as? HTTPURLResponse else{
-            throw NetworkError.invalidResponse
-        }
-        if response.statusCode == 401{
-            if allowRetry {
-                _ = try await authenticator.renewToken()
-                return try await loadAuthorized(endpoint: endpoint, of: type, allowRetry: false)
-            }
-        }
         do {
-            return try parse(with: data, and: response, for: type)
+            let request = try await authorize(this: modifiedEndpoint.request)
+            Log.thisCall(request, format: format)
+            let (data, urlResponse) = try await URLSession.shared.data(for: request)
+            guard let response = urlResponse as? HTTPURLResponse else{
+                throw NetworkError.invalidResponse
+            }
+            Log.thisResponse(response, data: data, format: format)
+            if response.statusCode == 401{
+                return try await loadAuthorized(this: endpoint, of: type)
+            }
+            do {
+                return try parse(with: data, and: response, for: type)
+            } catch {
+                Log.thisError(error)
+                throw error
+            }
         } catch {
-            Log.thisError(error)
+            throw error
+        }
+    }
+
+    // MARK: - loadAuthorizedRaw
+    /**
+     Makes a call and return status code and raw data
+     - Parameters:
+        - endpoint: Endpoint that contains the information related with the request
+     - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
+     - Throws: An error of type `NetworkError`  with extra info
+    */
+    open func loadAuthorized(this endpoint: Endpoint) async throws -> (Int, Data?) {
+        guard let authenticator = authenticator else {
+            fatalError("Please provide an AuthManager in order to make authorized calls")
+        }
+        var modifiedEndpoint: Endpoint = endpoint
+        modifiedEndpoint.addExtra(headers: additionalHeaders)
+        modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
+        do {
+            let request = try await authorize(this: modifiedEndpoint.request)
+            Log.thisCall(request, format: format)
+            let (data, urlResponse) = try await URLSession.shared.data(for: request)
+            guard let response = urlResponse as? HTTPURLResponse else{
+                throw NetworkError.invalidResponse
+            }
+            Log.thisResponse(response, data: data, format: format)
+            if response.statusCode == 401{
+                return try await loadAuthorized(this: endpoint)
+            }
+            if (200..<300).contains(response.statusCode) {
+                return (response.statusCode, data)
+            } else {
+                throw NetworkError.failure(statusCode: response.statusCode, data: data, response: response)
+            }
+        } catch {
             throw error
         }
     }
@@ -82,6 +119,23 @@ open class Network {
         }
         do {
             return try parse(with: data, and: response, for: type)
+        } catch {
+            Log.thisError(error)
+            throw error
+        }
+    }
+
+    // MARK: - loadRaw
+    /**
+     Makes a call and return status code and raw data
+     - Parameters:
+        - endpoint: Endpoint that contains the information related with the request
+     - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
+     - Throws: An error of type `NetworkError`  with extra info
+    */
+    open func load(this endpoint: Endpoint) async throws -> (Int, Data) {
+        do {
+            return try await loadAndResponse(this: endpoint)
         } catch {
             Log.thisError(error)
             throw error
@@ -133,56 +187,6 @@ open class Network {
         }
     }
 
-    // MARK: - loadRaw
-    /**
-     Makes a call and return status code and raw data
-     - Parameters:
-        - endpoint: Endpoint that contains the information related with the request
-     - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
-     - Throws: An error of type `NetworkError`  with extra info
-    */
-    open func load(this endpoint: Endpoint) async throws -> (Int, Data) {
-        do {
-            return try await loadAndResponse(this: endpoint)
-        } catch {
-            Log.thisError(error)
-            throw error
-        }
-    }
-
-    // MARK: - loadAuthorizedRaw
-    /**
-     Makes a call and return status code and raw data
-     - Parameters:
-        - endpoint: Endpoint that contains the information related with the request
-     - Returns: Tuple `Int` containing status code and `Data` containing raw vale to be parsed
-     - Throws: An error of type `NetworkError`  with extra info
-    */
-    open func loadAuthorized(this endpoint: Endpoint) async throws -> (Int, Data?) {
-        guard let authenticator = authenticator else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
-        }
-        var modifiedEndpoint: Endpoint = endpoint
-        modifiedEndpoint.addExtra(headers: additionalHeaders)
-        modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
-        let request = try await authorizedRequest(from: modifiedEndpoint.request)
-        Log.thisCall(request, format: format)
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
-        guard let response = urlResponse as? HTTPURLResponse else{
-            throw NetworkError.invalidResponse
-        }
-        if response.statusCode == 401{
-            _ = try await authenticator.renewToken()
-            return try await loadAuthorized(this: endpoint)
-
-        }
-        if (200..<300).contains(response.statusCode) {
-            return (response.statusCode, data)
-        } else {
-            throw NetworkError.failure(statusCode: response.statusCode, data: data, response: response)
-        }
-    }
-
     // MARK: - loadAndResponse
     /**
      Load and response information with raw data and status code
@@ -216,17 +220,18 @@ open class Network {
      - Returns: object of type  `URLRequest` with new headers
      - Throws: An error of type `CustomError`  with extra info
     */
-    private func authorizedRequest(from request: URLRequest) async throws -> URLRequest {
+    private func authorize(this request: URLRequest) async throws -> URLRequest {
         guard let authenticator = authenticator else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
         var requestWithHeader = request
-        do{
+        do {
             let token = try await authenticator.getCurrentToken()
             requestWithHeader.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }catch let error{
+        } catch {
             Log.thisError(error)
             try await authenticator.logout()
+            throw NetworkError.invalidToken
         }
         return requestWithHeader
     }
