@@ -8,7 +8,7 @@ public enum Screen {
 public final class AuthenticatorSUI: ObservableObject {
     @Published public var screen: Screen {
         didSet {
-            print("🛡️ Authenticator launched: \(screen)")
+            print("🛡️ Authenticator: launched \(screen)")
         }
     }
 
@@ -59,8 +59,8 @@ extension AuthenticatorSUI: AuthenticatorProtocol {
                 }
             }
         }
-        self.storage.removeAll()
-        throw AuthError.missingToken
+        try await logout()
+        throw AuthError.refreshFailed
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
