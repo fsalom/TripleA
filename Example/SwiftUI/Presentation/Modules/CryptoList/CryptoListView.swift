@@ -8,24 +8,20 @@
 import SwiftUI
 
 struct CryptoListView: View {
-    @ObservedObject var VM: CryptoListViewModel
+    @ObservedObject var viewModel: CryptoListViewModel
 
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(content: {
-                ForEach(VM.cryptos) { crypto in
-                    NavigationLink {
-
-                    } label: {
-                        CryptoRow(with: crypto)
-                    }
+                ForEach(viewModel.cryptos) { crypto in
+                    CryptoRow(with: crypto)
                 }
             }).task {
-                try? await VM.load()
+                try? await viewModel.load()
             }
             .padding(.horizontal, 20)
         }
-        .searchable(text: $VM.searchText, prompt: "Búsqueda")
+        .searchable(text: $viewModel.searchText, prompt: "CryptoSearch")
     }
 
     @ViewBuilder
