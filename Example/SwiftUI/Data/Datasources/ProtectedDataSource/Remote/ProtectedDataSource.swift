@@ -9,7 +9,7 @@ class ProtectedDataSource: ProtectedDataSourceProtocol {
     }
 
     func getMe() async throws -> UserDTO {
-        try await network.loadAuthorized(endpoint: OAuthAPI.me.endpoint, of: UserDTO.self)
+        try await network.loadAuthorized(this: OAuthAPI.me.endpoint, of: UserDTO.self)
     }
 
 }
