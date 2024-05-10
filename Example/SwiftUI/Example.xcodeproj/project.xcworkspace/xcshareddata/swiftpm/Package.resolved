@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fsalom/TripleA",
       "state" : {
-        "revision" : "649e15b4abff898dec4d5a175a4a3594ea11b1f1",
-        "version" : "1.0.21"
+        "revision" : "27a14d4469807bf19ae19528a4ac6c054652cf51",
+        "version" : "2.0.2"
       }
     }
   ],

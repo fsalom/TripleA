@@ -13,7 +13,6 @@
 		C105499E2BDC2B8A004D5FD8 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C105499A2BDC2B8A004D5FD8 /* ExampleApp.swift */; };
 		C13ECB162BE5010300687D9D /* CryptoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ECB152BE5010300687D9D /* CryptoListViewModel.swift */; };
 		C13ECB182BE5011100687D9D /* CryptoListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ECB172BE5011100687D9D /* CryptoListBuilder.swift */; };
-		C13ECB1B2BE501AC00687D9D /* DI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ECB1A2BE501AC00687D9D /* DI.swift */; };
 		C14780442BE3ADE30039D30E /* CryptoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14780122BE3ADE30039D30E /* CryptoAPI.swift */; };
 		C14780452BE3ADE30039D30E /* CryptoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14780142BE3ADE30039D30E /* CryptoDTO.swift */; };
 		C14780462BE3ADE30039D30E /* ListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14780152BE3ADE30039D30E /* ListDTO.swift */; };
@@ -42,7 +41,20 @@
 		C147805D2BE3ADE30039D30E /* MarvelUseCasesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C147803D2BE3ADE30039D30E /* MarvelUseCasesProtocol.swift */; };
 		C147805E2BE3ADE30039D30E /* ProtectedUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C147803F2BE3ADE30039D30E /* ProtectedUseCases.swift */; };
 		C147805F2BE3ADE30039D30E /* ProtectedUseCasesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14780402BE3ADE30039D30E /* ProtectedUseCasesProtocol.swift */; };
-		C14780642BE3AE4C0039D30E /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C14780632BE3AE4C0039D30E /* TripleA */; };
+		C16544112BEB5C42001C7001 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C16544102BEB5C42001C7001 /* TripleA */; };
+		C16544142BEB5C9F001C7001 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16544132BEB5C9F001C7001 /* Configuration.swift */; };
+		C16544172BEB6507001C7001 /* SwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16544162BEB6507001C7001 /* SwitcherView.swift */; };
+		C165441D2BEB6632001C7001 /* LoginBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16544192BEB6632001C7001 /* LoginBuilder.swift */; };
+		C165441E2BEB6632001C7001 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C165441A2BEB6632001C7001 /* LoginView.swift */; };
+		C165441F2BEB6632001C7001 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C165441B2BEB6632001C7001 /* LoginViewModel.swift */; };
+		C16544222BEB6897001C7001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16544212BEB6897001C7001 /* HomeView.swift */; };
+		C16544242BEB68A1001C7001 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16544232BEB68A1001C7001 /* HomeViewModel.swift */; };
+		C16544262BEB68AA001C7001 /* HomeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16544252BEB68AA001C7001 /* HomeBuilder.swift */; };
+		C16544292BEB7259001C7001 /* DeveloperToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16544282BEB7259001C7001 /* DeveloperToolsView.swift */; };
+		C165442B2BEB7267001C7001 /* DeveloperToolsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C165442A2BEB7267001C7001 /* DeveloperToolsViewModel.swift */; };
+		C165442D2BEB7273001C7001 /* DeveloperToolsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C165442C2BEB7273001C7001 /* DeveloperToolsBuilder.swift */; };
+		C165442F2BEB7548001C7001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C165442E2BEB7548001C7001 /* Localizable.xcstrings */; };
+		C18D1C5C2BECCCFA00431925 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18D1C5B2BECCCFA00431925 /* TripleA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +65,6 @@
 		C105499A2BDC2B8A004D5FD8 /* ExampleApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; };
 		C13ECB152BE5010300687D9D /* CryptoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoListViewModel.swift; sourceTree = "<group>"; };
 		C13ECB172BE5011100687D9D /* CryptoListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoListBuilder.swift; sourceTree = "<group>"; };
-		C13ECB1A2BE501AC00687D9D /* DI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DI.swift; sourceTree = "<group>"; };
 		C14780122BE3ADE30039D30E /* CryptoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoAPI.swift; sourceTree = "<group>"; };
 		C14780142BE3ADE30039D30E /* CryptoDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoDTO.swift; sourceTree = "<group>"; };
 		C14780152BE3ADE30039D30E /* ListDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDTO.swift; sourceTree = "<group>"; };
@@ -82,6 +93,18 @@
 		C147803D2BE3ADE30039D30E /* MarvelUseCasesProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelUseCasesProtocol.swift; sourceTree = "<group>"; };
 		C147803F2BE3ADE30039D30E /* ProtectedUseCases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtectedUseCases.swift; sourceTree = "<group>"; };
 		C14780402BE3ADE30039D30E /* ProtectedUseCasesProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtectedUseCasesProtocol.swift; sourceTree = "<group>"; };
+		C16544132BEB5C9F001C7001 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		C16544162BEB6507001C7001 /* SwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitcherView.swift; sourceTree = "<group>"; };
+		C16544192BEB6632001C7001 /* LoginBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginBuilder.swift; sourceTree = "<group>"; };
+		C165441A2BEB6632001C7001 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C165441B2BEB6632001C7001 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		C16544212BEB6897001C7001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		C16544232BEB68A1001C7001 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		C16544252BEB68AA001C7001 /* HomeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBuilder.swift; sourceTree = "<group>"; };
+		C16544282BEB7259001C7001 /* DeveloperToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperToolsView.swift; sourceTree = "<group>"; };
+		C165442A2BEB7267001C7001 /* DeveloperToolsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperToolsViewModel.swift; sourceTree = "<group>"; };
+		C165442C2BEB7273001C7001 /* DeveloperToolsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperToolsBuilder.swift; sourceTree = "<group>"; };
+		C165442E2BEB7548001C7001 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +112,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C14780642BE3AE4C0039D30E /* TripleA in Frameworks */,
+				C18D1C5C2BECCCFA00431925 /* TripleA in Frameworks */,
+				C16544112BEB5C42001C7001 /* TripleA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +123,7 @@
 		C105497B2BDC2B2D004D5FD8 = {
 			isa = PBXGroup;
 			children = (
-				C13ECB192BE501A300687D9D /* DI */,
+				C16544122BEB5C8A001C7001 /* Configuration */,
 				C14780302BE3ADE30039D30E /* Data */,
 				C14780432BE3ADE30039D30E /* Domain */,
 				C14780602BE3ADE70039D30E /* Presentation */,
@@ -136,6 +160,10 @@
 		C13ECB132BE5007D00687D9D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				C16544272BEB723F001C7001 /* DeveloperTools */,
+				C16544202BEB6823001C7001 /* Home */,
+				C165441C2BEB6632001C7001 /* Login */,
+				C16544152BEB64E4001C7001 /* Switcher */,
 				C13ECB142BE5009800687D9D /* CryptoList */,
 			);
 			path = Modules;
@@ -149,14 +177,6 @@
 				C13ECB172BE5011100687D9D /* CryptoListBuilder.swift */,
 			);
 			path = CryptoList;
-			sourceTree = "<group>";
-		};
-		C13ECB192BE501A300687D9D /* DI */ = {
-			isa = PBXGroup;
-			children = (
-				C13ECB1A2BE501AC00687D9D /* DI.swift */,
-			);
-			path = DI;
 			sourceTree = "<group>";
 		};
 		C14780132BE3ADE30039D30E /* API */ = {
@@ -374,8 +394,55 @@
 			isa = PBXGroup;
 			children = (
 				C10549992BDC2B8A004D5FD8 /* Assets.xcassets */,
+				C165442E2BEB7548001C7001 /* Localizable.xcstrings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		C16544122BEB5C8A001C7001 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C16544132BEB5C9F001C7001 /* Configuration.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		C16544152BEB64E4001C7001 /* Switcher */ = {
+			isa = PBXGroup;
+			children = (
+				C16544162BEB6507001C7001 /* SwitcherView.swift */,
+			);
+			path = Switcher;
+			sourceTree = "<group>";
+		};
+		C165441C2BEB6632001C7001 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				C16544192BEB6632001C7001 /* LoginBuilder.swift */,
+				C165441A2BEB6632001C7001 /* LoginView.swift */,
+				C165441B2BEB6632001C7001 /* LoginViewModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		C16544202BEB6823001C7001 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				C16544212BEB6897001C7001 /* HomeView.swift */,
+				C16544232BEB68A1001C7001 /* HomeViewModel.swift */,
+				C16544252BEB68AA001C7001 /* HomeBuilder.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		C16544272BEB723F001C7001 /* DeveloperTools */ = {
+			isa = PBXGroup;
+			children = (
+				C16544282BEB7259001C7001 /* DeveloperToolsView.swift */,
+				C165442A2BEB7267001C7001 /* DeveloperToolsViewModel.swift */,
+				C165442C2BEB7273001C7001 /* DeveloperToolsBuilder.swift */,
+			);
+			path = DeveloperTools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,7 +462,8 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				C14780632BE3AE4C0039D30E /* TripleA */,
+				C16544102BEB5C42001C7001 /* TripleA */,
+				C18D1C5B2BECCCFA00431925 /* TripleA */,
 			);
 			productName = Example;
 			productReference = C10549842BDC2B2D004D5FD8 /* Example.app */;
@@ -424,10 +492,11 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = C105497B2BDC2B2D004D5FD8;
 			packageReferences = (
-				C14780622BE3AE4C0039D30E /* XCRemoteSwiftPackageReference "TripleA" */,
+				C18D1C5A2BECCCFA00431925 /* XCRemoteSwiftPackageReference "TripleA" */,
 			);
 			productRefGroup = C10549852BDC2B2D004D5FD8 /* Products */;
 			projectDirPath = "";
@@ -445,6 +514,7 @@
 			files = (
 				C105499D2BDC2B8A004D5FD8 /* Assets.xcassets in Resources */,
 				C105499C2BDC2B8A004D5FD8 /* Preview Assets.xcassets in Resources */,
+				C165442F2BEB7548001C7001 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,18 +527,25 @@
 			files = (
 				C13ECB162BE5010300687D9D /* CryptoListViewModel.swift in Sources */,
 				C14780502BE3ADE30039D30E /* ProtectedDataSourceProtocol.swift in Sources */,
+				C16544172BEB6507001C7001 /* SwitcherView.swift in Sources */,
+				C16544242BEB68A1001C7001 /* HomeViewModel.swift in Sources */,
 				C14780442BE3ADE30039D30E /* CryptoAPI.swift in Sources */,
 				C147805F2BE3ADE30039D30E /* ProtectedUseCasesProtocol.swift in Sources */,
 				C14780582BE3ADE30039D30E /* MarvelRepositoryProtocol.swift in Sources */,
+				C16544292BEB7259001C7001 /* DeveloperToolsView.swift in Sources */,
 				C14780572BE3ADE30039D30E /* CryptoRepositoryProtocol.swift in Sources */,
 				C147805A2BE3ADE30039D30E /* CryptoUseCases.swift in Sources */,
 				C14780512BE3ADE30039D30E /* CryptoRepository.swift in Sources */,
 				C147805B2BE3ADE30039D30E /* CryptoUseCasesProtocol.swift in Sources */,
 				C105499E2BDC2B8A004D5FD8 /* ExampleApp.swift in Sources */,
+				C16544142BEB5C9F001C7001 /* Configuration.swift in Sources */,
 				C14780452BE3ADE30039D30E /* CryptoDTO.swift in Sources */,
+				C165441E2BEB6632001C7001 /* LoginView.swift in Sources */,
 				C147804A2BE3ADE30039D30E /* CharacterDTO.swift in Sources */,
+				C16544222BEB6897001C7001 /* HomeView.swift in Sources */,
 				C14780592BE3ADE30039D30E /* ProtectedRepositoryProtocol.swift in Sources */,
 				C14780532BE3ADE30039D30E /* ProtectedRepository.swift in Sources */,
+				C165442D2BEB7273001C7001 /* DeveloperToolsBuilder.swift in Sources */,
 				C14780492BE3ADE30039D30E /* MarvelAPI.swift in Sources */,
 				C147804E2BE3ADE30039D30E /* UserDTO.swift in Sources */,
 				C147804B2BE3ADE30039D30E /* MarvelRemoteDataSource.swift in Sources */,
@@ -481,13 +558,16 @@
 				C147804F2BE3ADE30039D30E /* ProtectedDataSource.swift in Sources */,
 				C147805E2BE3ADE30039D30E /* ProtectedUseCases.swift in Sources */,
 				C147804D2BE3ADE30039D30E /* OAuthAPI.swift in Sources */,
-				C13ECB1B2BE501AC00687D9D /* DI.swift in Sources */,
 				C14780522BE3ADE30039D30E /* MarvelRepository.swift in Sources */,
 				C147804C2BE3ADE30039D30E /* MarvelDataSourceProtocol.swift in Sources */,
+				C165442B2BEB7267001C7001 /* DeveloperToolsViewModel.swift in Sources */,
 				C105499B2BDC2B8A004D5FD8 /* CryptoListView.swift in Sources */,
 				C14780462BE3ADE30039D30E /* ListDTO.swift in Sources */,
+				C165441D2BEB6632001C7001 /* LoginBuilder.swift in Sources */,
 				C14780542BE3ADE30039D30E /* Character.swift in Sources */,
+				C165441F2BEB6632001C7001 /* LoginViewModel.swift in Sources */,
 				C14780562BE3ADE30039D30E /* User.swift in Sources */,
+				C16544262BEB68AA001C7001 /* HomeBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -700,20 +780,24 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C14780622BE3AE4C0039D30E /* XCRemoteSwiftPackageReference "TripleA" */ = {
+		C18D1C5A2BECCCFA00431925 /* XCRemoteSwiftPackageReference "TripleA" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fsalom/TripleA";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.21;
+				minimumVersion = 2.0.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C14780632BE3AE4C0039D30E /* TripleA */ = {
+		C16544102BEB5C42001C7001 /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C14780622BE3AE4C0039D30E /* XCRemoteSwiftPackageReference "TripleA" */;
+			productName = TripleA;
+		};
+		C18D1C5B2BECCCFA00431925 /* TripleA */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C18D1C5A2BECCCFA00431925 /* XCRemoteSwiftPackageReference "TripleA" */;
 			productName = TripleA;
 		};
 /* End XCSwiftPackageProductDependency section */
