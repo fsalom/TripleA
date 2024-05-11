@@ -1,7 +1,7 @@
 import Foundation
 
-public protocol ConfigurationTripleAProtocol {
-    var authenticator: AuthenticatorSUI { get }
+public protocol TripleAForUIKitProtocol {
+    var authenticator: AuthenticatorUIKit { get }
     var storage: TokenStorageProtocol { get }
     var card: AuthenticationCardProtocol { get }
 }
