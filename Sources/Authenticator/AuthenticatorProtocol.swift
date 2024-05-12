@@ -1,4 +1,5 @@
 public protocol AuthenticatorProtocol {
+    var storage: TokenStorageProtocol { get set }
     func getCurrentToken() async throws -> String
     func getNewToken(with parameters: [String: Any]) async throws
     func renewToken() async throws -> String

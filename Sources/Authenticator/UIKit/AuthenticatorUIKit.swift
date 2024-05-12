@@ -3,7 +3,7 @@ import UIKit
 
 @available(macOS 10.15, *)
 public final class AuthenticatorUIKit {
-    private var storage: TokenStorageProtocol
+    public var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
     private var refreshTask: Task<String, Error>?
     private var entryViewController: UIViewController?
