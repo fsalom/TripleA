@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,22 +12,10 @@
 		C10549FB2BDD7C80004D5FD8 /* CryptoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549BD2BDD7C80004D5FD8 /* CryptoDTO.swift */; };
 		C10549FC2BDD7C80004D5FD8 /* CryptoRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549BF2BDD7C80004D5FD8 /* CryptoRemoteDataSource.swift */; };
 		C10549FD2BDD7C80004D5FD8 /* CryptoDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549C12BDD7C80004D5FD8 /* CryptoDataSourceProtocol.swift */; };
-		C10549FE2BDD7C80004D5FD8 /* MarvelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549C32BDD7C80004D5FD8 /* MarvelAPI.swift */; };
-		C10549FF2BDD7C80004D5FD8 /* CharacterDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549C52BDD7C80004D5FD8 /* CharacterDTO.swift */; };
-		C1054A002BDD7C80004D5FD8 /* MarvelRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549C72BDD7C80004D5FD8 /* MarvelRemoteDataSource.swift */; };
-		C1054A012BDD7C80004D5FD8 /* MarvelDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549C92BDD7C80004D5FD8 /* MarvelDataSourceProtocol.swift */; };
 		C1054A022BDD7C80004D5FD8 /* ListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549CC2BDD7C80004D5FD8 /* ListDTO.swift */; };
-		C1054A032BDD7C80004D5FD8 /* UserDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549CD2BDD7C80004D5FD8 /* UserDTO.swift */; };
-		C1054A042BDD7C80004D5FD8 /* OAuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549CF2BDD7C80004D5FD8 /* OAuthAPI.swift */; };
 		C1054A072BDD7C80004D5FD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C10549D62BDD7C80004D5FD8 /* Assets.xcassets */; };
 		C1054A082BDD7C80004D5FD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549D72BDD7C80004D5FD8 /* AppDelegate.swift */; };
 		C1054A092BDD7C80004D5FD8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549D82BDD7C80004D5FD8 /* SceneDelegate.swift */; };
-		C1054A0A2BDD7C80004D5FD8 /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549DA2BDD7C80004D5FD8 /* CharacterCell.swift */; };
-		C1054A0B2BDD7C80004D5FD8 /* CharacterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C10549DB2BDD7C80004D5FD8 /* CharacterCell.xib */; };
-		C1054A0C2BDD7C80004D5FD8 /* MarvelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549DD2BDD7C80004D5FD8 /* MarvelViewController.swift */; };
-		C1054A0D2BDD7C80004D5FD8 /* MarvelRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549DE2BDD7C80004D5FD8 /* MarvelRouter.swift */; };
-		C1054A0E2BDD7C80004D5FD8 /* MarvelView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549DF2BDD7C80004D5FD8 /* MarvelView.storyboard */; };
-		C1054A0F2BDD7C80004D5FD8 /* MarvelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E02BDD7C80004D5FD8 /* MarvelViewModel.swift */; };
 		C1054A102BDD7C80004D5FD8 /* CryptoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E22BDD7C80004D5FD8 /* CryptoCell.swift */; };
 		C1054A112BDD7C80004D5FD8 /* CryptoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C10549E32BDD7C80004D5FD8 /* CryptoCell.xib */; };
 		C1054A122BDD7C80004D5FD8 /* CryptoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549E52BDD7C80004D5FD8 /* CryptoListViewController.swift */; };
@@ -38,32 +26,18 @@
 		C1054A172BDD7C80004D5FD8 /* LoginController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549EB2BDD7C80004D5FD8 /* LoginController.storyboard */; };
 		C1054A182BDD7C80004D5FD8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549EE2BDD7C80004D5FD8 /* Main.storyboard */; };
 		C1054A192BDD7C80004D5FD8 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549EF2BDD7C80004D5FD8 /* MainController.swift */; };
-		C1054A1A2BDD7C80004D5FD8 /* OAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549F22BDD7C80004D5FD8 /* OAuthViewController.swift */; };
-		C1054A1B2BDD7C80004D5FD8 /* OAuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549F32BDD7C80004D5FD8 /* OAuthRouter.swift */; };
-		C1054A1C2BDD7C80004D5FD8 /* OAuthView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549F42BDD7C80004D5FD8 /* OAuthView.storyboard */; };
-		C1054A1D2BDD7C80004D5FD8 /* OAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10549F52BDD7C80004D5FD8 /* OAuthViewModel.swift */; };
 		C1054A242BDE7439004D5FD8 /* CryptoRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A232BDE7439004D5FD8 /* CryptoRepositoryProtocol.swift */; };
 		C1054A262BDE745E004D5FD8 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A252BDE745E004D5FD8 /* Crypto.swift */; };
 		C1054A292BDE749C004D5FD8 /* CryptoUseCasesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A282BDE749C004D5FD8 /* CryptoUseCasesProtocol.swift */; };
 		C1054A2B2BDE74C4004D5FD8 /* CryptoUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A2A2BDE74C4004D5FD8 /* CryptoUseCases.swift */; };
-		C1054A2E2BDE7518004D5FD8 /* MarvelUseCasesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A2D2BDE7518004D5FD8 /* MarvelUseCasesProtocol.swift */; };
 		C1054A302BDE7543004D5FD8 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A2F2BDE7543004D5FD8 /* Character.swift */; };
-		C1054A322BDE7580004D5FD8 /* MarvelUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A312BDE7580004D5FD8 /* MarvelUseCases.swift */; };
-		C1054A342BDE75B6004D5FD8 /* MarvelRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A332BDE75B6004D5FD8 /* MarvelRepositoryProtocol.swift */; };
 		C1054A372BDE7620004D5FD8 /* CryptoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A362BDE7620004D5FD8 /* CryptoRepository.swift */; };
-		C1054A392BDE76C8004D5FD8 /* MarvelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A382BDE76C8004D5FD8 /* MarvelRepository.swift */; };
-		C1054A3C2BDE7854004D5FD8 /* ProtectedDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A3B2BDE7854004D5FD8 /* ProtectedDataSourceProtocol.swift */; };
-		C1054A3F2BDE786D004D5FD8 /* ProtectedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A3E2BDE786D004D5FD8 /* ProtectedDataSource.swift */; };
-		C1054A412BDE7935004D5FD8 /* ProtectedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A402BDE7935004D5FD8 /* ProtectedRepository.swift */; };
-		C1054A432BDE7985004D5FD8 /* ProtectedRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A422BDE7985004D5FD8 /* ProtectedRepositoryProtocol.swift */; };
-		C1054A452BDE79A2004D5FD8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A442BDE79A2004D5FD8 /* User.swift */; };
-		C1054A482BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A472BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift */; };
-		C1054A4A2BDE7B8B004D5FD8 /* ProtectedUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */; };
 		C10CFC3A2BE2C210009424BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C10549D22BDD7C80004D5FD8 /* LaunchScreen.storyboard */; };
-		C10CFC3C2BE2C32E009424BB /* OAuthBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */; };
 		C10CFC3E2BE2C706009424BB /* CryptoListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10CFC3D2BE2C706009424BB /* CryptoListBuilder.swift */; };
-		C14780112BE3A6DA0039D30E /* MarvelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14780102BE3A6DA0039D30E /* MarvelBuilder.swift */; };
-		C18B719E28ABA98F00560703 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18B719D28ABA98F00560703 /* TripleA */; };
+		C1182B992BEEBE02004F2FAC /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C1182B982BEEBE02004F2FAC /* TripleA */; };
+		C1182B9C2BEEBE54004F2FAC /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1182B9A2BEEBE54004F2FAC /* Configuration.swift */; };
+		C1182B9E2BF0085A004F2FAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1182B9D2BF0085A004F2FAC /* Constants.swift */; };
+		C1182BA02BF00C6F004F2FAC /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C1182B9F2BF00C6F004F2FAC /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,24 +46,12 @@
 		C10549BD2BDD7C80004D5FD8 /* CryptoDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoDTO.swift; sourceTree = "<group>"; };
 		C10549BF2BDD7C80004D5FD8 /* CryptoRemoteDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoRemoteDataSource.swift; sourceTree = "<group>"; };
 		C10549C12BDD7C80004D5FD8 /* CryptoDataSourceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoDataSourceProtocol.swift; sourceTree = "<group>"; };
-		C10549C32BDD7C80004D5FD8 /* MarvelAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelAPI.swift; sourceTree = "<group>"; };
-		C10549C52BDD7C80004D5FD8 /* CharacterDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterDTO.swift; sourceTree = "<group>"; };
-		C10549C72BDD7C80004D5FD8 /* MarvelRemoteDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelRemoteDataSource.swift; sourceTree = "<group>"; };
-		C10549C92BDD7C80004D5FD8 /* MarvelDataSourceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelDataSourceProtocol.swift; sourceTree = "<group>"; };
 		C10549CC2BDD7C80004D5FD8 /* ListDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDTO.swift; sourceTree = "<group>"; };
-		C10549CD2BDD7C80004D5FD8 /* UserDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDTO.swift; sourceTree = "<group>"; };
-		C10549CF2BDD7C80004D5FD8 /* OAuthAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthAPI.swift; sourceTree = "<group>"; };
 		C10549D22BDD7C80004D5FD8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C10549D52BDD7C80004D5FD8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C10549D62BDD7C80004D5FD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C10549D72BDD7C80004D5FD8 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C10549D82BDD7C80004D5FD8 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C10549DA2BDD7C80004D5FD8 /* CharacterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
-		C10549DB2BDD7C80004D5FD8 /* CharacterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CharacterCell.xib; sourceTree = "<group>"; };
-		C10549DD2BDD7C80004D5FD8 /* MarvelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelViewController.swift; sourceTree = "<group>"; };
-		C10549DE2BDD7C80004D5FD8 /* MarvelRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelRouter.swift; sourceTree = "<group>"; };
-		C10549DF2BDD7C80004D5FD8 /* MarvelView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MarvelView.storyboard; sourceTree = "<group>"; };
-		C10549E02BDD7C80004D5FD8 /* MarvelViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelViewModel.swift; sourceTree = "<group>"; };
 		C10549E22BDD7C80004D5FD8 /* CryptoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoCell.swift; sourceTree = "<group>"; };
 		C10549E32BDD7C80004D5FD8 /* CryptoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CryptoCell.xib; sourceTree = "<group>"; };
 		C10549E52BDD7C80004D5FD8 /* CryptoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoListViewController.swift; sourceTree = "<group>"; };
@@ -100,31 +62,17 @@
 		C10549EB2BDD7C80004D5FD8 /* LoginController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginController.storyboard; sourceTree = "<group>"; };
 		C10549ED2BDD7C80004D5FD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C10549EF2BDD7C80004D5FD8 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
-		C10549F22BDD7C80004D5FD8 /* OAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthViewController.swift; sourceTree = "<group>"; };
-		C10549F32BDD7C80004D5FD8 /* OAuthRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthRouter.swift; sourceTree = "<group>"; };
-		C10549F42BDD7C80004D5FD8 /* OAuthView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OAuthView.storyboard; sourceTree = "<group>"; };
-		C10549F52BDD7C80004D5FD8 /* OAuthViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthViewModel.swift; sourceTree = "<group>"; };
 		C1054A232BDE7439004D5FD8 /* CryptoRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoRepositoryProtocol.swift; sourceTree = "<group>"; };
 		C1054A252BDE745E004D5FD8 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		C1054A282BDE749C004D5FD8 /* CryptoUseCasesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUseCasesProtocol.swift; sourceTree = "<group>"; };
 		C1054A2A2BDE74C4004D5FD8 /* CryptoUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUseCases.swift; sourceTree = "<group>"; };
-		C1054A2D2BDE7518004D5FD8 /* MarvelUseCasesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelUseCasesProtocol.swift; sourceTree = "<group>"; };
 		C1054A2F2BDE7543004D5FD8 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
-		C1054A312BDE7580004D5FD8 /* MarvelUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelUseCases.swift; sourceTree = "<group>"; };
-		C1054A332BDE75B6004D5FD8 /* MarvelRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelRepositoryProtocol.swift; sourceTree = "<group>"; };
 		C1054A362BDE7620004D5FD8 /* CryptoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoRepository.swift; sourceTree = "<group>"; };
-		C1054A382BDE76C8004D5FD8 /* MarvelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelRepository.swift; sourceTree = "<group>"; };
-		C1054A3B2BDE7854004D5FD8 /* ProtectedDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedDataSourceProtocol.swift; sourceTree = "<group>"; };
-		C1054A3E2BDE786D004D5FD8 /* ProtectedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedDataSource.swift; sourceTree = "<group>"; };
-		C1054A402BDE7935004D5FD8 /* ProtectedRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedRepository.swift; sourceTree = "<group>"; };
-		C1054A422BDE7985004D5FD8 /* ProtectedRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedRepositoryProtocol.swift; sourceTree = "<group>"; };
-		C1054A442BDE79A2004D5FD8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		C1054A472BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCasesProtocol.swift; sourceTree = "<group>"; };
-		C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtectedUseCases.swift; sourceTree = "<group>"; };
-		C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthBuilder.swift; sourceTree = "<group>"; };
 		C10CFC3D2BE2C706009424BB /* CryptoListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoListBuilder.swift; sourceTree = "<group>"; };
+		C1182B9A2BEEBE54004F2FAC /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		C1182B9D2BF0085A004F2FAC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C1182B9F2BF00C6F004F2FAC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		C11DEB5A28AAC4DC00CA1168 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C14780102BE3A6DA0039D30E /* MarvelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C18B719E28ABA98F00560703 /* TripleA in Frameworks */,
+				C1182B992BEEBE02004F2FAC /* TripleA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,65 +131,12 @@
 			path = CryptoDataSource;
 			sourceTree = "<group>";
 		};
-		C10549C42BDD7C80004D5FD8 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				C10549C32BDD7C80004D5FD8 /* MarvelAPI.swift */,
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
-		C10549C62BDD7C80004D5FD8 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				C10549C52BDD7C80004D5FD8 /* CharacterDTO.swift */,
-			);
-			path = DTO;
-			sourceTree = "<group>";
-		};
-		C10549C82BDD7C80004D5FD8 /* Remote */ = {
-			isa = PBXGroup;
-			children = (
-				C10549C42BDD7C80004D5FD8 /* API */,
-				C10549C62BDD7C80004D5FD8 /* DTO */,
-				C10549C72BDD7C80004D5FD8 /* MarvelRemoteDataSource.swift */,
-			);
-			path = Remote;
-			sourceTree = "<group>";
-		};
-		C10549CA2BDD7C80004D5FD8 /* MarvelDataSource */ = {
-			isa = PBXGroup;
-			children = (
-				C10549C82BDD7C80004D5FD8 /* Remote */,
-				C10549C92BDD7C80004D5FD8 /* MarvelDataSourceProtocol.swift */,
-			);
-			path = MarvelDataSource;
-			sourceTree = "<group>";
-		};
 		C10549CB2BDD7C80004D5FD8 /* Datasources */ = {
 			isa = PBXGroup;
 			children = (
-				C1054A3A2BDE7801004D5FD8 /* ProtectedDataSource */,
 				C10549C22BDD7C80004D5FD8 /* CryptoDataSource */,
-				C10549CA2BDD7C80004D5FD8 /* MarvelDataSource */,
 			);
 			path = Datasources;
-			sourceTree = "<group>";
-		};
-		C10549CE2BDD7C80004D5FD8 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				C10549CD2BDD7C80004D5FD8 /* UserDTO.swift */,
-			);
-			path = DTO;
-			sourceTree = "<group>";
-		};
-		C10549D02BDD7C80004D5FD8 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				C10549CF2BDD7C80004D5FD8 /* OAuthAPI.swift */,
-			);
-			path = API;
 			sourceTree = "<group>";
 		};
 		C10549D12BDD7C80004D5FD8 /* Data */ = {
@@ -260,28 +155,6 @@
 				C10549D82BDD7C80004D5FD8 /* SceneDelegate.swift */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		C10549DC2BDD7C80004D5FD8 /* TableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				C10549DA2BDD7C80004D5FD8 /* CharacterCell.swift */,
-				C10549DB2BDD7C80004D5FD8 /* CharacterCell.xib */,
-			);
-			path = TableViewCell;
-			sourceTree = "<group>";
-		};
-		C10549E12BDD7C80004D5FD8 /* Marvel */ = {
-			isa = PBXGroup;
-			children = (
-				C10549DC2BDD7C80004D5FD8 /* TableViewCell */,
-				C10549DD2BDD7C80004D5FD8 /* MarvelViewController.swift */,
-				C10549DE2BDD7C80004D5FD8 /* MarvelRouter.swift */,
-				C10549DF2BDD7C80004D5FD8 /* MarvelView.storyboard */,
-				C10549E02BDD7C80004D5FD8 /* MarvelViewModel.swift */,
-				C14780102BE3A6DA0039D30E /* MarvelBuilder.swift */,
-			);
-			path = Marvel;
 			sourceTree = "<group>";
 		};
 		C10549E42BDD7C80004D5FD8 /* TableViewCell */ = {
@@ -324,26 +197,12 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		C10549F62BDD7C80004D5FD8 /* OAuth */ = {
-			isa = PBXGroup;
-			children = (
-				C10549F22BDD7C80004D5FD8 /* OAuthViewController.swift */,
-				C10549F32BDD7C80004D5FD8 /* OAuthRouter.swift */,
-				C10549F42BDD7C80004D5FD8 /* OAuthView.storyboard */,
-				C10549F52BDD7C80004D5FD8 /* OAuthViewModel.swift */,
-				C10CFC3B2BE2C32E009424BB /* OAuthBuilder.swift */,
-			);
-			path = OAuth;
-			sourceTree = "<group>";
-		};
 		C10549F72BDD7C80004D5FD8 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				C10549E12BDD7C80004D5FD8 /* Marvel */,
 				C10549E92BDD7C80004D5FD8 /* CryptoList */,
 				C10549EC2BDD7C80004D5FD8 /* Login */,
 				C10549F02BDD7C80004D5FD8 /* Main */,
-				C10549F62BDD7C80004D5FD8 /* OAuth */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -371,8 +230,6 @@
 			isa = PBXGroup;
 			children = (
 				C1054A232BDE7439004D5FD8 /* CryptoRepositoryProtocol.swift */,
-				C1054A332BDE75B6004D5FD8 /* MarvelRepositoryProtocol.swift */,
-				C1054A422BDE7985004D5FD8 /* ProtectedRepositoryProtocol.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -382,7 +239,6 @@
 			children = (
 				C1054A252BDE745E004D5FD8 /* Crypto.swift */,
 				C1054A2F2BDE7543004D5FD8 /* Character.swift */,
-				C1054A442BDE79A2004D5FD8 /* User.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -390,8 +246,6 @@
 		C1054A222BDE7423004D5FD8 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				C1054A462BDE7B6A004D5FD8 /* Protected */,
-				C1054A2C2BDE7508004D5FD8 /* Marvel */,
 				C1054A272BDE7490004D5FD8 /* Crypto */,
 			);
 			path = UseCases;
@@ -406,51 +260,12 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
-		C1054A2C2BDE7508004D5FD8 /* Marvel */ = {
-			isa = PBXGroup;
-			children = (
-				C1054A2D2BDE7518004D5FD8 /* MarvelUseCasesProtocol.swift */,
-				C1054A312BDE7580004D5FD8 /* MarvelUseCases.swift */,
-			);
-			path = Marvel;
-			sourceTree = "<group>";
-		};
 		C1054A352BDE7610004D5FD8 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
 				C1054A362BDE7620004D5FD8 /* CryptoRepository.swift */,
-				C1054A382BDE76C8004D5FD8 /* MarvelRepository.swift */,
-				C1054A402BDE7935004D5FD8 /* ProtectedRepository.swift */,
 			);
 			path = Repositories;
-			sourceTree = "<group>";
-		};
-		C1054A3A2BDE7801004D5FD8 /* ProtectedDataSource */ = {
-			isa = PBXGroup;
-			children = (
-				C1054A3D2BDE785D004D5FD8 /* Remote */,
-				C1054A3B2BDE7854004D5FD8 /* ProtectedDataSourceProtocol.swift */,
-			);
-			path = ProtectedDataSource;
-			sourceTree = "<group>";
-		};
-		C1054A3D2BDE785D004D5FD8 /* Remote */ = {
-			isa = PBXGroup;
-			children = (
-				C10549D02BDD7C80004D5FD8 /* API */,
-				C10549CE2BDD7C80004D5FD8 /* DTO */,
-				C1054A3E2BDE786D004D5FD8 /* ProtectedDataSource.swift */,
-			);
-			path = Remote;
-			sourceTree = "<group>";
-		};
-		C1054A462BDE7B6A004D5FD8 /* Protected */ = {
-			isa = PBXGroup;
-			children = (
-				C1054A472BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift */,
-				C1054A492BDE7B8B004D5FD8 /* ProtectedUseCases.swift */,
-			);
-			path = Protected;
 			sourceTree = "<group>";
 		};
 		C1054A4B2BDE7D48004D5FD8 /* Resources */ = {
@@ -459,13 +274,24 @@
 				C10549D22BDD7C80004D5FD8 /* LaunchScreen.storyboard */,
 				C10549D52BDD7C80004D5FD8 /* Info.plist */,
 				C10549D62BDD7C80004D5FD8 /* Assets.xcassets */,
+				C1182B9F2BF00C6F004F2FAC /* Localizable.xcstrings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		C1182B9B2BEEBE54004F2FAC /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C1182B9A2BEEBE54004F2FAC /* Configuration.swift */,
+				C1182B9D2BF0085A004F2FAC /* Constants.swift */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 		C11DEB5128AAC4DC00CA1168 = {
 			isa = PBXGroup;
 			children = (
+				C1182B9B2BEEBE54004F2FAC /* Configuration */,
 				C10549BA2BDD7C80004D5FD8 /* DI */,
 				C10549D12BDD7C80004D5FD8 /* Data */,
 				C1054A1F2BDE7411004D5FD8 /* Domain */,
@@ -508,7 +334,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				C18B719D28ABA98F00560703 /* TripleA */,
+				C1182B982BEEBE02004F2FAC /* TripleA */,
 			);
 			productName = Example;
 			productReference = C11DEB5A28AAC4DC00CA1168 /* Example.app */;
@@ -539,7 +365,7 @@
 			);
 			mainGroup = C11DEB5128AAC4DC00CA1168;
 			packageReferences = (
-				C18B719C28ABA98F00560703 /* XCRemoteSwiftPackageReference "TripleA" */,
+				C1182B972BEEBE02004F2FAC /* XCLocalSwiftPackageReference "../../../TripleA" */,
 			);
 			productRefGroup = C11DEB5B28AAC4DC00CA1168 /* Products */;
 			projectDirPath = "";
@@ -555,12 +381,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1054A0E2BDD7C80004D5FD8 /* MarvelView.storyboard in Resources */,
-				C1054A1C2BDD7C80004D5FD8 /* OAuthView.storyboard in Resources */,
 				C1054A072BDD7C80004D5FD8 /* Assets.xcassets in Resources */,
 				C10CFC3A2BE2C210009424BB /* LaunchScreen.storyboard in Resources */,
 				C1054A112BDD7C80004D5FD8 /* CryptoCell.xib in Resources */,
-				C1054A0B2BDD7C80004D5FD8 /* CharacterCell.xib in Resources */,
+				C1182BA02BF00C6F004F2FAC /* Localizable.xcstrings in Resources */,
 				C1054A182BDD7C80004D5FD8 /* Main.storyboard in Resources */,
 				C1054A142BDD7C80004D5FD8 /* CryptoListView.storyboard in Resources */,
 				C1054A172BDD7C80004D5FD8 /* LoginController.storyboard in Resources */,
@@ -576,51 +400,27 @@
 			files = (
 				C1054A242BDE7439004D5FD8 /* CryptoRepositoryProtocol.swift in Sources */,
 				C1054A2B2BDE74C4004D5FD8 /* CryptoUseCases.swift in Sources */,
-				C1054A0A2BDD7C80004D5FD8 /* CharacterCell.swift in Sources */,
 				C10549F92BDD7C80004D5FD8 /* Container.swift in Sources */,
 				C1054A092BDD7C80004D5FD8 /* SceneDelegate.swift in Sources */,
-				C1054A3C2BDE7854004D5FD8 /* ProtectedDataSourceProtocol.swift in Sources */,
+				C1182B9C2BEEBE54004F2FAC /* Configuration.swift in Sources */,
 				C10549FB2BDD7C80004D5FD8 /* CryptoDTO.swift in Sources */,
 				C1054A372BDE7620004D5FD8 /* CryptoRepository.swift in Sources */,
 				C10549FA2BDD7C80004D5FD8 /* CryptoAPI.swift in Sources */,
-				C1054A032BDD7C80004D5FD8 /* UserDTO.swift in Sources */,
-				C1054A012BDD7C80004D5FD8 /* MarvelDataSourceProtocol.swift in Sources */,
-				C10549FF2BDD7C80004D5FD8 /* CharacterDTO.swift in Sources */,
-				C1054A4A2BDE7B8B004D5FD8 /* ProtectedUseCases.swift in Sources */,
 				C1054A132BDD7C80004D5FD8 /* CryptoListRouter.swift in Sources */,
 				C1054A162BDD7C80004D5FD8 /* LoginController.swift in Sources */,
-				C1054A2E2BDE7518004D5FD8 /* MarvelUseCasesProtocol.swift in Sources */,
 				C10CFC3E2BE2C706009424BB /* CryptoListBuilder.swift in Sources */,
-				C1054A0C2BDD7C80004D5FD8 /* MarvelViewController.swift in Sources */,
-				C10CFC3C2BE2C32E009424BB /* OAuthBuilder.swift in Sources */,
-				C1054A0F2BDD7C80004D5FD8 /* MarvelViewModel.swift in Sources */,
 				C1054A122BDD7C80004D5FD8 /* CryptoListViewController.swift in Sources */,
-				C10549FE2BDD7C80004D5FD8 /* MarvelAPI.swift in Sources */,
-				C1054A1A2BDD7C80004D5FD8 /* OAuthViewController.swift in Sources */,
-				C1054A452BDE79A2004D5FD8 /* User.swift in Sources */,
 				C1054A102BDD7C80004D5FD8 /* CryptoCell.swift in Sources */,
 				C1054A262BDE745E004D5FD8 /* Crypto.swift in Sources */,
-				C1054A002BDD7C80004D5FD8 /* MarvelRemoteDataSource.swift in Sources */,
 				C1054A192BDD7C80004D5FD8 /* MainController.swift in Sources */,
 				C1054A082BDD7C80004D5FD8 /* AppDelegate.swift in Sources */,
-				C1054A042BDD7C80004D5FD8 /* OAuthAPI.swift in Sources */,
-				C1054A432BDE7985004D5FD8 /* ProtectedRepositoryProtocol.swift in Sources */,
 				C1054A302BDE7543004D5FD8 /* Character.swift in Sources */,
 				C10549FC2BDD7C80004D5FD8 /* CryptoRemoteDataSource.swift in Sources */,
-				C1054A3F2BDE786D004D5FD8 /* ProtectedDataSource.swift in Sources */,
-				C1054A322BDE7580004D5FD8 /* MarvelUseCases.swift in Sources */,
-				C1054A412BDE7935004D5FD8 /* ProtectedRepository.swift in Sources */,
-				C1054A342BDE75B6004D5FD8 /* MarvelRepositoryProtocol.swift in Sources */,
 				C10549FD2BDD7C80004D5FD8 /* CryptoDataSourceProtocol.swift in Sources */,
-				C1054A392BDE76C8004D5FD8 /* MarvelRepository.swift in Sources */,
 				C1054A292BDE749C004D5FD8 /* CryptoUseCasesProtocol.swift in Sources */,
-				C1054A482BDE7B7E004D5FD8 /* ProtectedUseCasesProtocol.swift in Sources */,
-				C14780112BE3A6DA0039D30E /* MarvelBuilder.swift in Sources */,
 				C1054A152BDD7C80004D5FD8 /* CryptoListViewModel.swift in Sources */,
-				C1054A1D2BDD7C80004D5FD8 /* OAuthViewModel.swift in Sources */,
 				C1054A022BDD7C80004D5FD8 /* ListDTO.swift in Sources */,
-				C1054A1B2BDD7C80004D5FD8 /* OAuthRouter.swift in Sources */,
-				C1054A0D2BDD7C80004D5FD8 /* MarvelRouter.swift in Sources */,
+				C1182B9E2BF0085A004F2FAC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,21 +631,16 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		C18B719C28ABA98F00560703 /* XCRemoteSwiftPackageReference "TripleA" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fsalom/TripleA";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		C1182B972BEEBE02004F2FAC /* XCLocalSwiftPackageReference "../../../TripleA" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../TripleA;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C18B719D28ABA98F00560703 /* TripleA */ = {
+		C1182B982BEEBE02004F2FAC /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C18B719C28ABA98F00560703 /* XCRemoteSwiftPackageReference "TripleA" */;
 			productName = TripleA;
 		};
 /* End XCSwiftPackageProductDependency section */
