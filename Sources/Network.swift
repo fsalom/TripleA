@@ -67,7 +67,7 @@ open class Network {
      - Throws: An error of type `NetworkError`  with extra info
     */
     open func loadAuthorized(this endpoint: Endpoint) async throws -> (Int, Data?) {
-        guard let authenticator = authenticator else {
+        guard let _ = authenticator else {
             fatalError("Please provide an AuthManager in order to make authorized calls")
         }
         var modifiedEndpoint: Endpoint = endpoint
