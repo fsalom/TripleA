@@ -52,6 +52,24 @@ public final class AuthenticatorUIKit {
 }
 
 extension AuthenticatorUIKit: AuthenticatorProtocol {
+    public func get(token type: TokenType) async throws -> Token? {
+        return switch type {
+        case .access:
+            storage.accessToken
+        case .refresh:
+            storage.refreshToken
+        }
+    }
+
+    public func set(token: Token, for type: TokenType) async throws {
+        switch type {
+        case .access:
+            storage.accessToken = token
+        case .refresh:
+            storage.accessToken = token
+        }
+    }
+
     // MARK: - validToken - check if token is valid or refresh token otherwise
     /**
     Call to login if needed and get token

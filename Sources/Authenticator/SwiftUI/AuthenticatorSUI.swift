@@ -5,14 +5,14 @@ public enum Screen {
     case home
 }
 
-public final class AuthenticatorSUI: ObservableObject {
+public final actor AuthenticatorSUI: ObservableObject {
     @Published public var screen: Screen {
         didSet {
             print("🛡️ Authenticator: launched \(screen)")
         }
     }
 
-    public var storage: TokenStorageProtocol
+    private var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
     private var refreshTask: Task<String, Error>?
 
@@ -38,6 +38,24 @@ public final class AuthenticatorSUI: ObservableObject {
 }
 
 extension AuthenticatorSUI: AuthenticatorProtocol {
+    public func get(token type: TokenType) async throws -> Token? {
+        return switch type {
+        case .access:
+            storage.accessToken
+        case .refresh:
+            storage.refreshToken
+        }
+    }
+    
+    public func set(token: Token, for type: TokenType) async throws {
+        switch type {
+        case .access:
+            storage.accessToken = token
+        case .refresh:
+            storage.accessToken = token
+        }
+    }
+    
     // MARK: - validToken - check if token is valid or refresh token otherwise
     /**
      Return a valid token or try to get it from storage or remote data source
