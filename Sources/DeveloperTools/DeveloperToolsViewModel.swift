@@ -1,5 +1,4 @@
 import Foundation
-import TripleA
 
 class DeveloperToolsViewModel: ObservableObject {
     var authenticator: AuthenticatorProtocol
@@ -15,12 +14,26 @@ class DeveloperToolsViewModel: ObservableObject {
     }
 
     func expireAccessToken() {
-        authenticator.storage.accessToken?.expireDate = .distantPast
+        Task {
+            guard var token = try await authenticator.get(token: .access) else { return }
+            token.expireDate = .distantPast
+            try await authenticator.set(token: token, for: .access)
+        }
     }
 
     func expireAccessAndRefreshToken() {
-        authenticator.storage.accessToken?.expireDate = .distantPast
-        authenticator.storage.refreshToken?.expireDate = .distantPast
+        Task {
+            do {
+                guard var accessToken = try await authenticator.get(token: .access) else { return }
+                accessToken.expireDate = .distantPast
+                try await authenticator.set(token: accessToken, for: .access)
+                guard var refreshToken = try await authenticator.get(token: .refresh) else { return }
+                refreshToken.expireDate = .distantPast
+                try await authenticator.set(token: refreshToken, for: .access)
+            } catch {
+                
+            }
+        }
     }
 
     func loadAuthorized() {
