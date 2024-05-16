@@ -31,7 +31,7 @@ public struct DeveloperToolsView: View {
                 Button {
                     viewModel.launchParallelCalls()
                 } label: {
-                    Text("Parrarllel authenticated calls")
+                    Text("Parallel authenticated calls")
                 }
             }
         }
