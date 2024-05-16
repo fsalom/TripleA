@@ -26,7 +26,12 @@ public struct DeveloperToolsView: View {
                 Button {
                     viewModel.loadAuthorized()
                 } label: {
-                    Text("Call authenticated")
+                    Text("Authenticated call")
+                }
+                Button {
+                    viewModel.launchParallelCalls()
+                } label: {
+                    Text("Parrarllel authenticated calls")
                 }
             }
         }

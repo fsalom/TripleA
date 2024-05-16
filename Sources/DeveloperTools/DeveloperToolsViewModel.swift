@@ -43,4 +43,11 @@ class DeveloperToolsViewModel: ObservableObject {
             _ = try await network.loadAuthorized(this: endpoint)
         }
     }
+
+    func launchParallelCalls() {
+        loadAuthorized()
+        loadAuthorized()
+        loadAuthorized()
+        loadAuthorized()
+    }
 }
