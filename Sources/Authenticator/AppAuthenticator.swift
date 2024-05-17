@@ -1,6 +1,6 @@
 import Foundation
 
-public final class AppAuthenticator {
+public final actor AppAuthenticator {
     private var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
     private var refreshTask: Task<String, Error>?
@@ -11,9 +11,35 @@ public final class AppAuthenticator {
         self.card = card
     }
 
+    private func renewToken() async throws -> String {
+        if let refreshTask = refreshTask {
+            return try await refreshTask.value
+        }
+        let task = Task { () throws -> String in
+            defer { refreshTask = nil }
+            guard let refreshToken = storage.refreshToken?.value else {
+                throw AuthError.tokenNotFound
+            }
+            do {
+                let tokens = try await card.getNewTokens(with: refreshToken)
+                self.storage.accessToken = tokens.accessToken
+                self.storage.refreshToken = tokens.refreshToken
+                return tokens.accessToken.value
+            } catch {
+                try await self.logout()
+                throw AuthError.refreshFailed
+            }
+        }
+        self.refreshTask = task
+        return try await task.value
+    }
 }
 
 extension AppAuthenticator: AuthenticatorProtocol {
+    public func isLogged() async -> Bool {
+        return storage.refreshToken?.isValid ?? false
+    }
+    
     public func get(token type: TokenType) async throws -> Token? {
         return switch type {
         case .access:
@@ -66,35 +92,6 @@ extension AppAuthenticator: AuthenticatorProtocol {
         let tokens = try await card.getTokensWithLogin(with: parameters)
         self.storage.accessToken = tokens.accessToken
         self.storage.refreshToken = tokens.refreshToken
-    }
-
-    // MARK: - refreshToken - create a task and call refreshToken if needed
-    /**
-     Refresh token when is needed or logout
-     - Returns: new refresh_token  `String`
-     - Throws: An error of type `AuthError`
-     */
-    public func renewToken() async throws -> String {
-        if let refreshTask = refreshTask {
-            return try await refreshTask.value
-        }
-        let task = Task { () throws -> String in
-            defer { refreshTask = nil }
-            guard let refreshToken = storage.refreshToken?.value else {
-                throw AuthError.tokenNotFound
-            }
-            do {
-                let tokens = try await card.getNewTokens(with: refreshToken)
-                self.storage.accessToken = tokens.accessToken
-                self.storage.refreshToken = tokens.refreshToken
-                return tokens.accessToken.value
-            } catch {
-                try await self.logout()
-                throw AuthError.refreshFailed
-            }
-        }
-        self.refreshTask = task
-        return try await task.value
     }
 
     // MARK: - logout
