@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,7 @@
 		C105499C2BDC2B8A004D5FD8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C10549972BDC2B8A004D5FD8 /* Preview Assets.xcassets */; };
 		C105499D2BDC2B8A004D5FD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C10549992BDC2B8A004D5FD8 /* Assets.xcassets */; };
 		C105499E2BDC2B8A004D5FD8 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C105499A2BDC2B8A004D5FD8 /* ExampleApp.swift */; };
+		C135E82A2BF4911F00C75F4F /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C135E8292BF4911F00C75F4F /* TripleA */; };
 		C13ECB162BE5010300687D9D /* CryptoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ECB152BE5010300687D9D /* CryptoListViewModel.swift */; };
 		C13ECB182BE5011100687D9D /* CryptoListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ECB172BE5011100687D9D /* CryptoListBuilder.swift */; };
 		C14780442BE3ADE30039D30E /* CryptoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14780122BE3ADE30039D30E /* CryptoAPI.swift */; };
@@ -54,7 +55,6 @@
 		C165442B2BEB7267001C7001 /* DeveloperToolsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C165442A2BEB7267001C7001 /* DeveloperToolsViewModel.swift */; };
 		C165442D2BEB7273001C7001 /* DeveloperToolsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C165442C2BEB7273001C7001 /* DeveloperToolsBuilder.swift */; };
 		C165442F2BEB7548001C7001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C165442E2BEB7548001C7001 /* Localizable.xcstrings */; };
-		C18D1C5C2BECCCFA00431925 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C18D1C5B2BECCCFA00431925 /* TripleA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,7 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C18D1C5C2BECCCFA00431925 /* TripleA in Frameworks */,
+				C135E82A2BF4911F00C75F4F /* TripleA in Frameworks */,
 				C16544112BEB5C42001C7001 /* TripleA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,7 +463,7 @@
 			name = Example;
 			packageProductDependencies = (
 				C16544102BEB5C42001C7001 /* TripleA */,
-				C18D1C5B2BECCCFA00431925 /* TripleA */,
+				C135E8292BF4911F00C75F4F /* TripleA */,
 			);
 			productName = Example;
 			productReference = C10549842BDC2B2D004D5FD8 /* Example.app */;
@@ -496,7 +496,7 @@
 			);
 			mainGroup = C105497B2BDC2B2D004D5FD8;
 			packageReferences = (
-				C18D1C5A2BECCCFA00431925 /* XCRemoteSwiftPackageReference "TripleA" */,
+				C135E8282BF4911F00C75F4F /* XCLocalSwiftPackageReference "../../../TripleA" */,
 			);
 			productRefGroup = C10549852BDC2B2D004D5FD8 /* Products */;
 			projectDirPath = "";
@@ -779,25 +779,20 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		C18D1C5A2BECCCFA00431925 /* XCRemoteSwiftPackageReference "TripleA" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fsalom/TripleA";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.2;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		C135E8282BF4911F00C75F4F /* XCLocalSwiftPackageReference "../../../TripleA" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../TripleA;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C16544102BEB5C42001C7001 /* TripleA */ = {
+		C135E8292BF4911F00C75F4F /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TripleA;
 		};
-		C18D1C5B2BECCCFA00431925 /* TripleA */ = {
+		C16544102BEB5C42001C7001 /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C18D1C5A2BECCCFA00431925 /* XCRemoteSwiftPackageReference "TripleA" */;
 			productName = TripleA;
 		};
 /* End XCSwiftPackageProductDependency section */

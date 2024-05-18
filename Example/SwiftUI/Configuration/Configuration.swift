@@ -1,7 +1,7 @@
 import Foundation
 import TripleA
 
-class Configuration: ConfigurationTripleAProtocol {
+class Configuration: TripleAForSwiftUIProtocol {
     static var shared = Configuration()
 
     private static var clientSecret = "ynM8CpvlDHivO1jma1Q3Jv1RIJraBbJ9EtK5XI3dw4RpkxDgi9cZnmJlQs0XzuVCGWCNwQd8qJKAHFrLdHlRRDIzx8B08HJ0Htu6XFzP4kTRTWYIPHuCpldjouJhKvoA"
@@ -19,9 +19,12 @@ class Configuration: ConfigurationTripleAProtocol {
         refreshTokenEndpoint: OAuthAPI.refresh(parametersForRefresh).endpoint,
         tokensEndpoint: OAuthAPI.login(parametersForLogin).endpoint)
 
-    lazy var authenticator = AuthenticatorSUI(
+    lazy var appAuthenticator = AppAuthenticator(
         storage: storage,
-        card: card)    
+        card: card)
+
+    lazy var authenticator: AuthenticatorSUI = AuthenticatorSUI(
+        authenticator: appAuthenticator)
 
     private enum OAuthAPI {
         case login([String: String])

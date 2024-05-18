@@ -20,7 +20,27 @@ class DeveloperToolsViewModel: ObservableObject {
     func loadAuthorized() {
         let network = Network(authenticator: Configuration.shared.authenticator, format: .full)
         Task {
-            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/me/", httpMethod: .get)
+            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/", httpMethod: .get)
+            _ = try await network.loadAuthorized(this: endpoint)
+        }
+        Task {
+            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/", httpMethod: .get)
+            _ = try await network.loadAuthorized(this: endpoint)
+        }
+        Task {
+            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/", httpMethod: .get)
+            _ = try await network.loadAuthorized(this: endpoint)
+        }
+        Task {
+            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/", httpMethod: .get)
+            _ = try await network.loadAuthorized(this: endpoint)
+        }
+        Task {
+            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/", httpMethod: .get)
+            _ = try await network.loadAuthorized(this: endpoint)
+        }
+        Task {
+            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/", httpMethod: .get)
             _ = try await network.loadAuthorized(this: endpoint)
         }
     }
