@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         Container.shared.window = window
         Task {
-            if await Configuration.shared.authenticator.isLogged {
+            if await Configuration.shared.authenticator.isLogged() {
                 Container.shared.window?.rootViewController = Container.getTabbar()
                 Container.shared.window?.makeKeyAndVisible()
             }else{

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -38,7 +38,7 @@
 		C1182B9C2BEEBE54004F2FAC /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1182B9A2BEEBE54004F2FAC /* Configuration.swift */; };
 		C1182B9E2BF0085A004F2FAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1182B9D2BF0085A004F2FAC /* Constants.swift */; };
 		C1182BA02BF00C6F004F2FAC /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C1182B9F2BF00C6F004F2FAC /* Localizable.xcstrings */; };
-		C1182BA32BF0B41B004F2FAC /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C1182BA22BF0B41B004F2FAC /* TripleA */; };
+		C11A7F202BF6189F00C53D05 /* TripleA in Frameworks */ = {isa = PBXBuildFile; productRef = C11A7F1F2BF6189F00C53D05 /* TripleA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1182BA32BF0B41B004F2FAC /* TripleA in Frameworks */,
+				C11A7F202BF6189F00C53D05 /* TripleA in Frameworks */,
 				C1182B992BEEBE02004F2FAC /* TripleA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,7 +337,7 @@
 			name = Example;
 			packageProductDependencies = (
 				C1182B982BEEBE02004F2FAC /* TripleA */,
-				C1182BA22BF0B41B004F2FAC /* TripleA */,
+				C11A7F1F2BF6189F00C53D05 /* TripleA */,
 			);
 			productName = Example;
 			productReference = C11DEB5A28AAC4DC00CA1168 /* Example.app */;
@@ -368,7 +368,7 @@
 			);
 			mainGroup = C11DEB5128AAC4DC00CA1168;
 			packageReferences = (
-				C1182BA12BF0B41B004F2FAC /* XCRemoteSwiftPackageReference "TripleA" */,
+				C11A7F1E2BF6189F00C53D05 /* XCLocalSwiftPackageReference "../../../TripleA" */,
 			);
 			productRefGroup = C11DEB5B28AAC4DC00CA1168 /* Products */;
 			projectDirPath = "";
@@ -634,25 +634,20 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		C1182BA12BF0B41B004F2FAC /* XCRemoteSwiftPackageReference "TripleA" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fsalom/TripleA";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.3;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		C11A7F1E2BF6189F00C53D05 /* XCLocalSwiftPackageReference "../../../TripleA" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../TripleA;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		C1182B982BEEBE02004F2FAC /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TripleA;
 		};
-		C1182BA22BF0B41B004F2FAC /* TripleA */ = {
+		C11A7F1F2BF6189F00C53D05 /* TripleA */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C1182BA12BF0B41B004F2FAC /* XCRemoteSwiftPackageReference "TripleA" */;
 			productName = TripleA;
 		};
 /* End XCSwiftPackageProductDependency section */

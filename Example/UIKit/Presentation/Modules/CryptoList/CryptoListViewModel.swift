@@ -17,7 +17,7 @@ final class CryptoListViewModel {
             let cryptos = try await usecase.getCryptos()
             self.cryptos = cryptos
         } catch let error {
-            throw error
+            throw error 
         }
     }
 }

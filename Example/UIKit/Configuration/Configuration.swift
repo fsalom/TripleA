@@ -24,9 +24,12 @@ class Configuration: TripleAForUIKitProtocol {
         refreshTokenEndpoint: OAuthAPI.refresh.endpoint,
         tokensEndpoint: OAuthAPI.login.endpoint)
 
-    lazy var authenticator = AuthenticatorUIKit(
+    lazy var appAuthenticator = AppAuthenticator(
         storage: storage,
-        card: card,
+        card: card)
+
+    lazy var authenticator = AuthenticatorUIKit(
+        authenticator: appAuthenticator,
         entryViewController: Container.getLoginController())
 
     private enum OAuthAPI {
