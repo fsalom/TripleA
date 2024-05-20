@@ -40,7 +40,7 @@ public class DeveloperToolsViewModel: DeveloperToolsViewModelProtocol {
     public func loadAuthorized() {
         let network = Network(authenticator: wrapper.authenticator, format: .full)
         Task {
-            let endpoint = Endpoint(path: "https://dashboard-staging.rudo.es/users/me/", httpMethod: .get)
+            let endpoint = Endpoint(path: "\(wrapper.authenticator.baseURLString)/users/me/", httpMethod: .get)
             _ = try await network.loadAuthorized(this: endpoint)
         }
     }
