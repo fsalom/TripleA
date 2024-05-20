@@ -6,8 +6,13 @@ public enum Screen {
 }
 
 public final class AuthenticatorSUI: ObservableObject {
+    public enum AuthenticatorError: Error {
+        case getCurrentTokenFailed
+    }
+
     @Published public var screen: Screen = .login {
-        didSet {
+        willSet {
+            if newValue == screen { return }
             print("🛡️ Authenticator: launched \(screen)")
         }
     }
@@ -25,8 +30,9 @@ public final class AuthenticatorSUI: ObservableObject {
         }
     }
 
-    private func handle(_ error: Error) {
+    private func handle(_ error: Error) -> Error {
         changeScreen(to: .login)
+        return AuthenticatorError.getCurrentTokenFailed
     }
 
     private func changeScreen(to screen: Screen) {
@@ -56,12 +62,11 @@ extension AuthenticatorSUI: AuthenticatorProtocol {
      - Returns: valid access token
      - Throws: An error of type `CustomError`  with extra info and show login screen
     */
-    public func getCurrentToken() async -> String {
+    public func getCurrentToken() async throws -> String {
         do {
             return try await authenticator.getCurrentToken()
         } catch {
-            handle(error)
-            return ""
+            throw handle(error)
         }
     }
 
@@ -76,7 +81,7 @@ extension AuthenticatorSUI: AuthenticatorProtocol {
             try await authenticator.getNewToken(with: parameters)
             self.changeScreen(to: .home)
         } catch let error {
-            handle(error)
+            throw handle(error)
         }
     }
 
