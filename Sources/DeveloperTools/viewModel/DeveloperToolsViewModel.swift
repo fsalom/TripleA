@@ -38,9 +38,11 @@ public class DeveloperToolsViewModel: DeveloperToolsViewModelProtocol {
     }
 
     public func loadAuthorized() {
+        guard let endpoint = wrapper.authenticatedTestingEndpoint else {
+            return
+        }
         let network = Network(authenticator: wrapper.authenticator, format: .full)
         Task {
-            let endpoint = Endpoint(path: "\(wrapper.authenticator.baseURLString)/users/me/", httpMethod: .get)
             _ = try await network.loadAuthorized(this: endpoint)
         }
     }
