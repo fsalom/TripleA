@@ -54,7 +54,7 @@ extension AppAuthenticator: AuthenticatorProtocol {
         case .access:
             storage.accessToken = token
         case .refresh:
-            storage.accessToken = token
+            storage.refreshToken = token
         }
     }
 

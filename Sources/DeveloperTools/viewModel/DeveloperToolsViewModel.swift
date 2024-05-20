@@ -15,7 +15,6 @@ public class DeveloperToolsViewModel: DeveloperToolsViewModelProtocol {
 
     public func expireAccessToken() {
         Task {
-
             guard var token = try await wrapper.authenticator.get(token: .access) else { return }
             token.expireDate = .distantPast
             try await wrapper.authenticator.set(token: token, for: .access)
