@@ -2,7 +2,10 @@ import Foundation
 
 public class AuthTokenStoreDefault {
     private let userDefaults = UserDefaults.standard
-    public init() { }
+    private var format: LogFormat
+    public init(format: LogFormat = .short) {
+        self.format = format
+    }
 }
 
 extension AuthTokenStoreDefault: TokenStorageProtocol {
@@ -14,17 +17,17 @@ extension AuthTokenStoreDefault: TokenStorageProtocol {
                 return nil
             }
             guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
-            Log.this("Fetching - \(accessTokenKey): \(String(describing: object.value))")
+            Log.this(text: "Fetching - \(accessTokenKey)", value: String(describing: object.value), format: format)
             return object
         }
         set {
             let accessTokenKey = StorageKey.accessToken.rawValue
             guard let newValue = newValue else {
-                Log.this("Removing - \(accessTokenKey): \(String(describing: newValue))")
+                Log.this(text: "Removing - \(accessTokenKey)", value: String(describing: newValue), format: format)
                 userDefaults.removeObject(forKey: StorageKey.accessToken.rawValue)
                 return
             }
-            Log.this("Saving - \(accessTokenKey): \(newValue)")
+            Log.this(text: "Saving - \(accessTokenKey)", value: String(describing: newValue), format: format)
             guard let encodedData = try? JSONEncoder().encode(newValue) else {
                 Log.this("🤬 Error saving - \(accessTokenKey) > JSON ENCODER ERROR")
                 return
@@ -41,13 +44,13 @@ extension AuthTokenStoreDefault: TokenStorageProtocol {
                 return nil
             }
             guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
-            Log.this("Fetching - \(refreshTokenKey): \(String(describing: object.value))")
+            Log.this(text: "Fetching - \(refreshTokenKey)", value: String(describing: object.value), format: format)
             return object
         }
         set {
             let refreshTokenKey = StorageKey.refreshToken.rawValue
             guard let newValue = newValue else {
-                Log.this("Removing - \(refreshTokenKey): \(String(describing: newValue))")
+                Log.this(text: "Removing - \(refreshTokenKey)", value: String(describing: newValue), format: format)
                 userDefaults.removeObject(forKey: StorageKey.refreshToken.rawValue)
                 return
             }
@@ -68,13 +71,13 @@ extension AuthTokenStoreDefault: TokenStorageProtocol {
                 return nil
             }
             guard let object = try? JSONDecoder().decode(Token.self, from: savedData) else { return nil }
-            Log.this("Fetching - \(idTokenKey): \(String(describing: object.value))")
+            Log.this(text: "Fetching - \(idTokenKey)", value: String(describing: object.value), format: format)
             return object
         }
         set {
             let idTokenKey = StorageKey.idToken.rawValue
             guard let newValue = newValue else {
-                Log.this("Removing - \(idTokenKey): \(String(describing: newValue))")
+                Log.this(text: "Removing - \(idTokenKey)", value: String(describing: newValue), format: format)
                 userDefaults.removeObject(forKey: StorageKey.idToken.rawValue)
                 return
             }
@@ -91,17 +94,17 @@ extension AuthTokenStoreDefault: TokenStorageProtocol {
         get {
             let uniqueNameKey = StorageKey.idToken.rawValue
             let value = userDefaults.object(forKey: StorageKey.uniqueName.rawValue) as? String
-            Log.this("Fetching - \(uniqueNameKey): \(String(describing: value))")
+            Log.this(text: "Fetching - \(uniqueNameKey)", value: String(describing: value), format: format)
             return value
         }
         set {
             let uniqueNameKey = StorageKey.idToken.rawValue
             guard let newValue = newValue else {
-                Log.this("Removing - \(uniqueNameKey): \(String(describing: newValue))")
+                Log.this(text: "Removing - \(uniqueNameKey)", value: String(describing: newValue), format: format)
                 userDefaults.removeObject(forKey: StorageKey.uniqueName.rawValue)
                 return
             }
-            Log.this("Saving - \(uniqueNameKey): \(newValue)")
+            Log.this(text: "Saving - \(uniqueNameKey)", value: newValue, format: format)
             userDefaults.set(newValue, forKey: StorageKey.uniqueName.rawValue)
         }
     }
@@ -114,4 +117,17 @@ extension AuthTokenStoreDefault: TokenStorageProtocol {
         }
     }
 
+}
+
+fileprivate extension Log {
+    static func this(text: String, value: String, format: LogFormat) {
+        switch format {
+        case .full:
+            print("🔒 💾 \(text): \(value)")
+        case .short:
+            print("🔒 💾 \(text)")
+        default:
+            break
+        }
+    }
 }
