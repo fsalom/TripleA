@@ -1,7 +1,11 @@
 import SwiftUI
 
-public struct DeveloperToolsView: View {
-    @ObservedObject var viewModel: DeveloperToolsViewModel
+public struct DeveloperToolsView<ViewModel>: View where ViewModel: DeveloperToolsViewModelProtocol {
+    @StateObject private var viewModel: ViewModel
+
+      init(viewModel: @autoclosure @escaping () -> ViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel())
+      }
 
     public var body: some View {
         List {
