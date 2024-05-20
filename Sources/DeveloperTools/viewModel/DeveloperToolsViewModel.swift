@@ -30,7 +30,7 @@ public class DeveloperToolsViewModel: DeveloperToolsViewModelProtocol {
                 try await wrapper.authenticator.set(token: accessToken, for: .access)
                 guard var refreshToken = try await wrapper.authenticator.get(token: .refresh) else { return }
                 refreshToken.expireDate = .distantPast
-                try await wrapper.authenticator.set(token: refreshToken, for: .access)
+                try await wrapper.authenticator.set(token: refreshToken, for: .refresh)
             } catch {
                 
             }
