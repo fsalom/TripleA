@@ -1,6 +1,6 @@
 import Foundation
 
-public final actor AppAuthenticator {
+public actor AppAuthenticator {
     private var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
     private var refreshTask: Task<String, Error>?
