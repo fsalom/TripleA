@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Token: Codable {
-    public let value: String?
+    public let value: String
     public var expireDate: Date?
     public let expireInt: Int?
 
@@ -9,7 +9,7 @@ public struct Token: Codable {
         return expireDate == nil ? false : expireDate! > Date()
     }
 
-    public init(value: String? = "", expireInt: Int?) {
+    public init(value: String, expireInt: Int?) {
         self.value = value
         self.expireInt = expireInt
         self.expireDate = self.parseDate(from: expireInt)
