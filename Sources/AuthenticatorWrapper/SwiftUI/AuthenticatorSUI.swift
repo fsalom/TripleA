@@ -6,10 +6,6 @@ public enum Screen {
 }
 
 public final class AuthenticatorSUI: ObservableObject {
-    public enum AuthenticatorError: Error {
-        case getCurrentTokenFailed
-    }
-
     @Published public var screen: Screen = .login {
         willSet {
             if newValue == screen { return }
@@ -31,8 +27,8 @@ public final class AuthenticatorSUI: ObservableObject {
     }
 
     private func handle(_ error: Error) -> Error {
-        changeScreen(to: .login)
-        return AuthenticatorError.getCurrentTokenFailed
+        self.changeScreen(to: .login)
+        return error
     }
 
     private func changeScreen(to screen: Screen) {
@@ -91,6 +87,6 @@ extension AuthenticatorSUI: AuthenticatorProtocol {
      */
     public func logout() async throws {
         try await authenticator.logout()
-        await changeScreen(to: .login)
+        self.changeScreen(to: .login)
     }
 }
