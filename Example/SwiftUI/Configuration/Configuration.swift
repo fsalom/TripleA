@@ -2,6 +2,8 @@ import Foundation
 import TripleA
 
 class Configuration: TripleAForSwiftUIProtocol {
+    var authenticatedTestingEndpoint: Endpoint?
+
     static var shared = Configuration()
 
     private static var clientSecret = "ynM8CpvlDHivO1jma1Q3Jv1RIJraBbJ9EtK5XI3dw4RpkxDgi9cZnmJlQs0XzuVCGWCNwQd8qJKAHFrLdHlRRDIzx8B08HJ0Htu6XFzP4kTRTWYIPHuCpldjouJhKvoA"
