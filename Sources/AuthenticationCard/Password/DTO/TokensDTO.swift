@@ -12,15 +12,4 @@ public struct TokensDTO: Codable {
         case expiresIn = "expires_in"
         case refreshExpiresIn = "refresh_expires_in"
     }
-
-    func toBOAccessToken() -> Token {
-        print("🔒 ✅ access token: \(self.accessToken)")
-        var expiresIn = self.expiresIn ?? nil
-        return Token(value: self.accessToken, expireInt: expiresIn)
-    }
-
-    func toBORefreshToken() -> Token {
-        print("🔒 ✅ refresh token: \(self.refreshToken ?? "")")
-        return Token(value: self.refreshToken ?? self.accessToken, expireInt: self.refreshExpiresIn)
-    }
 }
