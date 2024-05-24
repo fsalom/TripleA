@@ -60,6 +60,9 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
             let decoder = JSONDecoder()
             return try decoder.decode(T.self, from: data)
         } else {
+            if response.statusCode == 401 {
+                throw AuthError.notAuthorized
+            }
             throw NetworkError.failure(statusCode: response.statusCode,
                                        data: data,
                                        response: response)
