@@ -27,7 +27,10 @@ public final class AuthenticatorSUI: ObservableObject {
     }
 
     private func handle(_ error: Error) -> Error {
-        self.changeScreen(to: .login)
+        if let authError = error as? AuthError {
+            self.changeScreen(to: .login)
+            return authError
+        }
         return error
     }
 
