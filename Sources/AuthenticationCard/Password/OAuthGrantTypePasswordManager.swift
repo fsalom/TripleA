@@ -76,7 +76,7 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
         if errors.contains(value) {
             return AuthError.noInternet
         } else {
-            return AuthError.badRequest
+            return error
         }
     }
 }
