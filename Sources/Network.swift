@@ -30,9 +30,6 @@ open class Network {
     */
     open func loadAuthorized<T: Decodable>(this endpoint: Endpoint,
                                            of type: T.Type? = AuthNoReply.self) async throws -> T {
-        guard let authenticator = authenticator else {
-            fatalError("Please provide an AuthManager in order to make authorized calls")
-        }
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
