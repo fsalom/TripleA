@@ -71,7 +71,7 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
                                        .notConnectedToInternet,
                                        .dataNotAllowed]
         guard let value = (error as? URLError)?.code else {
-            return AuthError.badRequest
+            return error
         }
         if errors.contains(value) {
             return AuthError.noInternet
