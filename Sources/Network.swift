@@ -42,6 +42,7 @@ open class Network {
             }
             Log.thisResponse(response, data: data, format: format)
             if response.statusCode == 401{
+                try await revokeAccessToken()
                 return try await loadAuthorized(this: endpoint, of: type)
             }
             do {
@@ -79,6 +80,7 @@ open class Network {
             }
             Log.thisResponse(response, data: data, format: format)
             if response.statusCode == 401{
+                try await revokeAccessToken()
                 return try await loadAuthorized(this: endpoint)
             }
             if (200..<300).contains(response.statusCode) {
@@ -231,6 +233,16 @@ open class Network {
             throw NetworkError.invalidToken
         }
         return requestWithHeader
+    }
+
+
+    func revokeAccessToken() async throws {
+        guard var accessToken = try await authenticator?.get(token: .access) else {
+            try await authenticator?.logout()
+            return
+        }
+        accessToken.expireDate = .distantPast
+        try await authenticator?.set(token: accessToken, for: .access)
     }
 }
 
