@@ -1,15 +1,10 @@
 import Foundation
 
-public enum Screen {
-    case login
-    case home
-}
-
 public final class AuthenticatorSUI: ObservableObject {
     @Published public var screen: Screen = .login {
         willSet {
             if newValue == screen { return }
-            print("🛡️ Authenticator: launched \(screen)")
+            print("🛡️ \(screen.icon) Authenticator: launched \(screen)")
         }
     }
 
@@ -40,7 +35,7 @@ public final class AuthenticatorSUI: ObservableObject {
         }
     }
 }
-
+    
 extension AuthenticatorSUI: AuthenticatorProtocol {
     public func isLogged() async -> Bool {
         return await authenticator.isLogged()
