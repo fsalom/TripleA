@@ -1,6 +1,8 @@
 import Foundation
 
-public enum NetworkError: Error {
+public enum NetworkError: Error, Equatable {
+
+
     case missingToken
     case invalidToken
     case invalidResponse
@@ -28,5 +30,9 @@ public enum NetworkError: Error {
         default:
             return Data()
         }
+    }
+
+    public static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        lhs.localizedDescription == rhs.localizedDescription
     }
 }
