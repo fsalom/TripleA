@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: xcodebuild -scheme ios_framework-Package -derivedDataPath Build/ -enableCodeCoverage YES clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
+      - run: xcodebuild -scheme TripleA -derivedDataPath Build/ -enableCodeCoverage YES clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
 
       # Collect XML test results data to show in the UI, and save the same XML
       # files under test-results folder in the Artifacts tab
