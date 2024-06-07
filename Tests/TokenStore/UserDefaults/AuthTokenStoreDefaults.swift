@@ -20,7 +20,7 @@ class AuthTokenStoreDefaultTests: XCTestCase {
         let token = Token(value: "accessTokenValue", expireInt: 3600)
         tokenStore.accessToken = token
         let loadedToken = tokenStore.accessToken
-        XCTAssertEqual(token.value, "loadedToken?.value", "Access token should be correctly saved and loaded")
+        XCTAssertEqual(token.value, loadedToken?.value, "Access token should be correctly saved and loaded")
     }
 
     func testSaveAndLoadRefreshToken() {
