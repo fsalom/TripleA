@@ -17,6 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: swift build -v
+      run: xcodebuild -scheme TripleA clean build -sdk iphoneos CODE_SIGNING_ALLOWED=No
+
     - name: Run tests
-      run: swift test -v
+      run: xcodebuild -scheme TripleA -derivedDataPath Build/ -enableCodeCoverage YES clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
