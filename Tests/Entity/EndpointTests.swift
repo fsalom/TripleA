@@ -29,7 +29,7 @@ class EndpointTests: XCTestCase {
             parameters: ["key": "value"],
             headers: ["HeaderKey": "HeaderValue"]
         )
-        var request = endpoint.request
+        let request = endpoint.request
         XCTAssertEqual(request.url?.absoluteString, "/test")
         XCTAssertEqual(request.httpMethod, "POST")
         XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")

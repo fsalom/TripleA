@@ -21,7 +21,7 @@ public final class AuthenticatorUIKit {
                     .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
                     .last else { return }
 
-                scene.rootViewController = self.entryViewController
+                scene.rootViewController = entryViewController
                 scene.makeKeyAndVisible()
             }
         }
