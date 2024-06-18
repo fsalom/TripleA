@@ -1,4 +1,5 @@
 import Foundation
+import XCTest
 
 protocol MockURLResponder {
     static func respond(to request: URLRequest) -> Data?

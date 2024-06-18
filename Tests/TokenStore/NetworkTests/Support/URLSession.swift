@@ -1,4 +1,5 @@
 import Foundation
+import XCTest
 
 internal extension URLSession {
     convenience init<T: MockURLResponder>(mockResponder: T.Type) {
