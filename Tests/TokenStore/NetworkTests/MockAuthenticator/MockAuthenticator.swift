@@ -3,6 +3,9 @@ import Foundation
 
 public actor MockAuthenticator {
 
+    var token = Token(value: "_ACCESSTOKEN_", expireInt: 3600)
+    
+    
     public init() {
     }
 
@@ -12,16 +15,17 @@ public actor MockAuthenticator {
 }
 
 extension MockAuthenticator: AuthenticatorProtocol {
+
     public func isLogged() async -> Bool {
         return true
     }
 
     public func get(token type: TokenType) async throws -> Token? {
-        return Token(value: "_ACCESSTOKEN_", expireInt: 3600)
+        return token
     }
 
     public func set(token: Token, for type: TokenType) async throws {
-
+        self.token = token
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
@@ -32,7 +36,11 @@ extension MockAuthenticator: AuthenticatorProtocol {
      - Throws: An error of type `CustomError`  with extra info and show login screen
     */
     public func getCurrentToken() async throws -> String {
-        return ""
+        if token.isValid {
+            return token.value
+        } else {
+            throw AuthError.refreshFailed
+        }
     }
 
     // MARK: - validToken - check if token is valid or refresh token otherwise
