@@ -4,6 +4,7 @@ import XCTest
 class NetworkTests: XCTestCase {
     var sutOK: Network!
     var sutKOWith400: Network!
+    var sutKOWith401: Network!
     var sutKOWithoutResponse: Network!
     var mockAuthenticator: AuthenticatorProtocol!
 
@@ -19,6 +20,9 @@ class NetworkTests: XCTestCase {
         sutKOWithoutResponse = Network(
             authenticator: mockAuthenticator,
             session: URLSession(mockResponder: MockErrorNoResponseResponder.self))
+        sutKOWith401 = Network(
+            authenticator: mockAuthenticator,
+            session: URLSession(mockResponder: MockError401URLResponder.self))
     }
 
     override func tearDown() {
@@ -103,6 +107,47 @@ class NetworkTests: XCTestCase {
         do {
             let endpoint = Endpoint(path: "https://tests.com", httpMethod: .get)
             _ = try await sutKOWithoutResponse.loadAuthorized(this: endpoint, of: TestableDTO.self)
+            XCTFail("call should fail")
+        } catch {
+            XCTAssertNotNil(error)
+        }
+    }
+
+    func testLoadAuthorizedWithObjectFailsWith401() async {
+        do {
+            let endpoint = Endpoint(path: "https://tests.com", httpMethod: .get)
+            _ = try await sutKOWith401.loadAuthorized(this: endpoint, of: TestableDTO.self)
+            XCTFail("call should fail")
+        } catch {
+            XCTAssertNotNil(error)
+        }
+    }
+
+    func testLoadAuthorizedWithIntAndDataOK() async {
+        do {
+            let endpoint = Endpoint(path: "https://tests.com", httpMethod: .get)
+            let (code, data) = try await sutOK.loadAuthorized(this: endpoint)
+            XCTAssertTrue(code == 200)
+            XCTAssertTrue(data != nil)
+        } catch {
+            XCTFail("call unexpected fail")
+        }
+    }
+
+    func testLoadAuthorizedWithIntAndDataFailsWith400() async {
+        do {
+            let endpoint = Endpoint(path: "https://tests.com", httpMethod: .get)
+            let (_, _) = try await sutKOWith400.loadAuthorized(this: endpoint)
+            XCTFail("call should fail")
+        } catch {
+            XCTAssertNotNil(error)
+        }
+    }
+
+    func testLoadAuthorizedWithIntAndDataFailsWithoutResponse() async {
+        do {
+            let endpoint = Endpoint(path: "https://tests.com", httpMethod: .get)
+            let (_, _) = try await sutKOWithoutResponse.loadAuthorized(this: endpoint)
             XCTFail("call should fail")
         } catch {
             XCTAssertNotNil(error)
