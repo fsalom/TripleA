@@ -37,7 +37,12 @@ extension AuthenticatorUIKit: AuthenticatorProtocol {
      - Throws: An error of type `CustomError`  with extra info and show login screen
     */
     public func getCurrentToken() async throws -> String {
-        try await authenticator.getCurrentToken()
+        do {
+            return try await authenticator.getCurrentToken()
+        } catch {
+            try await logout()
+            throw AuthError.refreshFailed
+        }
     }
     
     public func isLogged() async -> Bool {
