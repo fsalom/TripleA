@@ -48,10 +48,28 @@ class EndpointTests: XCTestCase {
             path: "/test",
             contentType: .json,
             httpMethod: .get,
-            query: ["queryKey": "queryValue"]
+            query: ["queryKey": "queryValue", "queryArray": ["1", "2"]]
         )
         let request = endpoint.request
-        XCTAssertEqual(request.url?.absoluteString, "/test?queryKey=queryValue")
+        XCTAssertEqual(request.url?.absoluteString, "/test?queryArray=1&queryArray=2&queryKey=queryValue")
+    }
+
+    func testSetURLEncoding() {
+        let endpoint = Endpoint(
+            path: "/test",
+            contentType: .json,
+            httpMethod: .get,
+            query: ["queryKey": "queryValue", "queryArray": ["1", "2"]]
+        )
+        let request = endpoint.request
+        guard let url = request.url else {
+            XCTFail()
+            return
+        }
+
+        let result = endpoint.setURLEncoding(for: url)
+
+        XCTAssertNotNil(result)
     }
 
     func testAddExtraHeaders() {
@@ -84,7 +102,19 @@ class EndpointTests: XCTestCase {
             httpMethod: .post
         )
         let imageData = "imageData".data(using: .utf8)!
-        endpoint.createBody(with: ["paramKey": "paramValue"], and: imageData, for: "imageKey", boundary: "boundary")
+        endpoint.createBody(with: ["paramKey": "paramValue", "paramNum": 2], and: imageData, for: "imageKey", boundary: "boundary")
+
+        XCTAssertNotNil(endpoint.body)
+    }
+
+    func testCreateBodyWithParametersAndImages() {
+        var endpoint = Endpoint(
+            path: "/test",
+            contentType: .form,
+            httpMethod: .post
+        )
+        let imageData = "imageData".data(using: .utf8)!
+        endpoint.createBody(with: ["paramKey": "paramValue", "paramNum": 2], and: [imageData], for: "imageKey", boundary: "boundary")
 
         XCTAssertNotNil(endpoint.body)
     }

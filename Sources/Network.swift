@@ -6,15 +6,18 @@ open class Network {
     public let authenticator: AuthenticatorProtocol?
     var additionalHeaders: [String: String] = [:]
     var format: LogFormat!
+    var session: URLSession
 
     public init(baseURL: String = "",
                 authenticator: AuthenticatorProtocol? = nil,
                 headers: [String: String] = [:],
-                format: LogFormat = .full) {
+                format: LogFormat = .full,
+                session: URLSession = URLSession.shared) {
         self.authenticator = authenticator
         self.additionalHeaders = headers
         self.baseURL = baseURL
         self.format = format
+        self.session = session
     }
 
     // MARK: -  loadAuthorized
@@ -36,7 +39,7 @@ open class Network {
         do {
             let request = try await authorize(this: modifiedEndpoint.request)
             Log.thisCall(request, format: format)
-            let (data, urlResponse) = try await URLSession.shared.data(for: request)
+            let (data, urlResponse) = try await session.data(for: request)
             guard let response = urlResponse as? HTTPURLResponse else{
                 throw NetworkError.invalidResponse
             }
@@ -74,7 +77,7 @@ open class Network {
         do {
             let request = try await authorize(this: modifiedEndpoint.request)
             Log.thisCall(request, format: format)
-            let (data, urlResponse) = try await URLSession.shared.data(for: request)
+            let (data, urlResponse) = try await session.data(for: request)
             guard let response = urlResponse as? HTTPURLResponse else{
                 throw NetworkError.invalidResponse
             }
@@ -105,14 +108,13 @@ open class Network {
      - Throws: An error of type `CustomError`  with extra info
     */
     open func load<T: Decodable>(endpoint: Endpoint,
-                                 of type: T.Type? = AuthNoReply.self,
-                                 allowRetry: Bool = true) async throws -> T {
+                                 of type: T.Type? = AuthNoReply.self) async throws -> T {
         var modifiedEndpoint: Endpoint = endpoint
         modifiedEndpoint.addExtra(headers: additionalHeaders)
         modifiedEndpoint.addBaseURLIfNeeded(url: baseURL)
         Log.thisCall(modifiedEndpoint.request, format: format)
         let request = modifiedEndpoint.request
-        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+        let (data, urlResponse) = try await session.data(for: request)
         guard let response = urlResponse as? HTTPURLResponse else{
             throw NetworkError.invalidResponse
         }
@@ -199,7 +201,7 @@ open class Network {
         endpoint.addExtra(headers: additionalHeaders)
         endpoint.addBaseURLIfNeeded(url: baseURL)
         Log.thisCall(endpoint.request, format: format)
-        let (data, response) = try await URLSession.shared.data(for: endpoint.request)
+        let (data, response) = try await session.data(for: endpoint.request)
         guard let response = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
