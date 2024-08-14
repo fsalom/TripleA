@@ -24,7 +24,7 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
             }
             let tokens = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
             let accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
-            let refreshToken = Token(value: tokens.refreshToken ?? tokens.accessToken, expireInt: tokens.refreshExpiresIn ?? tokens.expiresIn)
+            let refreshToken = Token(value: tokens.refreshToken ?? tokens.accessToken, expireInt: tokens.refreshExpiresIn)
             return Tokens(accessToken: accessToken, refreshToken: refreshToken)
         } catch {
             throw handle(error)

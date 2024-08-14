@@ -17,7 +17,7 @@ public struct Token: Codable {
 
     func parseDate(from value: Int?) -> Date? {
         guard let value = value else {
-            return Date().addingTimeInterval(Double(1000000))
+            return Date().addingTimeInterval(Double(31540000))
         }
         return Date().addingTimeInterval(Double(value))
     }
