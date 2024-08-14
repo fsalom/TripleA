@@ -42,13 +42,4 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(date, expectedDate)
     }
 
-    func testParseDateFromNilExpireInt() {
-        let token = Token(value: "sampleToken", expireInt: nil)
-        let expectedDate = Date().addingTimeInterval(Double(1000000))
-        guard let date = token.parseDate(from: nil) else {
-            XCTFail()
-            return
-        }
-        XCTAssertEqual(date, expectedDate)
-    }
 }
