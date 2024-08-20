@@ -70,12 +70,7 @@ extension AppAuthenticator: AuthenticatorProtocol {
             if accessToken.isValid {
                 return accessToken.value
             } else if let refreshToken = storage.refreshToken, refreshToken.isValid {
-                do {
-                    return try await renewToken()
-                } catch {
-                    self.storage.removeAll()
-                    throw AuthError.missingToken
-                }
+                return try await renewToken()
             }
         }
         try await logout()
