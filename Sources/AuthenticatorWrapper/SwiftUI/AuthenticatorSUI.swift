@@ -70,8 +70,8 @@ extension AuthenticatorSUI: AuthenticatorProtocol {
 
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func getNewToken(with parameters: [String : Any] = [:]) async throws {
-        try await authenticator.getNewToken(with: parameters)
+    public func getNewToken(with parameters: [String : Any], endpoint: Endpoint?) async throws {
+        try await authenticator.getNewToken(with: parameters, endpoint: endpoint)
         self.changeScreen(to: .home)
     }
 

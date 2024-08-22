@@ -49,7 +49,7 @@ extension MockAuthenticator: AuthenticatorProtocol {
 
      - Throws: An error of type `CustomError`  with extra info
     */
-    public func getNewToken(with parameters: [String : Any] = [:]) async throws {
+    public func getNewToken(with parameters: [String : Any] = [:], endpoint: Endpoint?) async throws {
 
     }
 
