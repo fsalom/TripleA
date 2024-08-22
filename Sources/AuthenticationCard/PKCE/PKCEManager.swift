@@ -46,7 +46,7 @@ public class PKCEManager: NSObject {
 
 @available(macOS 10.15, *)
 extension PKCEManager: AuthenticationCardProtocol {
-    public func getTokensWithLogin(with parameters: [String : Any]) async throws -> Tokens {
+    public func getTokensWithLogin(with parameters: [String : Any], endpoint: Endpoint? = nil) async throws -> Tokens {        
         do {
             let code = await withCheckedContinuation { continuation in
                 self.showLogin(completion: { code in
