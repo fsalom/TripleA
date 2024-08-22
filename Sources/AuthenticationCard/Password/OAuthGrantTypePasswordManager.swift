@@ -17,12 +17,16 @@ public final class OAuthGrantTypePasswordManager {
 }
 
 extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
-    public func getTokensWithLogin(with parameters: [String : Any]) async throws -> Tokens {
+    public func getTokensWithLogin(with parameters: [String : Any], endpoint: Endpoint? = nil) async throws -> Tokens {
         do {
-            parameters.forEach { (key: String, value: Any) in
-                tokensEndpoint.parameters[key] = value
+            var selectedEndpoint: Endpoint = tokensEndpoint
+            if let endpoint {
+                selectedEndpoint = endpoint
             }
-            let tokens = try await load(endpoint: tokensEndpoint, of: TokensDTO.self)
+            parameters.forEach { (key: String, value: Any) in
+                selectedEndpoint.parameters[key] = value
+            }
+            let tokens = try await load(endpoint: selectedEndpoint, of: TokensDTO.self)
             let accessToken = Token(value: tokens.accessToken, expireInt: tokens.expiresIn)
             let refreshToken = Token(value: tokens.refreshToken ?? "", expireInt: tokens.refreshExpiresIn)
             return Tokens(accessToken: accessToken, refreshToken: refreshToken)
