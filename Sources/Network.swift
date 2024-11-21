@@ -156,7 +156,6 @@ open class Network {
     private func parse<T: Decodable>(with data: Data,
                                      and response: HTTPURLResponse,
                                      for type: T.Type? = AuthNoReply.self) throws -> T {
-        Log.thisResponse(response, data: data, format: format)
         let decoder = JSONDecoder()
         if (200..<300).contains(response.statusCode) {
             do {
