@@ -1,12 +1,12 @@
 import Foundation
 
 public final class AuthenticatorSUI: ObservableObject {
-    @Published public var screen: Screen = .login {
-        willSet {
-            if newValue == screen { return }
+    @Published public var screen: Screen = .loading {
+        didSet {
+            if oldValue == screen { return }
             print("🛡️ \(screen.icon) Authenticator: launched \(screen)")
         }
-    }
+    } 
 
     private var authenticator: AuthenticatorProtocol
 
