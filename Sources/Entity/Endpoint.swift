@@ -231,11 +231,22 @@ fileprivate extension Data {
 }
 
 fileprivate extension URL {
-    func appending(_ queryItem: String, value: String?) -> URL? {
+    func appending(_ queryItem: String, value: Any?) -> URL? {
         guard var urlComponents = URLComponents(string: absoluteString) else { return absoluteURL }
         var queryItems: [URLQueryItem] = urlComponents.queryItems ?? []
-        let queryItem = URLQueryItem(name: queryItem, value: value)
-        queryItems.append(queryItem)
+
+        if let value = value {
+            if let array = value as? [Any] {
+                for element in array {
+                    if let stringValue = self.convertToString(element) {
+                        queryItems.append(URLQueryItem(name: queryItem, value: stringValue))
+                    }
+                }
+            } else if let stringValue = self.convertToString(value) {
+                queryItems.append(URLQueryItem(name: queryItem, value: stringValue))
+            }
+        }
+
         urlComponents.queryItems = queryItems
         return urlComponents.url
     }
@@ -243,19 +254,29 @@ fileprivate extension URL {
     func appending(parameters: [String: Any]?) -> URL {
         guard let parameters = parameters else { return self }
         var appendingUrl = self
+
         let sortedParameters = parameters.sorted { $0.key < $1.key }
         for (key, value) in sortedParameters {
-            if let value = value as? String, let url = appendingUrl.appending(key, value: value) {
+            if let url = appendingUrl.appending(key, value: value) {
                 appendingUrl = url
-            }
-            if let values = value as? [String] {
-                for value in values {
-                    if let url = appendingUrl.appending(key, value: value) {
-                        appendingUrl = url
-                    }
-                }
             }
         }
         return appendingUrl
+    }
+
+    private func convertToString(_ value: Any) -> String? {
+        if let string = value as? String {
+            return string
+        } else if let doubleValue = value as? Double {
+            return String(doubleValue)
+        } else if let floatValue = value as? Float {
+            return String(floatValue)
+        } else if let boolValue = value as? Bool {
+            return boolValue ? "true" : "false"
+        } else if let number = value as? NSNumber {
+            return number.stringValue
+        } else {
+            return nil
+        }
     }
 }
