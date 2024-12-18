@@ -48,10 +48,10 @@ class EndpointTests: XCTestCase {
             path: "/test",
             contentType: .json,
             httpMethod: .get,
-            query: ["queryKey": "queryValue", "queryArray": ["1", "2"]]
+            query: ["queryKey": "queryValue", "queryArray": ["1", "2"], "queryNum": 1, "queryBool": true, "queryDouble": 2.2, "queryFloat": 1.1]
         )
         let request = endpoint.request
-        XCTAssertEqual(request.url?.absoluteString, "/test?queryArray=1&queryArray=2&queryKey=queryValue")
+        XCTAssertEqual(request.url?.absoluteString, "/test?queryArray=1&queryArray=2&queryBool=true&queryDouble=2.2&queryFloat=1.1&queryKey=queryValue&queryNum=1")
     }
 
     func testSetURLEncoding() {
