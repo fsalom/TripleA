@@ -41,5 +41,4 @@ class TokenTests: XCTestCase {
         }
         XCTAssertEqual(date, expectedDate)
     }
-
 }
