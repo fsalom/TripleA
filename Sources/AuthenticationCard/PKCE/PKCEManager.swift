@@ -1,13 +1,18 @@
 import Foundation
+#if canImport(AuthenticationServices)
 import AuthenticationServices
+#endif
 import CommonCrypto
 
+#if !os(watchOS)
 public class PKCEManager: NSObject {
     private let SSO: Bool
     private let config: PKCEConfig!
     weak var presentationAnchor: ASPresentationAnchor?
 
+
     private var codeVerifier: String = ""
+
 
     public init(presentationAnchor: ASPresentationAnchor?,
                 SSO: Bool = true,
@@ -112,9 +117,11 @@ extension PKCEManager: AuthenticationCardProtocol {
                 }
                 completion(nil)
             }
+#if !os(watchOS)
             session.prefersEphemeralWebBrowserSession = self.SSO
             session.presentationContextProvider = self
             session.start()
+#endif
         }
     }
 
@@ -206,9 +213,8 @@ extension PKCEManager: AuthenticationCardProtocol {
     }
 }
 
-@available(macOS 10.15, *)
 extension PKCEManager: ASWebAuthenticationPresentationContextProviding {
-    @available(macOS 10.15, *)
+    @available(macOS 10.15, iOS 13.0, *)
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         presentationAnchor ?? ASPresentationAnchor()
     }
@@ -224,3 +230,4 @@ fileprivate extension Data {
     }
 }
 
+#endif

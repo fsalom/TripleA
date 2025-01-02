@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if !os(watchOS)
 public struct DeveloperToolsView<ViewModel>: View where ViewModel: DeveloperToolsViewModelProtocol {
     @StateObject private var viewModel: ViewModel
 
@@ -41,3 +42,4 @@ public struct DeveloperToolsView<ViewModel>: View where ViewModel: DeveloperTool
         }
     }
 }
+#endif

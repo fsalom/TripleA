@@ -1,5 +1,6 @@
 import Foundation
 
+#if !os(watchOS)
 public class DeveloperToolsUIKitViewModel: DeveloperToolsViewModelProtocol {
     var wrapper: TripleAForUIKitProtocol
 
@@ -52,3 +53,4 @@ public class DeveloperToolsUIKitViewModel: DeveloperToolsViewModelProtocol {
         loadAuthorized()
     }
 }
+#endif
