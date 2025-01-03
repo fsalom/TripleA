@@ -1,6 +1,9 @@
 import Foundation
+#if canImport(AuthenticationServices)
 import UIKit
+#endif
 
+#if !os(watchOS)
 @available(macOS 10.15, *)
 public final class AuthenticatorUIKit {
     private var authenticator: AuthenticatorProtocol
@@ -75,3 +78,4 @@ extension AuthenticatorUIKit: AuthenticatorProtocol {
         showLogin()
     }
 }
+#endif
