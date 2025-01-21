@@ -7,7 +7,7 @@ public struct Endpoint{
         case patch
         case put
         case delete
-        
+
         var rawValue: String{
             switch self {
             case .get: return "GET"
@@ -18,7 +18,7 @@ public struct Endpoint{
             }
         }
     }
-    
+
     public enum ContentType {
         case json
         case xml
@@ -113,7 +113,7 @@ public struct Endpoint{
         request.httpBody = httpBody
         return request
     }
-    
+
     // MARK: - set URL encoding parameters
     func setURLEncoding(for url: URL) -> URLRequest{
         var components = URLComponents(string: url.absoluteString)!
@@ -178,6 +178,52 @@ public struct Endpoint{
             body.append(contentsOf: "\r\n".utf8)
             body.append(contentsOf: "--\(boundary)--\r\n".utf8)
         }
+        self.body = body
+    }
+
+    // MARK: - append new information
+    public mutating func appendContentTobody(with parameters: [String: Any]? = [:],
+                                             and image: Data?,
+                                             for imageKey: String?,
+                                             boundary: String) {
+        guard var body = self.body else {
+            assertionFailure("The body has not been initialized. Use `createBody` first.")
+            return
+        }
+
+        if let parameters = parameters {
+            for (key, value) in parameters {
+                body.append(contentsOf: "--\(boundary)\r\n".utf8)   
+                body.append(contentsOf: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".utf8)
+
+                if let string = value as? String {
+                    print("value type String: \(value) for key: \(key)")
+                    body.append(contentsOf: string.utf8)
+                    body.append(contentsOf: "\r\n".utf8)
+                } else if let number = value as? NSNumber {
+                    print("value type number: \(value) for key: \(key)")
+                    body.append(contentsOf: number.stringValue.utf8)
+                    body.append(contentsOf: "\r\n".utf8)
+                } else {
+                    print("unsupported value type: \(value) for key: \(key)")
+                    assertionFailure("Unsupported value type")
+                }
+                body.append(contentsOf: "\r\n".utf8)
+            }
+        }
+
+        if let image = image, let imageKey = imageKey {
+            let filename = "\(UUID().uuidString).jpg"
+            let mimetype = "image/jpg"
+            body.append(contentsOf: "--\(boundary)\r\n".utf8)
+            body.append(contentsOf: "Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".utf8)
+            body.append(contentsOf: "Content-Type: \(mimetype)\r\n\r\n".utf8)
+            body.append(image)
+            body.append(contentsOf: "\r\n".utf8)
+        }
+
+        // Ensure the body ends correctly with the boundary
+        body.append(contentsOf: "--\(boundary)--\r\n".utf8)
         self.body = body
     }
 
