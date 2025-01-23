@@ -31,7 +31,10 @@ public final class AuthenticatorSUI: ObservableObject {
 
     private func changeScreen(to screen: Screen) {
         DispatchQueue.main.async {
-            self.screen = screen
+            self.screen = .loading
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.screen = screen
+            }
         }
     }
 }
