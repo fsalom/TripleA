@@ -7,6 +7,7 @@ public protocol ConfigurationTripleAProtocol {
     var card: AuthenticationCardProtocol { get }
 }
 
+@available(macOS 15.0, *)
 public protocol TripleAForSwiftUIProtocol {
     var authenticator: AuthenticatorSUI { get }
     var storage: TokenStorageProtocol { get }

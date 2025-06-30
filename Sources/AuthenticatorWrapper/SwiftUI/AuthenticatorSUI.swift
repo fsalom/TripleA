@@ -1,5 +1,6 @@
 import Foundation
 
+@available(macOS 15.0, *)
 public final class AuthenticatorSUI: ObservableObject {
     @Published public var screen: Screen = .loading {
         didSet {
@@ -38,7 +39,8 @@ public final class AuthenticatorSUI: ObservableObject {
         }
     }
 }
-    
+
+@available(macOS 15.0, *)
 extension AuthenticatorSUI: AuthenticatorProtocol {
     public func isLogged() async -> Bool {
         return await authenticator.isLogged()

@@ -1,5 +1,6 @@
 import Foundation
 
+@available(macOS 15.0, *)
 public class DeveloperToolsViewModel: DeveloperToolsViewModelProtocol {
     var wrapper: TripleAForSwiftUIProtocol
 
