@@ -1,9 +1,8 @@
 import Foundation
-#if canImport(AuthenticationServices)
+#if os(iOS) || os(tvOS)
 import UIKit
-#endif
 
-#if !os(watchOS)
+@available(iOS 13.0, tvOS 13.0, *)
 @available(macOS 10.15, *)
 public final class AuthenticatorUIKit {
     private var authenticator: AuthenticatorProtocol

@@ -1,6 +1,6 @@
 import Foundation
 
-#if !os(watchOS)
+#if os(iOS) || os(tvOS)
 public class DeveloperToolsUIKitViewModel: DeveloperToolsViewModelProtocol {
     var wrapper: TripleAForUIKitProtocol
 
