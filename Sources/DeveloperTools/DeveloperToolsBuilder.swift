@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-#if !os(watchOS)
+#if os(iOS) || os(tvOS)
 public class DeveloperToolsBuilder {
     public init() { }
     

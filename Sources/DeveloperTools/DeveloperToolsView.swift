@@ -1,6 +1,7 @@
 import SwiftUI
 
 #if !os(watchOS)
+@available(macOS 15.0, *)
 public struct DeveloperToolsView<ViewModel>: View where ViewModel: DeveloperToolsViewModelProtocol {
     @StateObject private var viewModel: ViewModel
 

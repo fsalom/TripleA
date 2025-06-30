@@ -1,6 +1,6 @@
 import Foundation
 
-#if !os(watchOS)
+#if os(iOS) || os(tvOS)
 public protocol TripleAForUIKitProtocol {
     var authenticator: AuthenticatorUIKit { get }
     var storage: TokenStorageProtocol { get }

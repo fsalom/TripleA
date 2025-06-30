@@ -1,5 +1,6 @@
 import Foundation
 
+@available(macOS 15.0, *)
 public actor AppAuthenticator {
     private var storage: TokenStorageProtocol
     private var card: AuthenticationCardProtocol
@@ -35,6 +36,7 @@ public actor AppAuthenticator {
     }
 }
 
+@available(macOS 15.0, *)
 extension AppAuthenticator: AuthenticatorProtocol {
     public func isLogged() async -> Bool {
         return storage.refreshToken?.isValid ?? false

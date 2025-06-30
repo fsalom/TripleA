@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(macOS 15.0, *)
 public protocol DeveloperToolsViewModelProtocol: ObservableObject {
     func logout()
     func expireAccessToken()
