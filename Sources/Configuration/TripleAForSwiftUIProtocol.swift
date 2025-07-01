@@ -1,6 +1,7 @@
 import Foundation
 
 @available(swift, obsoleted: 2.0.3, renamed: "TripleAForSwiftUIProtocol")
+@available(macOS 10.15, *)
 public protocol ConfigurationTripleAProtocol {
     var authenticator: AuthenticatorSUI { get }
     var storage: TokenStorageProtocol { get }
