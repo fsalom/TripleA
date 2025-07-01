@@ -1,6 +1,4 @@
 import Foundation
-#if canImport(UIKit)
-import UIKit
 
 public final class OAuthGrantTypePasswordManager {
     public var refreshTokenEndpoint: Endpoint
@@ -91,4 +89,3 @@ extension OAuthGrantTypePasswordManager: AuthenticationCardProtocol {
 extension OAuthGrantTypePasswordManager {
     struct NoContentDTO: Codable { }
 }
-#endif
