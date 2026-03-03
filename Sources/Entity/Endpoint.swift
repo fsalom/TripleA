@@ -47,16 +47,16 @@ public struct Endpoint{
         }
     }
 
-    var baseURL: String = ""
-    var path: String
-    var httpMethod: HTTPMethod
-    var contentType: ContentType?
-    var body: Data?
-    var parameters: [String: Any] = [:]
-    var query: [String: Any] = [:]
-    var headers: [String: String]
+    public var baseURL: String = ""
+    public var path: String
+    public var httpMethod: HTTPMethod
+    public var contentType: ContentType?
+    public var body: Data?
+    public var parameters: [String: Any] = [:]
+    public var query: [String: Any] = [:]
+    public var headers: [String: String]
 
-    var request: URLRequest {
+    public var request: URLRequest {
         guard var url = URL(string: baseURL + path) else { fatalError("Not a valid URL") }
         url = url.appending(parameters: query)
         var request = URLRequest(url: url)
