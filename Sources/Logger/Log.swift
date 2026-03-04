@@ -1,6 +1,6 @@
 import Foundation
 
-enum LogType {
+public enum LogType {
     case error
     case info
     case warning
@@ -16,7 +16,7 @@ public enum LogFormat {
     case none
 }
 
-struct Log {
+public struct Log {
     static func time() -> String {
         let date = Date()
         let formatter = DateFormatter()
@@ -24,7 +24,7 @@ struct Log {
         return formatter.string(from: date)
     }
     
-    static func this(_ message: String, file: String = #file, function: String = #function, line: Int = #line, type: LogType = .debug) {
+    public static func this(_ message: String, file: String = #file, function: String = #function, line: Int = #line, type: LogType = .debug) {
         let path = file.split(separator: "/")
         let file = path.last?.split(separator: ".")
         
@@ -40,7 +40,7 @@ struct Log {
         print("\(self.time()) \(icon) \(file?.first ?? "").\(function):\(line) - \n\n\t\(message)\n")
     }
     
-    static func thisCall(_ call: URLRequest, format: LogFormat = .full) {
+    public static func thisCall(_ call: URLRequest, format: LogFormat = .full) {
         let url     = call.url?.absoluteString ?? ""
         let headers = call.allHTTPHeaderFields ?? [:]
         let method  = call.httpMethod ?? ""
@@ -60,7 +60,7 @@ struct Log {
         }
     }
     
-    static func thisResponse(_ response: HTTPURLResponse, data: Data, format: LogFormat = .full) {
+    public static func thisResponse(_ response: HTTPURLResponse, data: Data, format: LogFormat = .full) {
         let code = response.statusCode
         let url  = response.url?.absoluteString ?? ""
         let icon  = (200..<300).contains(code) ? "✅" : "❌"
@@ -85,7 +85,7 @@ struct Log {
         }
     }
 
-    static func thisURL(_ url: URL, format: LogFormat = .full) {
+    public static func thisURL(_ url: URL, format: LogFormat = .full) {
         let url = url.absoluteString
 
         switch format {
@@ -94,19 +94,19 @@ struct Log {
         }
     }
     
-    static func thisError(_ error : Error) {
+    public static func thisError(_ error : Error) {
         print("🤬 ERROR: \(error.localizedDescription)")
         print("🤖 RAW VALUE: \(error)")
         print("------------------------------------------")
     }
     
-    static func thisError(_ error : NetworkError) {
+    public static func thisError(_ error : NetworkError) {
         print("🤬 ERROR: \(error.localizedDescription)")
         print("🤖 RAW VALUE: \(error)")
         print("------------------------------------------")
     }
 
-    static func this(_ value : String, format: LogFormat = .full) {
+    public static func this(_ value : String, format: LogFormat = .full) {
         print("🔒 💾 \(value)")
     }
 }
